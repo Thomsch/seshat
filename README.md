@@ -1,2 +1,2 @@
 # seshat
-Modern, intuitive &amp; abstract code designer
+Modern, intuitive & abstract code designer
