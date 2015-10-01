@@ -44,7 +44,6 @@ public class Gui extends Application {
 
         StackPane root = new StackPane();
         Scene scene = new Scene(root, 300, 250);
-        primaryStage.setMaximized(true);
         root.getChildren().add(menuBar);
         root.getChildren().add(btn);
         primaryStage.setScene(scene);

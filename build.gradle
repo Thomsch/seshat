@@ -1,0 +1,24 @@
+apply plugin: 'java'
+
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+repositories {
+    //central maven repo
+    mavenCentral()
+}
+
+dependencies {
+    //dependencies from a remote repository
+    compile 'com.google.inject:guice:3.0'
+    compile 'com.google.inject.extensions:guice-assistedinject:3.0'
+}
