@@ -1,13 +1,13 @@
 package ch.ceruleansands.seshat.gui;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -17,37 +17,32 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+        primaryStage.setTitle("Seshat - V.0.0");
 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+        MenuBar menus = makeMenu();
 
+        BorderPane root = new BorderPane();
+        root.setTop(menus);
+        Text message = new Text(":::");
+        message.setFont(new Font(380));
+        message.setFill(Color.SANDYBROWN);
+        root.setCenter(message);
+
+        Scene scene = new Scene(root, 300, 250);
+
+        primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+        primaryStage.show();
+    }
+
+    private MenuBar makeMenu() {
         MenuBar menuBar = new MenuBar();
-
-        // --- Menu File
         Menu menuFile = new Menu("File");
-
-        // --- Menu Edit
         Menu menuEdit = new Menu("Edit");
-
-        // --- Menu View
-        Menu menuView = new Menu("View");
+        Menu menuView = new Menu("Help");
 
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
-
-
-        StackPane root = new StackPane();
-        Scene scene = new Scene(root, 300, 250);
-        root.getChildren().add(menuBar);
-        root.getChildren().add(btn);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return menuBar;
     }
 
     public void start() {
