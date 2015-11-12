@@ -22,44 +22,48 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.language.java;
+
+import ch.ceruleansands.seshat.gui.Tile;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
- * @author Thomas Schweizer.
+ * Created by Thomsch.
  */
-public class Attribute {
+public class Clazz {
+    private Collection<String> attributes;
+    private Collection<String> methods;
 
-    private Visibility visibility;
-    private Type type;
-    private String name;
+    private Tile observer;
 
-    public Attribute(Visibility visibility, Type type, String name) {
-        this.visibility = visibility;
-        this.type = type;
-        this.name = name;
+    public Clazz(Collection<String> attributes, Collection<String> methods) {
+        this.attributes = new ArrayList<>();
+        this.methods = new ArrayList<>();
+
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
+
+        if (methods != null) {
+            this.methods.addAll(methods);
+        }
     }
 
-    public Visibility getVisibility() {
-        return visibility;
+    public Clazz() {
+        this(null, null);
     }
 
-    public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
+    public void addAttribute(String attribute) {
+        attributes.add(attribute);
     }
 
-    public Type getType() {
-        return type;
+    public void addMethod(String method) {
+        attributes.add(method);
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void addObserver(Tile tile) {
+        this.observer = tile;
     }
 }

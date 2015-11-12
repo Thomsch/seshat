@@ -24,42 +24,33 @@
 
 package ch.ceruleansands.seshat.model;
 
+import ch.ceruleansands.seshat.gui.GuiLoader;
+import ch.ceruleansands.seshat.language.java.Clazz;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
- * @author Thomas Schweizer.
+ * Created by Thomsch.
  */
-public class Attribute {
+public class Model {
 
-    private Visibility visibility;
-    private Type type;
-    private String name;
+    private GuiLoader observer;
+    private Collection<ch.ceruleansands.seshat.language.java.Clazz> clazzs;
 
-    public Attribute(Visibility visibility, Type type, String name) {
-        this.visibility = visibility;
-        this.type = type;
-        this.name = name;
+    protected Model() {
+        clazzs = new ArrayList<>();
     }
 
-    public Visibility getVisibility() {
-        return visibility;
+    public void addClass(Clazz clazz) {
+        clazzs.add(clazz);
+
+        if (observer != null) {
+            observer.onNewClass(clazz);
+        }
     }
 
-    public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void addObserver(GuiLoader guiLoader) {
+        observer = guiLoader;
     }
 }
