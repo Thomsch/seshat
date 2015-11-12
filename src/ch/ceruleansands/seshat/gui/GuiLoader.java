@@ -34,13 +34,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 /**
@@ -53,6 +51,7 @@ public class GuiLoader extends Application{
     private Model model;
 
     private A a;
+    private Label originLabel;
 
     public GuiLoader() {
         this.model = Models.createEmpty();
@@ -74,8 +73,18 @@ public class GuiLoader extends Application{
         scene.getStylesheets().add("style.css");
 
         MenuBar menus = makeMenu();
+        originLabel = new Label("I'm the origin");
 
-        group = new Group(new Rectangle(100,100, 50,50));
+        Circle circle = new Circle(4, Color.MAGENTA);
+        originLabel.setTranslateX(circle.getTranslateX());
+        originLabel.setTranslateY(circle.getTranslateY()- 25);
+        originLabel.setVisible(false);
+
+        circle.setOnMouseEntered(event -> originLabel.setVisible(true));
+
+        circle.setOnMouseExited(event -> originLabel.setVisible(false));
+
+        group = new Group(circle, originLabel);
         newTile = new Button("New tile");
         Background background = new Background(group);
         Pane pane = new Pane(background, group, newTile);
