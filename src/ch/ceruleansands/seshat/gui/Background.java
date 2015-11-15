@@ -107,7 +107,7 @@ public class Background extends Canvas {
             y += gridSize;
         }
 
-//        gc.applyEffect(new BoxBlur(1,1,3));
+        gc.strokeText(String.format("(x:%s, y:%s)", tx, ty), 10, getHeight() - 15);
         gc.restore();
     }
 

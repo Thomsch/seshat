@@ -30,11 +30,12 @@ import ch.ceruleansands.seshat.model.Models;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -47,7 +48,6 @@ import javafx.stage.Stage;
 public class GuiLoader extends Application{
 
     private Group group;
-    private Button newTile;
     private Model model;
 
     private A a;
@@ -73,6 +73,8 @@ public class GuiLoader extends Application{
         scene.getStylesheets().add("style.css");
 
         MenuBar menus = makeMenu();
+        ToolBar toolBar = new ToolBar(new Button("hello"), new Label("sss"));
+
         originLabel = new Label("I'm the origin");
 
         Circle circle = new Circle(4, Color.MAGENTA);
@@ -81,98 +83,41 @@ public class GuiLoader extends Application{
         originLabel.setVisible(false);
 
         circle.setOnMouseEntered(event -> originLabel.setVisible(true));
-
         circle.setOnMouseExited(event -> originLabel.setVisible(false));
 
         group = new Group(circle, originLabel);
-        newTile = new Button("New tile");
         Background background = new Background(group);
-        Pane pane = new Pane(background, group, newTile);
+        Pane pane = new Pane(background, group);
 
         background.widthProperty().bind(pane.widthProperty());
         background.heightProperty().bind(pane.heightProperty());
 
         root.setCenter(pane);
+        root.setRight(toolBar);
         root.setTop(menus);
 
-        newTile.setDefaultButton(true);
-        newTile.setOnAction(event -> {
-            model.addClass(new Clazz());
-        });
         stage.setScene(scene);
 //        stage.setMaximized(true);
         stage.show();
-        System.out.println("hlle");
-
-        //        gui.addNewTileEvent(event -> model.addClass(new Clazz()));
-//        Model model = Models.createEmpty();
-//        model.addObserver(gui);
-//
-////        Clazz first = new Clazz();
-////        first.addAttribute("int abc");
-////        first.addAttribute("int cba");
-////        first.addMethod("public void test()");
-////
-////        model.addClass(first);
-//
-    }
-
-    public void addNewTileEvent(EventHandler<ActionEvent> actionEvent) {
-        newTile.setOnAction(actionEvent);
     }
 
     private MenuBar makeMenu() {
         MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("File");
-        menuFile.getItems().add(new MenuItem("Save"));
-        menuFile.getItems().add(new MenuItem("Load"));
-        Menu menuEdit = new Menu("Edit");
+        Menu menuFile = new Menu("_File");
+
+        menuFile.getItems().add(new MenuItem("_Save..."));
+        menuFile.getItems().add(new MenuItem("_Load..."));
+        Menu menuEdit = new Menu("_Edit");
+        MenuItem menuItem = new MenuItem("_New class");
+        menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+        menuItem.setOnAction(event -> model.addClass(new Clazz()));
+        menuEdit.getItems().add(menuItem);
         Menu menuView = new Menu("Help");
         Menu menuDebug = new Menu("Debug");
 
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView, menuDebug);
         return menuBar;
     }
-
-//    private Node makeDraggable(final Node node) {
-//        final DragContext dragContext = new DragContext();
-//        final Group wrapGroup = new Group(node);
-//
-////        wrapGroup.addEventFilter(MouseEvent.ANY, new EventHandler<MouseEvent>() {
-////            public void handle(final MouseEvent mouseEvent) {
-////                if (dragModeActiveProperty.get()) {
-////                    // disable mouse events for all children
-//////                    mouseEvent.consume();
-////                }
-////            }
-////        });
-//
-//        wrapGroup.addEventFilter(MouseEvent.MOUSE_PRESSED,
-//                new EventHandler<MouseEvent>() {
-//                    public void handle(final MouseEvent mouseEvent) {
-//                            // remember initial mouse cursor coordinates
-//                            // and node position
-//                            dragContext.mouseAnchorX = mouseEvent.getX();
-//                            dragContext.mouseAnchorY = mouseEvent.getY();
-//                            dragContext.initialTranslateX = node.getTranslateX();
-//                            dragContext.initialTranslateY = node.getTranslateY();
-//                    }
-//                });
-//
-//        wrapGroup.addEventFilter(MouseEvent.MOUSE_DRAGGED,
-//                new EventHandler<MouseEvent>() {
-//                    public void handle(final MouseEvent mouseEvent) {
-//                            // shift node from its initial position by delta
-//                            // calculated from mouse cursor movement
-//                            node.setTranslateX(dragContext.initialTranslateX
-//                                    + mouseEvent.getX() - dragContext.mouseAnchorX);
-//                            node.setTranslateY(dragContext.initialTranslateY
-//                                    + mouseEvent.getY() - dragContext.mouseAnchorY);
-//                    }
-//
-//                });
-//        return wrapGroup;
-//    }
 
     public void onNewClass(Clazz clazz) {
         Tile tile = new Tile();

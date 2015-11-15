@@ -24,7 +24,11 @@
 
 package ch.ceruleansands.seshat.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -37,7 +41,9 @@ import javafx.scene.layout.VBox;
  */
 public class Tile extends VBox{
 
-    private final Label hello;
+    private final Label name;
+    private final TextArea attributes;
+    private final TextArea methods;
 
     private static final class DragContext {
         public double mouseAnchorX;
@@ -55,17 +61,22 @@ public class Tile extends VBox{
         setTranslateX(50);
         setTranslateY(50);
 
-        hello = new Label("Hello");
-        hello.setPrefWidth(200);
+        name = new Label("Hello");
+        name.setPrefWidth(200);
+        name.setAlignment(Pos.CENTER);
+        name.setStyle("-fx-text-fill: #FFFFFF");
 
-        hello.setOnMouseEntered(event -> hello.setCursor(Cursor.OPEN_HAND));
+        name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
 
-        getChildren().addAll(hello, new Separator(Orientation.HORIZONTAL), new TextArea("Attributes"), new Separator(Orientation.HORIZONTAL), new TextArea("Methods"));
+        attributes = new TextArea();
+        methods = new TextArea();
 
-        setPrefWidth(200);
+        getChildren().addAll(name);
+
+        setPrefSize(200, 200);
         dragContext = new DragContext();
 
-        hello.addEventFilter(MouseEvent.MOUSE_PRESSED,
+        name.addEventFilter(MouseEvent.MOUSE_PRESSED,
             mouseEvent -> {
                     // remember initial mouse cursor coordinates
                     // and node position
@@ -75,7 +86,7 @@ public class Tile extends VBox{
                     dragContext.initialTranslateY = getTranslateY();
             });
 
-        hello.addEventFilter(MouseEvent.MOUSE_DRAGGED,
+        name.addEventFilter(MouseEvent.MOUSE_DRAGGED,
             mouseEvent -> {
                     // shift node from its initial position by delta
                     // calculated from mouse cursor movement
@@ -84,5 +95,35 @@ public class Tile extends VBox{
                 setTranslateY(dragContext.initialTranslateY
                         + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
             });
+        setFocusTraversable(true);
+        setOnMouseClicked(new EventHandler<MouseEvent>()
+        {
+            public void handle(MouseEvent mouseEvent)
+            {
+                requestFocus();
+            }
+        });
+//        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+//            setFocused(true);
+//        });
+
+        focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue) {
+                    System.out.println("focus");
+                } else {
+                    System.out.println("nofocus");
+                }
+            }
+        });
+    }
+
+    private Separator makeSeparator() {
+        Separator separator = new Separator(Orientation.HORIZONTAL);
+        separator.setMinSize(5,5);
+
+        separator.setStyle("-fx-background-color: black");
+        return separator;
     }
 }
