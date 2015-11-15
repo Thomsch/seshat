@@ -30,10 +30,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -42,8 +41,10 @@ import javafx.scene.layout.VBox;
 public class Tile extends VBox{
 
     private final Label name;
+    private final ButtonBar buttonBar;
     private final TextArea attributes;
     private final TextArea methods;
+    private final StackPane header;
 
     private static final class DragContext {
         public double mouseAnchorX;
@@ -55,6 +56,15 @@ public class Tile extends VBox{
     private DragContext dragContext;
 
     public Tile() {
+        this.header = new StackPane();
+        buttonBar = new ButtonBar();
+        buttonBar.setButtonMinWidth(5);
+
+        Button newAttribute = new Button("A");
+        Button newMethod = new Button("M");
+        newAttribute.setOnMouseEntered(useDefaultCursor(newAttribute));
+        newMethod.setOnMouseEntered(useDefaultCursor(newMethod));
+        buttonBar.getButtons().addAll(newAttribute, newMethod);
         dragContext = new DragContext();
         setId("tile");
 
@@ -66,17 +76,20 @@ public class Tile extends VBox{
         name.setAlignment(Pos.CENTER);
         name.setStyle("-fx-text-fill: #FFFFFF");
 
-        name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
+        header.setOnMouseEntered(event -> header.setCursor(Cursor.OPEN_HAND));
+
 
         attributes = new TextArea();
         methods = new TextArea();
 
-        getChildren().addAll(name);
+        header.getChildren().addAll(name, buttonBar);
+
+        getChildren().addAll(header);
 
         setPrefSize(200, 200);
         dragContext = new DragContext();
 
-        name.addEventFilter(MouseEvent.MOUSE_PRESSED,
+        header.addEventFilter(MouseEvent.MOUSE_PRESSED,
             mouseEvent -> {
                     // remember initial mouse cursor coordinates
                     // and node position
@@ -86,7 +99,7 @@ public class Tile extends VBox{
                     dragContext.initialTranslateY = getTranslateY();
             });
 
-        name.addEventFilter(MouseEvent.MOUSE_DRAGGED,
+        header.addEventFilter(MouseEvent.MOUSE_DRAGGED,
             mouseEvent -> {
                     // shift node from its initial position by delta
                     // calculated from mouse cursor movement
@@ -96,16 +109,7 @@ public class Tile extends VBox{
                         + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
             });
         setFocusTraversable(true);
-        setOnMouseClicked(new EventHandler<MouseEvent>()
-        {
-            public void handle(MouseEvent mouseEvent)
-            {
-                requestFocus();
-            }
-        });
-//        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-//            setFocused(true);
-//        });
+        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> requestFocus());
 
         focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -117,6 +121,10 @@ public class Tile extends VBox{
                 }
             }
         });
+    }
+
+    private EventHandler<? super MouseEvent> useDefaultCursor(Button button) {
+        return event -> button.setCursor(Cursor.DEFAULT);
     }
 
     private Separator makeSeparator() {
