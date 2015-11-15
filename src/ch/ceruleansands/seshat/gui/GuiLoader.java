@@ -27,8 +27,6 @@ package ch.ceruleansands.seshat.gui;
 import ch.ceruleansands.seshat.language.java.Clazz;
 import ch.ceruleansands.seshat.model.Model;
 import ch.ceruleansands.seshat.model.Models;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -50,7 +48,7 @@ public class GuiLoader extends Application{
     private Group group;
     private Model model;
 
-    private A a;
+//    private A a;
     private Label originLabel;
 
     public GuiLoader() {
@@ -60,8 +58,8 @@ public class GuiLoader extends Application{
 
     @Override
     public void init() throws Exception {
-        Injector injector = Guice.createInjector(new Module());
-        a = injector.getInstance(A.class);
+//        Injector injector = Guice.createInjector(new Module());
+//        a = injector.getInstance(A.class);
     }
 
     @Override
