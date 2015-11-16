@@ -24,8 +24,6 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.gui.Tile;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -35,8 +33,6 @@ import java.util.Collection;
 public class Clazz {
     private Collection<String> attributes;
     private Collection<String> methods;
-
-    private Tile observer;
 
     public Clazz(Collection<String> attributes, Collection<String> methods) {
         this.attributes = new ArrayList<>();
@@ -61,9 +57,5 @@ public class Clazz {
 
     public void addMethod(String method) {
         attributes.add(method);
-    }
-
-    public void addObserver(Tile tile) {
-        this.observer = tile;
     }
 }

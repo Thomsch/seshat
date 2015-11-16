@@ -22,42 +22,27 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.gui.tile;
 
-import ch.ceruleansands.seshat.language.java.Clazz;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import ch.ceruleansands.seshat.gui.SelectionManager;
+import com.google.inject.Inject;
 
 /**
- * Holds the current state of the user's work.
- * @author Thomsch.
+ * Created by Thomsch.
  */
-public class Model {
+class Controller {
 
-    private ModelObserver observer;
-    private Collection<ch.ceruleansands.seshat.language.java.Clazz> clazzs;
+    private final SelectionManager selectionManager;
 
-    protected Model() {
-        clazzs = new ArrayList<>();
+    @Inject
+    public Controller(SelectionManager selectionManager) {
+        this.selectionManager = selectionManager;
     }
 
-    public synchronized void addClass(Clazz clazz) {
-        clazzs.add(clazz);
-
-        if (observer != null) {
-            observer.onNewClass(clazz);
-        }
+    public void install() {
     }
 
-    public void addObserver(ModelObserver observer) {
-        this.observer = observer;
-    }
-
-    public void save() {
-    }
-
-    public void load() {
-
+    public void focusGained(View view) {
+        view.setSelected();
     }
 }

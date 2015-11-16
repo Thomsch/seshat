@@ -25,6 +25,7 @@
 package ch.ceruleansands.seshat.gui;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
  * @author Thomas Schweizer.
@@ -32,6 +33,6 @@ import com.google.inject.AbstractModule;
 public class Module extends AbstractModule {
     @Override
     protected void configure() {
-
+        install(new FactoryModuleBuilder().build(GuiFactory.class));
     }
 }

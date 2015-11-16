@@ -22,42 +22,30 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.gui.tile;
 
+import ch.ceruleansands.seshat.gui.ClazzModel;
 import ch.ceruleansands.seshat.language.java.Clazz;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import javafx.scene.Group;
 
 /**
- * Holds the current state of the user's work.
- * @author Thomsch.
+ * Created by Thomsch.
  */
-public class Model {
+public class Tile extends Group{
 
-    private ModelObserver observer;
-    private Collection<ch.ceruleansands.seshat.language.java.Clazz> clazzs;
+    private final ClazzModel model;
+    private Controller controller;
 
-    protected Model() {
-        clazzs = new ArrayList<>();
+    @Inject
+    public Tile(@Assisted Clazz clazz, Controller controller) {
+        View view = new View(controller);
+        model = new ClazzModel(clazz);
+
+        this.controller = controller;
+
+        getChildren().add(view);
     }
 
-    public synchronized void addClass(Clazz clazz) {
-        clazzs.add(clazz);
-
-        if (observer != null) {
-            observer.onNewClass(clazz);
-        }
-    }
-
-    public void addObserver(ModelObserver observer) {
-        this.observer = observer;
-    }
-
-    public void save() {
-    }
-
-    public void load() {
-
-    }
 }

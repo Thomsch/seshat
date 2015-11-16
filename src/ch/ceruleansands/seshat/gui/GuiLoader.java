@@ -24,9 +24,13 @@
 
 package ch.ceruleansands.seshat.gui;
 
+import ch.ceruleansands.seshat.gui.tile.Tile;
 import ch.ceruleansands.seshat.language.java.Clazz;
 import ch.ceruleansands.seshat.model.Model;
+import ch.ceruleansands.seshat.model.ModelObserver;
 import ch.ceruleansands.seshat.model.Models;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -36,20 +40,18 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 /**
+ * I don't know what this class does yet. Still very much a prototype.
  * @author Thomas Schweizer.
  */
-public class GuiLoader extends Application{
+public class GuiLoader extends Application implements ModelObserver {
 
-    private Group group;
+    private Group elements;
     private Model model;
 
-//    private A a;
-    private Label originLabel;
+    private GuiFactory guiFactory;
 
     public GuiLoader() {
         this.model = Models.createEmpty();
@@ -58,8 +60,8 @@ public class GuiLoader extends Application{
 
     @Override
     public void init() throws Exception {
-//        Injector injector = Guice.createInjector(new Module());
-//        a = injector.getInstance(A.class);
+        Injector injector = Guice.createInjector(new Module());
+        guiFactory = injector.getInstance(GuiFactory.class);
     }
 
     @Override
@@ -70,27 +72,20 @@ public class GuiLoader extends Application{
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add("style.css");
 
-        MenuBar menus = makeMenu();
-        ToolBar toolBar = new ToolBar(new Button("hello"), new Label("sss"));
+        MenuBar menus = makeMenu(guiFactory.makeMenuController());
+        ToolBar toolBar = makeToolbar();
 
-        originLabel = new Label("I'm the origin");
 
-        Circle circle = new Circle(4, Color.MAGENTA);
-        originLabel.setTranslateX(circle.getTranslateX());
-        originLabel.setTranslateY(circle.getTranslateY()- 25);
-        originLabel.setVisible(false);
+        Origin origin = new Origin();
 
-        circle.setOnMouseEntered(event -> originLabel.setVisible(true));
-        circle.setOnMouseExited(event -> originLabel.setVisible(false));
+        elements = new Group(origin);
+        Background background = new Background(elements);
+        Pane diagramView = new Pane(background, elements);
 
-        group = new Group(circle, originLabel);
-        Background background = new Background(group);
-        Pane pane = new Pane(background, group);
+        background.widthProperty().bind(diagramView.widthProperty());
+        background.heightProperty().bind(diagramView.heightProperty());
 
-        background.widthProperty().bind(pane.widthProperty());
-        background.heightProperty().bind(pane.heightProperty());
-
-        root.setCenter(pane);
+        root.setCenter(diagramView);
         root.setRight(toolBar);
         root.setTop(menus);
 
@@ -99,7 +94,11 @@ public class GuiLoader extends Application{
         stage.show();
     }
 
-    private MenuBar makeMenu() {
+    private ToolBar makeToolbar() {
+        return new ToolBar(new Button("hello"), new Label("sss"));
+    }
+
+    private MenuBar makeMenu(MenuController mController) {
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("_File");
 
@@ -108,7 +107,7 @@ public class GuiLoader extends Application{
         Menu menuEdit = new Menu("_Edit");
         MenuItem menuItem = new MenuItem("_New class");
         menuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
-        menuItem.setOnAction(event -> model.addClass(new Clazz()));
+        menuItem.setOnAction(mController.createNewClass(model));
         menuEdit.getItems().add(menuItem);
         Menu menuView = new Menu("Help");
         Menu menuDebug = new Menu("Debug");
@@ -117,9 +116,10 @@ public class GuiLoader extends Application{
         return menuBar;
     }
 
+    @Override
     public void onNewClass(Clazz clazz) {
-        Tile tile = new Tile();
-        clazz.addObserver(tile);
-        group.getChildren().addAll(tile);
+        Tile tile = guiFactory.makeTile(clazz);
+
+        elements.getChildren().addAll(tile);
     }
 }

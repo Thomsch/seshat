@@ -22,42 +22,19 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.gui;
 
 import ch.ceruleansands.seshat.language.java.Clazz;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import ch.ceruleansands.seshat.model.Model;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
- * Holds the current state of the user's work.
- * @author Thomsch.
+ * Controller for the menus. This is where the business logic happens.
+ * @author Thomsch
  */
-public class Model {
-
-    private ModelObserver observer;
-    private Collection<ch.ceruleansands.seshat.language.java.Clazz> clazzs;
-
-    protected Model() {
-        clazzs = new ArrayList<>();
-    }
-
-    public synchronized void addClass(Clazz clazz) {
-        clazzs.add(clazz);
-
-        if (observer != null) {
-            observer.onNewClass(clazz);
-        }
-    }
-
-    public void addObserver(ModelObserver observer) {
-        this.observer = observer;
-    }
-
-    public void save() {
-    }
-
-    public void load() {
-
+public class MenuController {
+    public EventHandler<ActionEvent> createNewClass(Model model) {
+        return event -> model.addClass(new Clazz());
     }
 }

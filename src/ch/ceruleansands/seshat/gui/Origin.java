@@ -22,42 +22,33 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.language.java.Clazz;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 /**
- * Holds the current state of the user's work.
- * @author Thomsch.
+ * Represents the origin of the background where the diagram is drawn.
+ * @author Thomsch
  */
-public class Model {
+public class Origin extends Group {
 
-    private ModelObserver observer;
-    private Collection<ch.ceruleansands.seshat.language.java.Clazz> clazzs;
+    private Label hint;
 
-    protected Model() {
-        clazzs = new ArrayList<>();
-    }
+    public Origin() {
 
-    public synchronized void addClass(Clazz clazz) {
-        clazzs.add(clazz);
+        hint = new Label("I'm the origin");
 
-        if (observer != null) {
-            observer.onNewClass(clazz);
-        }
-    }
+        Circle circle = new Circle(4, Color.MAGENTA);
+        hint.setTranslateX(circle.getTranslateX());
+        hint.setTranslateY(circle.getTranslateY()- 25);
+        hint.setVisible(false);
 
-    public void addObserver(ModelObserver observer) {
-        this.observer = observer;
-    }
+        circle.setOnMouseEntered(event -> hint.setVisible(true));
+        circle.setOnMouseExited(event -> hint.setVisible(false));
 
-    public void save() {
-    }
-
-    public void load() {
-
+        getChildren().addAll(circle, hint);
     }
 }

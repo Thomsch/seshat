@@ -22,42 +22,20 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.gui;
 
 import ch.ceruleansands.seshat.language.java.Clazz;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
- * Holds the current state of the user's work.
- * @author Thomsch.
+ * Created by Thomsch.
  */
-public class Model {
+public class ClazzModel {
+    private Clazz clazz;
 
-    private ModelObserver observer;
-    private Collection<ch.ceruleansands.seshat.language.java.Clazz> clazzs;
-
-    protected Model() {
-        clazzs = new ArrayList<>();
+    public ClazzModel(Clazz clazz) {
+        this.clazz = clazz;
     }
 
-    public synchronized void addClass(Clazz clazz) {
-        clazzs.add(clazz);
 
-        if (observer != null) {
-            observer.onNewClass(clazz);
-        }
-    }
 
-    public void addObserver(ModelObserver observer) {
-        this.observer = observer;
-    }
-
-    public void save() {
-    }
-
-    public void load() {
-
-    }
 }

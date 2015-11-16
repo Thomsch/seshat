@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui;
+package ch.ceruleansands.seshat.gui.tile;
 
+import ch.ceruleansands.seshat.gui.ClazzModelView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -36,26 +37,22 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Created by Thomsch.
+ * @author Thomsch
  */
-public class Tile extends VBox{
+class View extends VBox implements ClazzModelView {
 
     private final Label name;
     private final ButtonBar buttonBar;
     private final TextArea attributes;
     private final TextArea methods;
     private final StackPane header;
+    private final DragContext dragContext;
 
-    private static final class DragContext {
-        public double mouseAnchorX;
-        public double mouseAnchorY;
-        public double initialTranslateX;
-        public double initialTranslateY;
-    }
+    private final Controller controller;
 
-    private DragContext dragContext;
+    public View(Controller controller) {
+        this.controller = controller;
 
-    public Tile() {
         this.header = new StackPane();
         buttonBar = new ButtonBar();
         buttonBar.setButtonMinWidth(5);
@@ -78,7 +75,6 @@ public class Tile extends VBox{
 
         header.setOnMouseEntered(event -> header.setCursor(Cursor.OPEN_HAND));
 
-
         attributes = new TextArea();
         methods = new TextArea();
 
@@ -87,27 +83,26 @@ public class Tile extends VBox{
         getChildren().addAll(header);
 
         setPrefSize(200, 200);
-        dragContext = new DragContext();
 
         header.addEventFilter(MouseEvent.MOUSE_PRESSED,
-            mouseEvent -> {
+                mouseEvent -> {
                     // remember initial mouse cursor coordinates
                     // and node position
                     dragContext.mouseAnchorX = mouseEvent.getScreenX();
                     dragContext.mouseAnchorY = mouseEvent.getScreenY();
                     dragContext.initialTranslateX = getTranslateX();
                     dragContext.initialTranslateY = getTranslateY();
-            });
+                });
 
         header.addEventFilter(MouseEvent.MOUSE_DRAGGED,
-            mouseEvent -> {
+                mouseEvent -> {
                     // shift node from its initial position by delta
                     // calculated from mouse cursor movement
-                setTranslateX(dragContext.initialTranslateX
-                        + mouseEvent.getScreenX() - dragContext.mouseAnchorX);
-                setTranslateY(dragContext.initialTranslateY
-                        + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
-            });
+                    setTranslateX(dragContext.initialTranslateX
+                            + mouseEvent.getScreenX() - dragContext.mouseAnchorX);
+                    setTranslateY(dragContext.initialTranslateY
+                            + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
+                });
         setFocusTraversable(true);
         addEventFilter(MouseEvent.MOUSE_CLICKED, event -> requestFocus());
 
@@ -115,7 +110,7 @@ public class Tile extends VBox{
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(newValue) {
-                    System.out.println("focus");
+                    controller.focusGained(View.this);
                 } else {
                     System.out.println("nofocus");
                 }
@@ -133,5 +128,16 @@ public class Tile extends VBox{
 
         separator.setStyle("-fx-background-color: black");
         return separator;
+    }
+
+    public void setSelected() {
+
+    }
+
+    private static final class DragContext {
+        public double mouseAnchorX;
+        public double mouseAnchorY;
+        public double initialTranslateX;
+        public double initialTranslateY;
     }
 }
