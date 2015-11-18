@@ -24,6 +24,7 @@
 
 package ch.ceruleansands.seshat.gui;
 
+import ch.ceruleansands.seshat.language.java.Clazz;
 import com.google.inject.Singleton;
 
 import java.util.Collection;
@@ -38,18 +39,18 @@ import java.util.Set;
 @Singleton
 public class SelectionManager {
 
-    Set<ClazzModel> selected;
+    Set<Clazz> selected;
 
     public SelectionManager() {
         selected = new HashSet<>();
     }
 
-    public void setSelected(ClazzModel... selected) {
+    public void setSelected(Clazz... selected) {
         this.selected.clear();
         Collections.addAll(this.selected, selected);
     }
 
-    public Collection<ClazzModel> getSelected() {
+    public Collection<Clazz> getSelected() {
         return new HashSet<>(selected);
     }
 }

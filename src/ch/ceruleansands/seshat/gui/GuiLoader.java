@@ -56,6 +56,7 @@ public class GuiLoader extends Application implements ModelObserver {
     public GuiLoader() {
         this.model = Models.createEmpty();
         model.addObserver(this);
+        elements = new Group();
     }
 
     @Override
@@ -76,11 +77,11 @@ public class GuiLoader extends Application implements ModelObserver {
         ToolBar toolBar = makeToolbar();
 
 
-        Origin origin = new Origin();
-
-        elements = new Group(origin);
         Background background = new Background(elements);
         Pane diagramView = new Pane(background, elements);
+
+
+
 
         background.widthProperty().bind(diagramView.widthProperty());
         background.heightProperty().bind(diagramView.heightProperty());

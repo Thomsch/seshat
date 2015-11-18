@@ -26,6 +26,8 @@ package ch.ceruleansands.seshat.gui.tile;
 
 import ch.ceruleansands.seshat.gui.SelectionManager;
 import com.google.inject.Inject;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  * Created by Thomsch.
@@ -44,5 +46,13 @@ class Controller {
 
     public void focusGained(View view) {
         view.setSelected();
+    }
+
+    public EventHandler<ActionEvent> newAttributeAction() {
+        return null;
+    }
+
+    public EventHandler<ActionEvent> newMethodAction() {
+        return null;
     }
 }

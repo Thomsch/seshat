@@ -27,11 +27,15 @@ package ch.ceruleansands.seshat.gui.tile;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -43,12 +47,12 @@ class View extends VBox implements ClazzModelView {
 
     private final Label name;
     private final ButtonBar buttonBar;
-    private final TextArea attributes;
-    private final TextArea methods;
     private final StackPane header;
     private final DragContext dragContext;
 
     private final Controller controller;
+    private final Button newAttribute;
+    private final Button newMethod;
 
     public View(Controller controller) {
         this.controller = controller;
@@ -57,8 +61,8 @@ class View extends VBox implements ClazzModelView {
         buttonBar = new ButtonBar();
         buttonBar.setButtonMinWidth(5);
 
-        Button newAttribute = new Button("A");
-        Button newMethod = new Button("M");
+        newAttribute = new Button("A");
+        newMethod = new Button("M");
         newAttribute.setOnMouseEntered(useDefaultCursor(newAttribute));
         newMethod.setOnMouseEntered(useDefaultCursor(newMethod));
         buttonBar.getButtons().addAll(newAttribute, newMethod);
@@ -74,9 +78,6 @@ class View extends VBox implements ClazzModelView {
         name.setStyle("-fx-text-fill: #FFFFFF");
 
         header.setOnMouseEntered(event -> header.setCursor(Cursor.OPEN_HAND));
-
-        attributes = new TextArea();
-        methods = new TextArea();
 
         header.getChildren().addAll(name, buttonBar);
 
@@ -116,6 +117,14 @@ class View extends VBox implements ClazzModelView {
                 }
             }
         });
+    }
+
+    public void setNewAttributeButtonAction(EventHandler<ActionEvent> value) {
+        newAttribute.setOnAction(value);
+    }
+
+    public void setNewMethodButtonAction(EventHandler<ActionEvent> value) {
+        newMethod.setOnAction(value);
     }
 
     private EventHandler<? super MouseEvent> useDefaultCursor(Button button) {

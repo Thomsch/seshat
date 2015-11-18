@@ -77,6 +77,9 @@ public class Background extends Canvas {
             yori += yshift;
             event.consume();
         });
+
+        Origin origin = new Origin();
+        group.getChildren().addAll(origin);
     }
 
     private void draw(double tx, double ty) {

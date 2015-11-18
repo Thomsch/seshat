@@ -34,6 +34,10 @@ import javafx.event.EventHandler;
  * @author Thomsch
  */
 public class MenuController {
+
+    public MenuController() {
+    }
+
     public EventHandler<ActionEvent> createNewClass(Model model) {
         return event -> model.addClass(new Clazz());
     }

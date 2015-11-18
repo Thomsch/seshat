@@ -24,7 +24,6 @@
 
 package ch.ceruleansands.seshat.gui.tile;
 
-import ch.ceruleansands.seshat.gui.ClazzModel;
 import ch.ceruleansands.seshat.language.java.Clazz;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -35,13 +34,16 @@ import javafx.scene.Group;
  */
 public class Tile extends Group{
 
-    private final ClazzModel model;
+    private final Clazz model;
     private Controller controller;
 
     @Inject
     public Tile(@Assisted Clazz clazz, Controller controller) {
         View view = new View(controller);
-        model = new ClazzModel(clazz);
+        model = new Clazz();
+
+        view.setNewAttributeButtonAction(controller.newAttributeAction());
+        view.setNewMethodButtonAction(controller.newMethodAction());
 
         this.controller = controller;
 
