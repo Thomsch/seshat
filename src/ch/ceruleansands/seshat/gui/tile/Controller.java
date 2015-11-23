@@ -28,24 +28,23 @@ import ch.ceruleansands.seshat.gui.SelectionManager;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 
 /**
- * Created by Thomsch.
+ * @author Thomsch
  */
 class Controller {
 
     private final SelectionManager selectionManager;
+    private Tile tile;
 
     @Inject
     public Controller(SelectionManager selectionManager) {
         this.selectionManager = selectionManager;
     }
 
-    public void install() {
-    }
-
-    public void focusGained(View view) {
-        view.setSelected();
+    public void install(Tile tile) {
+        this.tile = tile;
     }
 
     public EventHandler<ActionEvent> newAttributeAction() {
@@ -54,5 +53,13 @@ class Controller {
 
     public EventHandler<ActionEvent> newMethodAction() {
         return null;
+    }
+
+    public void onSelection(MouseEvent event) {
+        if (event.isControlDown()) {
+            selectionManager.addToSelection(tile);
+        } else {
+            selectionManager.changeSelection(tile);
+        }
     }
 }

@@ -36,18 +36,23 @@ public class Tile extends Group{
 
     private final Clazz model;
     private Controller controller;
+    private final View view;
 
     @Inject
     public Tile(@Assisted Clazz clazz, Controller controller) {
-        View view = new View(controller);
+        view = new View(controller);
         model = new Clazz();
 
         view.setNewAttributeButtonAction(controller.newAttributeAction());
         view.setNewMethodButtonAction(controller.newMethodAction());
 
         this.controller = controller;
+        controller.install(this);
 
         getChildren().add(view);
     }
 
+    public void setSelected(boolean selected) {
+        view.setSelected(selected);
+    }
 }

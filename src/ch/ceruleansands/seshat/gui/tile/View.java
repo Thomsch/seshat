@@ -25,8 +25,7 @@
 package ch.ceruleansands.seshat.gui.tile;
 
 import ch.ceruleansands.seshat.gui.ClazzModelView;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -53,6 +52,8 @@ class View extends VBox implements ClazzModelView {
     private final Controller controller;
     private final Button newAttribute;
     private final Button newMethod;
+
+    private final PseudoClass selectable = PseudoClass.getPseudoClass("selected");
 
     public View(Controller controller) {
         this.controller = controller;
@@ -105,18 +106,8 @@ class View extends VBox implements ClazzModelView {
                             + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
                 });
         setFocusTraversable(true);
-        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> requestFocus());
 
-        focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
-                    controller.focusGained(View.this);
-                } else {
-                    System.out.println("nofocus");
-                }
-            }
-        });
+        addEventFilter(MouseEvent.MOUSE_CLICKED, controller::onSelection);
     }
 
     public void setNewAttributeButtonAction(EventHandler<ActionEvent> value) {
@@ -139,8 +130,9 @@ class View extends VBox implements ClazzModelView {
         return separator;
     }
 
-    public void setSelected() {
-
+    public void setSelected(boolean selected) {
+        System.out.println("selected = " + selected);
+        pseudoClassStateChanged(selectable, selected);
     }
 
     private static final class DragContext {

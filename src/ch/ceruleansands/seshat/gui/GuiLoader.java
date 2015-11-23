@@ -76,7 +76,6 @@ public class GuiLoader extends Application implements ModelObserver {
         MenuBar menus = makeMenu(guiFactory.makeMenuController());
         ToolBar toolBar = makeToolbar();
 
-
         Background background = new Background(elements);
         Pane diagramView = new Pane(background, elements);
 

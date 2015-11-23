@@ -24,13 +24,10 @@
 
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.language.java.Clazz;
+import ch.ceruleansands.seshat.gui.tile.Tile;
 import com.google.inject.Singleton;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Holds the tiles selected on the interface.
@@ -39,18 +36,26 @@ import java.util.Set;
 @Singleton
 public class SelectionManager {
 
-    Set<Clazz> selected;
+    Set<Tile> selected;
 
     public SelectionManager() {
         selected = new HashSet<>();
     }
 
-    public void setSelected(Clazz... selected) {
-        this.selected.clear();
-        Collections.addAll(this.selected, selected);
+    public Collection<Tile> getSelected() {
+        return new HashSet<>(selected);
     }
 
-    public Collection<Clazz> getSelected() {
-        return new HashSet<>(selected);
+    public void changeSelection(Tile ... newSelection) {
+        this.selected.forEach(s -> s.setSelected(false));
+        this.selected.clear();
+        Collections.addAll(this.selected, newSelection);
+        this.selected.forEach(s -> s.setSelected(true));
+    }
+
+    public void addToSelection(Tile ... newTiles) {
+        Collections.addAll(this.selected, newTiles);
+        List<Tile> tileList = Arrays.asList(newTiles);
+        tileList.forEach(s -> s.setSelected(true));
     }
 }

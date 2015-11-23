@@ -1,9 +1,7 @@
 #tile {
     -fx-background-color: orange;
-    -fx-border-color: black;
-    -fx-border-size: 2;
 }
 
-#tile:focused{
-    -fx-background-color: red;
+#tile:selected{
+    -fx-border-color: blue;
 }
