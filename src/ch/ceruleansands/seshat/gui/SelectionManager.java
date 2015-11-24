@@ -31,7 +31,7 @@ import java.util.*;
 
 /**
  * Holds the tiles selected on the interface.
- * @author Thomsch.
+ * @author Thomsch
  */
 @Singleton
 public class SelectionManager {
@@ -55,7 +55,25 @@ public class SelectionManager {
 
     public void addToSelection(Tile ... newTiles) {
         Collections.addAll(this.selected, newTiles);
-        List<Tile> tileList = Arrays.asList(newTiles);
-        tileList.forEach(s -> s.setSelected(true));
+        Arrays.asList(newTiles).forEach(tile ->  tile.setSelected(true));
+    }
+
+    /**
+     * Returns whether a tile is currently selected or not.
+     * @param tile The tile checked.
+     * @return True if it's selected. False otherwise.
+     */
+    public boolean isTileSelected(Tile tile) {
+        return selected.contains(tile);
+    }
+
+    /**
+     * Removes tiles from selection.
+     * @param tiles The tiles to remove from the selection.
+     */
+    public void removeFromSelection(Tile ... tiles) {
+        List<Tile> tileList = Arrays.asList(tiles);
+        selected.removeAll(tileList);
+        tileList.forEach(tile -> tile.setSelected(false));
     }
 }

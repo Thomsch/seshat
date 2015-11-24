@@ -36,15 +36,10 @@ import javafx.scene.input.MouseEvent;
 class Controller {
 
     private final SelectionManager selectionManager;
-    private Tile tile;
 
     @Inject
     public Controller(SelectionManager selectionManager) {
         this.selectionManager = selectionManager;
-    }
-
-    public void install(Tile tile) {
-        this.tile = tile;
     }
 
     public EventHandler<ActionEvent> newAttributeAction() {
@@ -55,9 +50,13 @@ class Controller {
         return null;
     }
 
-    public void onSelection(MouseEvent event) {
-        if (event.isControlDown()) {
-            selectionManager.addToSelection(tile);
+    public void onSelection(MouseEvent event, Tile tile) {
+        if(event.isControlDown()) {
+            if(selectionManager.isTileSelected(tile)) {
+                selectionManager.removeFromSelection(tile);
+            } else {
+                selectionManager.addToSelection(tile);
+            }
         } else {
             selectionManager.changeSelection(tile);
         }

@@ -28,6 +28,7 @@ import ch.ceruleansands.seshat.language.java.Clazz;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Created by Thomsch.
@@ -45,9 +46,9 @@ public class Tile extends Group{
 
         view.setNewAttributeButtonAction(controller.newAttributeAction());
         view.setNewMethodButtonAction(controller.newMethodAction());
+        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event, this));
 
         this.controller = controller;
-        controller.install(this);
 
         getChildren().add(view);
     }

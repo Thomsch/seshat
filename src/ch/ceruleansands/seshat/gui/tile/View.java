@@ -106,8 +106,6 @@ class View extends VBox implements ClazzModelView {
                             + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
                 });
         setFocusTraversable(true);
-
-        addEventFilter(MouseEvent.MOUSE_CLICKED, controller::onSelection);
     }
 
     public void setNewAttributeButtonAction(EventHandler<ActionEvent> value) {
