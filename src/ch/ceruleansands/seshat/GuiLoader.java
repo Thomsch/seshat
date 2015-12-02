@@ -22,24 +22,35 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui;
+package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.DiagramFactory;
-import ch.ceruleansands.seshat.Editor;
-import ch.ceruleansands.seshat.gui.tile.Tile;
-import ch.ceruleansands.seshat.language.java.Clazz;
-import ch.ceruleansands.seshat.language.java.MenuController;
+import ch.ceruleansands.seshat.gui.GuiFactory;
+import ch.ceruleansands.seshat.gui.Module;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
- * @author Thomsch
+ * I don't know what this class does yet. Still very much a prototype.
+ * @author Thomas Schweizer.
  */
-public interface GuiFactory {
-    Tile makeTile(Clazz clazz);
+public class GuiLoader extends Application {
 
-    MenuController makeMenuController();
+    private Editor editor;
 
-    DiagramFactory makeDiagramFactory();
+    private GuiFactory guiFactory;
 
-    Editor makeEditor(Stage stage);
+    @Override
+    public void init() throws Exception {
+        Injector injector = Guice.createInjector(new Module());
+        guiFactory = injector.getInstance(GuiFactory.class);
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        editor = guiFactory.makeEditor(stage);
+        editor.configure();
+        editor.show();
+    }
 }

@@ -25,10 +25,10 @@
 package ch.ceruleansands.seshat.gui.tile;
 
 import ch.ceruleansands.seshat.gui.SelectionManager;
+import ch.ceruleansands.seshat.language.java.Clazz;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 
 /**
  * @author Thomsch
@@ -42,16 +42,19 @@ class Controller {
         this.selectionManager = selectionManager;
     }
 
-    public EventHandler<ActionEvent> newAttributeAction() {
-        return null;
+    public EventHandler<ActionEvent> newAttributeAction(Clazz clazz) {
+        return event -> {
+            clazz.addAttribute("+ new attribute");
+        };
+
     }
 
-    public EventHandler<ActionEvent> newMethodAction() {
-        return null;
+    public EventHandler<ActionEvent> newMethodAction(Clazz clazz) {
+        return event -> clazz.addMethod("+ new method");
     }
 
-    public void onSelection(MouseEvent event, Tile tile) {
-        if(event.isControlDown()) {
+    public void onSelection(boolean isControlDown, Tile tile) {
+        if(isControlDown) {
             if(selectionManager.isTileSelected(tile)) {
                 selectionManager.removeFromSelection(tile);
             } else {

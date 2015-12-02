@@ -26,17 +26,22 @@ package ch.ceruleansands.seshat.language.java;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by Thomsch.
  */
 public class Clazz {
+
+    private String name;
     private Collection<String> attributes;
     private Collection<String> methods;
+    private Collection<ClazzObserver> observers;
 
-    public Clazz(Collection<String> attributes, Collection<String> methods) {
+    public Clazz(String name, Collection<String> attributes, Collection<String> methods) {
         this.attributes = new ArrayList<>();
         this.methods = new ArrayList<>();
+        observers = new HashSet<>();
 
         if (attributes != null) {
             this.attributes.addAll(attributes);
@@ -48,14 +53,38 @@ public class Clazz {
     }
 
     public Clazz() {
-        this(null, null);
+        this(null, null, null);
     }
 
     public void addAttribute(String attribute) {
         attributes.add(attribute);
+        observers.forEach(observer -> observer.onNewAttribute(attribute));
     }
 
     public void addMethod(String method) {
         attributes.add(method);
+        observers.forEach(observer -> observer.onNewMethod(method));
+    }
+
+    public void setName(String name) {
+        String oldName = this.name;
+        this.name = name;
+        observers.forEach(observer -> observer.onNameChanged(oldName, name));
+    }
+
+    public void addClazzObserver(ClazzObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<String> getAttributes() {
+        return attributes;
+    }
+
+    public Collection<String> getMethods() {
+        return methods;
     }
 }

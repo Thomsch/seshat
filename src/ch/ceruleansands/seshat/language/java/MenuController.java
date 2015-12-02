@@ -22,12 +22,17 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui;
+package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.language.java.Clazz;
+import ch.ceruleansands.seshat.Diagram;
 import ch.ceruleansands.seshat.model.Model;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Controller for the menus. This is where the business logic happens.
@@ -35,10 +40,41 @@ import javafx.event.EventHandler;
  */
 public class MenuController {
 
-    public MenuController() {
-    }
 
     public EventHandler<ActionEvent> createNewClass(Model model) {
         return event -> model.addClass(new Clazz());
+    }
+
+    public EventHandler<ActionEvent> save(Diagram diagram) {
+        return event -> {
+            if (diagram != null) {
+                Model model = diagram.getModel();
+                File file = new File("test.ses");
+                try {
+                    PrintWriter writer = new PrintWriter(file);
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        System.out.println("Failed to create new file.");
+                    }
+
+                    model.getData().forEach(clazz -> {
+                        writer.println(clazz.getName());
+                        clazz.getAttributes().forEach(attribute -> {
+                            writer.println("    " + attribute);
+                        });
+
+                        clazz.getMethods().forEach(method -> {
+                            writer.println("    " + method);
+                        });
+                    });
+                    writer.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("No diagram to save !");
+            }
+        };
     }
 }

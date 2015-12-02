@@ -24,7 +24,6 @@
 
 package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.gui.GuiLoader;
 import javafx.application.Application;
 
 /**

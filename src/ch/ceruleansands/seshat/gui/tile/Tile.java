@@ -42,11 +42,12 @@ public class Tile extends Group{
     @Inject
     public Tile(@Assisted Clazz clazz, Controller controller) {
         view = new View(controller);
-        model = new Clazz();
+        model = clazz;
 
-        view.setNewAttributeButtonAction(controller.newAttributeAction());
-        view.setNewMethodButtonAction(controller.newMethodAction());
-        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event, this));
+        model.addClazzObserver(view);
+        view.setNewAttributeButtonAction(controller.newAttributeAction(clazz));
+        view.setNewMethodButtonAction(controller.newMethodAction(clazz));
+        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
 
         this.controller = controller;
 

@@ -28,6 +28,8 @@ import ch.ceruleansands.seshat.language.java.Clazz;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Holds the current state of the user's work.
@@ -54,10 +56,8 @@ public class Model {
         this.observer = observer;
     }
 
-    public void save() {
+    public Set<Clazz> getData() {
+        return new HashSet<>(clazzs);
     }
 
-    public void load() {
-
-    }
 }

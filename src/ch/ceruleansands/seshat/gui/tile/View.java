@@ -25,68 +25,94 @@
 package ch.ceruleansands.seshat.gui.tile;
 
 import ch.ceruleansands.seshat.gui.ClazzModelView;
+import ch.ceruleansands.seshat.language.java.ClazzObserver;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 /**
  * @author Thomsch
  */
-class View extends VBox implements ClazzModelView {
+class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
-    private final Label name;
-    private final ButtonBar buttonBar;
-    private final StackPane header;
+    private final TextField name;
+    private final VBox buttonBar;
     private final DragContext dragContext;
 
     private final Controller controller;
     private final Button newAttribute;
     private final Button newMethod;
 
+    private final SimpleFeatureGroup attributes;
+    private final SimpleFeatureGroup methods;
+
     private final PseudoClass selectable = PseudoClass.getPseudoClass("selected");
+    private final VBox features;
 
     public View(Controller controller) {
         this.controller = controller;
 
-        this.header = new StackPane();
-        buttonBar = new ButtonBar();
-        buttonBar.setButtonMinWidth(5);
+        buttonBar = new VBox();
+        features = new VBox();
+        attributes = new SimpleFeatureGroup();
+        methods = new SimpleFeatureGroup();
 
         newAttribute = new Button("A");
         newMethod = new Button("M");
+
+        newMethod.setPrefWidth(28);
+        newAttribute.setPrefWidth(28);
         newAttribute.setOnMouseEntered(useDefaultCursor(newAttribute));
         newMethod.setOnMouseEntered(useDefaultCursor(newMethod));
-        buttonBar.getButtons().addAll(newAttribute, newMethod);
+        buttonBar.getChildren().addAll(newAttribute, newMethod);
+
         dragContext = new DragContext();
         setId("tile");
 
         setTranslateX(50);
         setTranslateY(50);
 
-        name = new Label("Hello");
-        name.setPrefWidth(200);
+        name = new TextField();
+        name.setPromptText("Unnamed class...");
         name.setAlignment(Pos.CENTER);
-        name.setStyle("-fx-text-fill: #FFFFFF");
+        name.setOnAction(event -> name.setEditable(false));
+        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                name.setStyle("-fx-background-color: transparent;");
+                name.setEditable(false);
+            }
+        });
 
-        header.setOnMouseEntered(event -> header.setCursor(Cursor.OPEN_HAND));
+        name.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                name.setEditable(true);
+                name.setStyle("-fx-background-color: white;");
+                name.requestFocus();
+            }
+        });
 
-        header.getChildren().addAll(name, buttonBar);
+        name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
 
-        getChildren().addAll(header);
+        setTop(name);
+        setCenter(features);
+        setRight(buttonBar);
+
+        features.getChildren().addAll(attributes, methods);
 
         setPrefSize(200, 200);
 
-        header.addEventFilter(MouseEvent.MOUSE_PRESSED,
+        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            requestFocus();
+        });
+
+        name.addEventFilter(MouseEvent.MOUSE_PRESSED,
                 mouseEvent -> {
                     // remember initial mouse cursor coordinates
                     // and node position
@@ -96,7 +122,7 @@ class View extends VBox implements ClazzModelView {
                     dragContext.initialTranslateY = getTranslateY();
                 });
 
-        header.addEventFilter(MouseEvent.MOUSE_DRAGGED,
+        name.addEventFilter(MouseEvent.MOUSE_DRAGGED,
                 mouseEvent -> {
                     // shift node from its initial position by delta
                     // calculated from mouse cursor movement
@@ -106,6 +132,7 @@ class View extends VBox implements ClazzModelView {
                             + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
                 });
         setFocusTraversable(true);
+        name.requestFocus();
     }
 
     public void setNewAttributeButtonAction(EventHandler<ActionEvent> value) {
@@ -120,17 +147,31 @@ class View extends VBox implements ClazzModelView {
         return event -> button.setCursor(Cursor.DEFAULT);
     }
 
-    private Separator makeSeparator() {
-        Separator separator = new Separator(Orientation.HORIZONTAL);
-        separator.setMinSize(5,5);
-
-        separator.setStyle("-fx-background-color: black");
-        return separator;
+    public void setSelected(boolean selected) {
+        pseudoClassStateChanged(selectable, selected);
     }
 
-    public void setSelected(boolean selected) {
-        System.out.println("selected = " + selected);
-        pseudoClassStateChanged(selectable, selected);
+    @Override
+    public void onNameChanged(String oldName, String newName) {
+        name.setText(newName);
+    }
+
+    @Override
+    public void onNewAttribute(String attribute) {
+        addAttributeLabel(attribute);
+    }
+
+    private void addAttributeLabel(String attribute) {
+        attributes.add(attribute);
+    }
+
+    @Override
+    public void onNewMethod(String method) {
+        addMethodLabel(method);
+    }
+
+    private void addMethodLabel(String method) {
+        methods.add(method);
     }
 
     private static final class DragContext {

@@ -47,4 +47,5 @@ dependencies {
     //dependencies from a remote repository
     compile 'com.google.inject:guice:3.0'
     compile 'com.google.inject.extensions:guice-assistedinject:3.0'
+    compile 'javax.json:javax.json-api:1.0'
 }
