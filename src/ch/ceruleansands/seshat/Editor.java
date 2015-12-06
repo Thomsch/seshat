@@ -99,8 +99,6 @@ public class Editor implements ChangeListener<Tab>{
 
     @Override
     public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-        System.out.println("New : " + newValue + ", Old: " + oldValue);
-
         if(oldValue != null) {
             DiagramTab oldDiagram = (DiagramTab) oldValue;
             menuEdit.getItems().removeAll(oldDiagram.getEditItems());
@@ -109,9 +107,5 @@ public class Editor implements ChangeListener<Tab>{
 
         itemSave.setOnAction(newDiagram.getOnSaveAction());
         menuEdit.getItems().addAll(newDiagram.getEditItems());
-    }
-
-
-    private class DiagramContext {
     }
 }
