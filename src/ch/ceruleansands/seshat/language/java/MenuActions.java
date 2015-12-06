@@ -38,7 +38,7 @@ import java.io.PrintWriter;
  * Controller for the menus. This is where the business logic happens.
  * @author Thomsch
  */
-public class MenuController {
+public class MenuActions {
 
 
     public EventHandler<ActionEvent> createNewClass(Model model) {

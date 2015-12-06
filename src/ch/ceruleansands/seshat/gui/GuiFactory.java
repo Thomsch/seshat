@@ -28,7 +28,7 @@ import ch.ceruleansands.seshat.DiagramFactory;
 import ch.ceruleansands.seshat.Editor;
 import ch.ceruleansands.seshat.gui.tile.Tile;
 import ch.ceruleansands.seshat.language.java.Clazz;
-import ch.ceruleansands.seshat.language.java.MenuController;
+import ch.ceruleansands.seshat.language.java.MenuActions;
 import javafx.stage.Stage;
 
 /**
@@ -37,7 +37,7 @@ import javafx.stage.Stage;
 public interface GuiFactory {
     Tile makeTile(Clazz clazz);
 
-    MenuController makeMenuController();
+    MenuActions makeMenuController();
 
     DiagramFactory makeDiagramFactory();
 

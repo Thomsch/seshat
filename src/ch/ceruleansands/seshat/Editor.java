@@ -1,9 +1,13 @@
 package ch.ceruleansands.seshat;
 
+import ch.ceruleansands.seshat.gui.DiagramTab;
 import ch.ceruleansands.seshat.gui.GuiFactory;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -12,13 +16,13 @@ import javafx.stage.Stage;
 /**
  * @author Thomsch.
  */
-public class Editor {
+public class Editor implements ChangeListener<Tab>{
 
     private final Stage stage;
     private final GuiFactory guiFactory;
     private final BorderPane root;
+    private final TabPane tabPane;
 
-    Diagram current = null;
     private Menu menuEdit;
     private MenuItem itemSave;
     private MenuItem itemLoad;
@@ -28,6 +32,10 @@ public class Editor {
         this.stage = stage;
         this.guiFactory = guiFactory;
         root = new BorderPane();
+        tabPane = new TabPane();
+
+        ReadOnlyObjectProperty<Tab> selectedItemProperty = tabPane.getSelectionModel().selectedItemProperty();
+        selectedItemProperty.addListener(this);
     }
 
     public void configure() {
@@ -38,21 +46,13 @@ public class Editor {
         MenuBar menus = makeMenu(this);
 //        ToolBar toolBar = makeToolbar();
 
-
 //        root.setRight(toolBar);
+        addJavaDiagram();
         root.setTop(menus);
+        root.setCenter(tabPane);
 
         stage.setScene(scene);
 //        stage.setMaximized(true);
-    }
-
-    public void addDiagram(Diagram diagram) {
-        current = diagram;
-
-        root.setCenter(diagram.getView());
-
-        // Customize editor for the current diagram.
-        diagram.config(menuEdit, itemSave, itemLoad);
     }
 
     /**
@@ -77,18 +77,41 @@ public class Editor {
 
         MenuItem itemJavaDiagram = new MenuItem("_New java diagram");
         itemJavaDiagram.setOnAction(event -> {
-            DiagramFactory diagramFactory = guiFactory.makeDiagramFactory();
-            JavaDiagram javaDiagram = diagramFactory.createJavaDiagram();
-            editor.addDiagram(javaDiagram);
+            addJavaDiagram();
         });
 
         menuFile.getItems().addAll(itemSave, itemLoad, itemJavaDiagram);
 
         menuEdit = new Menu("_Edit");
         Menu menuView = new Menu("Help");
-        Menu menuDebug = new Menu("Debug");
 
-        menuBar.getMenus().addAll(menuFile, menuEdit, menuView, menuDebug);
+        menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
         return menuBar;
+    }
+
+    private void addJavaDiagram() {
+        DiagramFactory diagramFactory = guiFactory.makeDiagramFactory();
+        JavaDiagram javaDiagram = diagramFactory.createJavaDiagram();
+
+        DiagramTab tab = new DiagramTab("Untilited diagram", javaDiagram);
+        tabPane.getTabs().add(tab);
+    }
+
+    @Override
+    public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+        System.out.println("New : " + newValue + ", Old: " + oldValue);
+
+        if(oldValue != null) {
+            DiagramTab oldDiagram = (DiagramTab) oldValue;
+            menuEdit.getItems().removeAll(oldDiagram.getEditItems());
+        }
+        DiagramTab newDiagram = (DiagramTab) newValue;
+
+        itemSave.setOnAction(newDiagram.getOnSaveAction());
+        menuEdit.getItems().addAll(newDiagram.getEditItems());
+    }
+
+
+    private class DiagramContext {
     }
 }
