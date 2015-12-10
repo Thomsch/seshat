@@ -64,4 +64,8 @@ class Controller {
             selectionManager.changeSelection(tile);
         }
     }
+
+    public EventHandler<ActionEvent> onNameChange(Clazz clazz, String name) {
+        return event -> clazz.setName(name);
+    }
 }

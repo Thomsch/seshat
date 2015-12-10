@@ -16,8 +16,11 @@ public class DiagramTab extends Tab{
     private final Diagram diagram;
 
     public DiagramTab(String tabTitle, Diagram diagram) {
-        super(tabTitle, diagram.getView());
+        super(null, diagram.getView());
         this.diagram = diagram;
+
+        EditableLabel label = new EditableLabel(tabTitle);
+        setGraphic(label);
     }
 
     public EventHandler<ActionEvent> getOnSaveAction() {

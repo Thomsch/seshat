@@ -102,10 +102,16 @@ public class Editor implements ChangeListener<Tab>{
         if(oldValue != null) {
             DiagramTab oldDiagram = (DiagramTab) oldValue;
             menuEdit.getItems().removeAll(oldDiagram.getEditItems());
+            itemSave.setDisable(true);
+            itemLoad.setDisable(true);
         }
-        DiagramTab newDiagram = (DiagramTab) newValue;
 
-        itemSave.setOnAction(newDiagram.getOnSaveAction());
-        menuEdit.getItems().addAll(newDiagram.getEditItems());
+        if(newValue != null) {
+            DiagramTab newDiagram = (DiagramTab) newValue;
+            menuEdit.getItems().addAll(newDiagram.getEditItems());
+            itemSave.setOnAction(newDiagram.getOnSaveAction());
+            itemSave.setDisable(false);
+            itemLoad.setDisable(false);
+        }
     }
 }

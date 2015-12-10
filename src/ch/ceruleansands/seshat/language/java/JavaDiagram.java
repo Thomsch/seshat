@@ -12,7 +12,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -68,11 +67,6 @@ public class JavaDiagram implements Diagram, ModelObserver {
     @Override
     public Model getModel() {
         return model;
-    }
-
-    @Override
-    public void config(Menu menuEdit, MenuItem itemSave, MenuItem itemLoad) {
-
     }
 
     @Override

@@ -45,9 +45,13 @@ public class Tile extends Group{
         model = clazz;
 
         model.addClazzObserver(view);
+
         view.setNewAttributeButtonAction(controller.newAttributeAction(clazz));
         view.setNewMethodButtonAction(controller.newMethodAction(clazz));
+        view.setNameChangeAction(controller.onNameChange(clazz, view.getName()));
         view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
+
+        view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
 
         this.controller = controller;
 

@@ -24,25 +24,26 @@
 
 package ch.ceruleansands.seshat.gui.tile;
 
+import ch.ceruleansands.seshat.ClazzObserver;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
-import ch.ceruleansands.seshat.language.java.ClazzObserver;
+import ch.ceruleansands.seshat.gui.EditableLabel;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+
+import java.util.Collection;
 
 /**
  * @author Thomsch
  */
 class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
-    private final TextField name;
+    private final EditableLabel name;
     private final VBox buttonBar;
     private final DragContext dragContext;
 
@@ -79,25 +80,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         setTranslateX(50);
         setTranslateY(50);
 
-        name = new TextField();
-        name.setPromptText("Unnamed class...");
-        name.setAlignment(Pos.CENTER);
-        name.setOnAction(event -> name.setEditable(false));
-        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                name.setStyle("-fx-background-color: transparent;");
-                name.setEditable(false);
-            }
-        });
-
-        name.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                name.setEditable(true);
-                name.setStyle("-fx-background-color: white;");
-                name.requestFocus();
-            }
-        });
-
+        name = new EditableLabel();
         name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
 
         setTop(name);
@@ -153,7 +136,6 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
     @Override
     public void onNameChanged(String oldName, String newName) {
-        name.setText(newName);
     }
 
     @Override
@@ -172,6 +154,20 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
     private void addMethodLabel(String method) {
         methods.add(method);
+    }
+
+    public String getName() {
+        return name.getText();
+    }
+
+    public void setNameChangeAction(EventHandler<ActionEvent> event) {
+        name.setNameChangeActionEvent(event);
+    }
+
+    public void populateFields(String name, Collection<String> attributes, Collection<String> methods) {
+        this.name.setDisplayText(name);
+        attributes.forEach(this::addAttributeLabel);
+        methods.forEach(this::addMethodLabel);
     }
 
     private static final class DragContext {

@@ -24,31 +24,13 @@
 
 package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.Module;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 /**
- * I don't know what this class does yet. Still very much a prototype.
- * @author Thomas Schweizer.
+ * @author Thomsch.
  */
-public class GuiLoader extends Application {
+public interface ClazzObserver {
+    void onNameChanged(String oldName, String newName);
 
-    private GuiFactory guiFactory;
+    void onNewAttribute(String attribute);
 
-    @Override
-    public void init() throws Exception {
-        Injector injector = Guice.createInjector(new Module());
-        guiFactory = injector.getInstance(GuiFactory.class);
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        Editor editor = guiFactory.makeEditor(stage);
-        editor.configure();
-        editor.show();
-    }
+    void onNewMethod(String method);
 }

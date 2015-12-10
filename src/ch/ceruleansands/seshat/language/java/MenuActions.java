@@ -40,9 +40,8 @@ import java.io.PrintWriter;
  */
 public class MenuActions {
 
-
     public EventHandler<ActionEvent> createNewClass(Model model) {
-        return event -> model.addClass(new Clazz());
+        return event -> model.addClass(new Clazz("Unnamed class..."));
     }
 
     public EventHandler<ActionEvent> save(Diagram diagram) {

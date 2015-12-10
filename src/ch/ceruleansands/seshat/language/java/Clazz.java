@@ -24,14 +24,20 @@
 
 package ch.ceruleansands.seshat.language.java;
 
+import ch.ceruleansands.seshat.ClazzObserver;
+import ch.ceruleansands.seshat.language.java.gui.JavaTile;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * Created by Thomsch.
+ * Represent a java class.
+ * @author Thomsch.
  */
 public class Clazz {
+
+    private JavaTile view;
 
     private String name;
     private Collection<String> attributes;
@@ -41,6 +47,7 @@ public class Clazz {
     public Clazz(String name, Collection<String> attributes, Collection<String> methods) {
         this.attributes = new ArrayList<>();
         this.methods = new ArrayList<>();
+        this.name = name;
         observers = new HashSet<>();
 
         if (attributes != null) {
@@ -54,6 +61,10 @@ public class Clazz {
 
     public Clazz() {
         this(null, null, null);
+    }
+
+    public Clazz(String name) {
+        this(name, null, null);
     }
 
     public void addAttribute(String attribute) {
@@ -70,6 +81,7 @@ public class Clazz {
         String oldName = this.name;
         this.name = name;
         observers.forEach(observer -> observer.onNameChanged(oldName, name));
+        System.out.println("new name: " + this.name);
     }
 
     public void addClazzObserver(ClazzObserver observer) {
