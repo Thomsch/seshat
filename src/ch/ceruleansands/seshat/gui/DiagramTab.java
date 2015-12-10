@@ -1,8 +1,6 @@
 package ch.ceruleansands.seshat.gui;
 
 import ch.ceruleansands.seshat.Diagram;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 
@@ -23,11 +21,11 @@ public class DiagramTab extends Tab{
         setGraphic(label);
     }
 
-    public EventHandler<ActionEvent> getOnSaveAction() {
-        return diagram.getOnSaveAction();
-    }
-
     public List<MenuItem> getEditItems() {
         return diagram.getEditItems();
+    }
+
+    public void save() {
+        diagram.save();
     }
 }

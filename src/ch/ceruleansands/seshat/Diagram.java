@@ -1,8 +1,5 @@
 package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.model.Model;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 
@@ -14,9 +11,7 @@ import java.util.List;
 public interface Diagram {
     Node getView();
 
-    @Deprecated Model getModel();
-
-    EventHandler<ActionEvent> getOnSaveAction();
+    void save();
 
     List<MenuItem> getEditItems();
 }

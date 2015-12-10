@@ -25,7 +25,7 @@
 package ch.ceruleansands.seshat.gui.tile;
 
 import ch.ceruleansands.seshat.gui.SelectionManager;
-import ch.ceruleansands.seshat.language.java.Clazz;
+import ch.ceruleansands.seshat.language.java.ClazzData;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,21 +36,22 @@ import javafx.event.EventHandler;
 class Controller {
 
     private final SelectionManager selectionManager;
+    private ClazzData model;
 
     @Inject
     public Controller(SelectionManager selectionManager) {
         this.selectionManager = selectionManager;
     }
 
-    public EventHandler<ActionEvent> newAttributeAction(Clazz clazz) {
+    public EventHandler<ActionEvent> newAttributeAction(ClazzData clazzData) {
         return event -> {
-            clazz.addAttribute("+ new attribute");
+            clazzData.addAttribute("+ new attribute");
         };
 
     }
 
-    public EventHandler<ActionEvent> newMethodAction(Clazz clazz) {
-        return event -> clazz.addMethod("+ new method");
+    public EventHandler<ActionEvent> newMethodAction(ClazzData clazzData) {
+        return event -> clazzData.addMethod("+ new method");
     }
 
     public void onSelection(boolean isControlDown, Tile tile) {
@@ -65,7 +66,15 @@ class Controller {
         }
     }
 
-    public EventHandler<ActionEvent> onNameChange(Clazz clazz, String name) {
-        return event -> clazz.setName(name);
+    public EventHandler<ActionEvent> onNameChange(ClazzData clazzData, String name) {
+        return event -> clazzData.setName(name);
+    }
+
+    public void onNameChange(String newName) {
+        model.setName(newName);
+    }
+
+    public void setModel(ClazzData model) {
+        this.model = model;
     }
 }

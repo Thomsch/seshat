@@ -27,17 +27,14 @@ package ch.ceruleansands.seshat.gui;
 import ch.ceruleansands.seshat.DiagramFactory;
 import ch.ceruleansands.seshat.Editor;
 import ch.ceruleansands.seshat.gui.tile.Tile;
-import ch.ceruleansands.seshat.language.java.Clazz;
-import ch.ceruleansands.seshat.language.java.MenuActions;
+import ch.ceruleansands.seshat.language.java.ClazzData;
 import javafx.stage.Stage;
 
 /**
  * @author Thomsch
  */
 public interface GuiFactory {
-    Tile makeTile(Clazz clazz);
-
-    MenuActions makeMenuController();
+    Tile makeTile(ClazzData clazzData);
 
     DiagramFactory makeDiagramFactory();
 

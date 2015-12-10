@@ -116,6 +116,12 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
                 });
         setFocusTraversable(true);
         name.requestFocus();
+
+        name.setNameChangeActionEvent(event -> onNameChanged());
+    }
+
+    private void onNameChanged() {
+        controller.onNameChange(name.getText());
     }
 
     public void setNewAttributeButtonAction(EventHandler<ActionEvent> value) {
@@ -136,6 +142,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
     @Override
     public void onNameChanged(String oldName, String newName) {
+        name.setDisplayText(newName);
     }
 
     @Override

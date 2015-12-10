@@ -3,13 +3,7 @@ package ch.ceruleansands.seshat.language.java;
 import ch.ceruleansands.seshat.Diagram;
 import ch.ceruleansands.seshat.gui.Background;
 import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
-import ch.ceruleansands.seshat.model.Model;
-import ch.ceruleansands.seshat.model.ModelObserver;
-import ch.ceruleansands.seshat.model.Models;
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
@@ -18,6 +12,10 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,65 +23,73 @@ import java.util.List;
  * Represents a java diagram.
  * @author Thomsch.
  */
-public class JavaDiagram implements Diagram, ModelObserver {
+public class JavaDiagram implements Diagram {
 
-    private Model model;
-    private Group elements;
     private GuiFactory guiFactory;
-    private final Pane diagramView;
-    private final MenuActions menuActions;
-    private EventHandler<ActionEvent> saveAction;
+    private final Pane view;
     private List<MenuItem> editActions;
+    private List<JavaTile> tiles;
 
     @Inject
-    public JavaDiagram(GuiFactory guiFactory, MenuActions menuActions) {
+    public JavaDiagram(GuiFactory guiFactory) {
         this.guiFactory = guiFactory;
-        this.menuActions = menuActions;
-        this.model = Models.createEmpty();
 
-        model.addObserver(this);
-
-        elements = new Group();
+        Group elements = new Group();
+        tiles = new ArrayList<>();
         Background background = new Background(elements);
-        diagramView = new Pane(background, elements);
+        view = new Pane(background, elements);
 
-        background.widthProperty().bind(diagramView.widthProperty());
-        background.heightProperty().bind(diagramView.heightProperty());
+        background.widthProperty().bind(view.widthProperty());
+        background.heightProperty().bind(view.heightProperty());
 
-        saveAction = menuActions.save(this);
         editActions = new ArrayList<>();
 
         MenuItem itemNewClass = new MenuItem("_New class");
         itemNewClass.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
-        itemNewClass.setOnAction(menuActions.createNewClass(model));
+        itemNewClass.setOnAction(event -> newClass());
         editActions.add(itemNewClass);
+    }
+
+    private void newClass() {
+        JavaTile tile = new JavaTile(guiFactory);
+        tiles.add(tile);
+        view.getChildren().add(tile.getView());
     }
 
     @Override
     public Node getView() {
-        return diagramView;
+        return view;
     }
 
     @Override
-    public Model getModel() {
-        return model;
-    }
+    public void save() {
+        File file = new File("test.ses");
+        try {
+            PrintWriter writer = new PrintWriter(file);
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Failed to create new file.");
+            }
 
-    @Override
-    public EventHandler<ActionEvent> getOnSaveAction() {
-        return saveAction;
+            tiles.forEach(tile -> {
+                writer.println(tile.getName());
+                tile.getAttributes().forEach(attribute -> {
+                    writer.println("    " + attribute);
+                });
+
+                tile.getMethods().forEach(method -> {
+                    writer.println("    " + method);
+                });
+            } );
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<MenuItem> getEditItems() {
         return editActions;
-    }
-
-
-    @Override
-    public void onNewClass(Clazz clazz) {
-        Tile tile = guiFactory.makeTile(clazz);
-
-        elements.getChildren().addAll(tile);
     }
 }

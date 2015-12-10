@@ -24,7 +24,7 @@
 
 package ch.ceruleansands.seshat.gui.tile;
 
-import ch.ceruleansands.seshat.language.java.Clazz;
+import ch.ceruleansands.seshat.language.java.ClazzData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.scene.Group;
@@ -35,20 +35,20 @@ import javafx.scene.input.MouseEvent;
  */
 public class Tile extends Group{
 
-    private final Clazz model;
+    private final ClazzData model;
     private Controller controller;
     private final View view;
 
     @Inject
-    public Tile(@Assisted Clazz clazz, Controller controller) {
+    public Tile(@Assisted ClazzData clazzData, Controller controller) {
         view = new View(controller);
-        model = clazz;
+        model = clazzData;
+        controller.setModel(clazzData);
 
         model.addClazzObserver(view);
 
-        view.setNewAttributeButtonAction(controller.newAttributeAction(clazz));
-        view.setNewMethodButtonAction(controller.newMethodAction(clazz));
-        view.setNameChangeAction(controller.onNameChange(clazz, view.getName()));
+        view.setNewAttributeButtonAction(controller.newAttributeAction(clazzData));
+        view.setNewMethodButtonAction(controller.newMethodAction(clazzData));
         view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
 
         view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
