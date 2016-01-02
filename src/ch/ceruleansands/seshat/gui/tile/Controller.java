@@ -66,10 +66,6 @@ class Controller {
         }
     }
 
-    public EventHandler<ActionEvent> onNameChange(ClazzData clazzData, String name) {
-        return event -> clazzData.setName(name);
-    }
-
     public void onNameChange(String newName) {
         model.setName(newName);
     }

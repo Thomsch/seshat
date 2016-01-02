@@ -22,40 +22,22 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
-import javafx.scene.Node;
-
-import java.util.Collection;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 
 /**
- * @author Thomsch
+ * @author Thomsch.
  */
-public class JavaTile {
-
-    private final Tile tile;
-    private final ClazzData clazzData;
-
-    public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
-        tile = guiFactory.makeTile(clazzData);
-    }
-
-    public Node getView() {
-        return tile.getView();
-    }
-
-    public String getName() {
-        return clazzData.getName();
-    }
-
-    public Collection<String> getAttributes() {
-        return clazzData.getAttributes();
-    }
-
-    public Collection<String> getMethods() {
-        return clazzData.getMethods();
+public class DialogHelper {
+    public void showInformation(String message) {
+        Dialog<Void> dialog = new Dialog<>();
+        ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(ok);
+        dialog.setContentText(message);
+        dialog.setTitle("Information");
+        dialog.showAndWait();
     }
 }

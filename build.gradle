@@ -25,6 +25,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
+mainClassName = "ch.ceruleansands.seshat.Seshat"
 
 sourceSets {
     main {
@@ -35,8 +36,14 @@ sourceSets {
             srcDir 'resource'
         }
     }
+
+    test {
+        java {
+            srcDir 'test'
+        }
+    }
 }
-mainClassName = "ch.ceruleansands.seshat.Seshat"
+
 
 repositories {
     //central maven repo
@@ -48,4 +55,8 @@ dependencies {
     compile 'com.google.inject:guice:3.0'
     compile 'com.google.inject.extensions:guice-assistedinject:3.0'
     compile 'javax.json:javax.json-api:1.0'
+    compile 'org.slf4j:slf4j-api:1.7.13'
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+
+    testCompile 'junit:junit:4.12'
 }

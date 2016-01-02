@@ -95,13 +95,6 @@ public class EditableLabel extends StackPane {
         getChildren().add(node);
     }
 
-    public void setText(String text) {
-        label.setText(text);
-
-        onNameChange.handle(new ActionEvent(label, label));
-        System.out.println("Name ? : " + label.getText());
-    }
-
     public String getText() {
         return label.getText();
     }

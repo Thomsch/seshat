@@ -1,7 +1,9 @@
 package ch.ceruleansands.seshat;
 
+import ch.ceruleansands.actionstream.ActionHistory;
 import ch.ceruleansands.seshat.gui.DiagramTab;
 import ch.ceruleansands.seshat.gui.GuiFactory;
+import ch.ceruleansands.seshat.language.java.DiagramBuilder;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -12,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 /**
  * @author Thomsch.
@@ -25,12 +29,13 @@ public class Editor implements ChangeListener<Tab>{
 
     private Menu menuEdit;
     private MenuItem itemSave;
-    private MenuItem itemLoad;
+    private final ActionHistory history;
 
     @Inject
-    public Editor(@Assisted Stage stage, GuiFactory guiFactory) {
+    public Editor(@Assisted Stage stage, GuiFactory guiFactory, ActionHistory history) {
         this.stage = stage;
         this.guiFactory = guiFactory;
+        this.history = history;
         root = new BorderPane();
         tabPane = new TabPane();
 
@@ -73,7 +78,7 @@ public class Editor implements ChangeListener<Tab>{
 
         itemSave = new MenuItem("_Save...");
 
-        itemLoad = new MenuItem("_Load...");
+        MenuItem itemLoad = new MenuItem("_Load...");
 
         MenuItem itemJavaDiagram = new MenuItem("_New java diagram");
         itemJavaDiagram.setOnAction(event -> {
@@ -83,18 +88,31 @@ public class Editor implements ChangeListener<Tab>{
         menuFile.getItems().addAll(itemSave, itemLoad, itemJavaDiagram);
 
         menuEdit = new Menu("_Edit");
+        MenuItem undo = new MenuItem("_Undo");
+        MenuItem redo = new MenuItem("_Redo");
+
+        undo.setOnAction(event -> history.undo());
+        redo.setOnAction(event -> history.redo());
+        menuEdit.getItems().addAll(undo, redo, new SeparatorMenuItem());
+
         Menu menuView = new Menu("Help");
 
         menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+
+        itemLoad.setOnAction(event -> DiagramLoader.load(editor));
+
         return menuBar;
     }
 
     private void addJavaDiagram() {
-        DiagramFactory diagramFactory = guiFactory.makeDiagramFactory();
-        JavaDiagram javaDiagram = diagramFactory.createJavaDiagram();
+        DiagramBuilder javaDiagramBuilder = guiFactory.getJavaDiagramBuilder();
+        JavaDiagram javaDiagram = javaDiagramBuilder.createEmpty();
 
-        DiagramTab tab = new DiagramTab("Untilited diagram", javaDiagram);
-        tabPane.getTabs().add(tab);
+        addDiagram(javaDiagram);
+    }
+
+    private void addDiagram(Diagram diagram) {
+        addDiagram(diagram, new File("Unsaved diagram"));
     }
 
     @Override
@@ -103,7 +121,6 @@ public class Editor implements ChangeListener<Tab>{
             DiagramTab oldDiagram = (DiagramTab) oldValue;
             menuEdit.getItems().removeAll(oldDiagram.getEditItems());
             itemSave.setDisable(true);
-            itemLoad.setDisable(true);
         }
 
         if(newValue != null) {
@@ -111,7 +128,11 @@ public class Editor implements ChangeListener<Tab>{
             menuEdit.getItems().addAll(newDiagram.getEditItems());
             itemSave.setOnAction(event -> newDiagram.save());
             itemSave.setDisable(false);
-            itemLoad.setDisable(false);
         }
+    }
+
+    public void addDiagram(Diagram diagram, File file) {
+        DiagramTab tab = new DiagramTab(file.getName(), diagram);
+        tabPane.getTabs().add(tab);
     }
 }

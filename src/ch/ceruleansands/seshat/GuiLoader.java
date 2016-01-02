@@ -25,7 +25,6 @@
 package ch.ceruleansands.seshat;
 
 import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.Module;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;

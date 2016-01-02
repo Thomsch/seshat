@@ -24,10 +24,10 @@
 
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.DiagramFactory;
 import ch.ceruleansands.seshat.Editor;
 import ch.ceruleansands.seshat.gui.tile.Tile;
 import ch.ceruleansands.seshat.language.java.ClazzData;
+import ch.ceruleansands.seshat.language.java.DiagramBuilder;
 import javafx.stage.Stage;
 
 /**
@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 public interface GuiFactory {
     Tile makeTile(ClazzData clazzData);
 
-    DiagramFactory makeDiagramFactory();
+    DiagramBuilder getJavaDiagramBuilder();
 
     Editor makeEditor(Stage stage);
 }

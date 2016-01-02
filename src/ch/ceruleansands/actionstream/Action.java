@@ -22,17 +22,14 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
+package ch.ceruleansands.actionstream;
 
 /**
- * @author Thomas Schweizer.
+ * @author Thomsch.
  */
-public class Module extends AbstractModule {
-    @Override
-    protected void configure() {
-        install(new FactoryModuleBuilder().build(GuiFactory.class));
-    }
+public interface Action {
+
+    void execute();
+
+    void revert();
 }

@@ -27,13 +27,12 @@ package ch.ceruleansands.seshat.gui.tile;
 import ch.ceruleansands.seshat.language.java.ClazzData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 
 /**
  * Created by Thomsch.
  */
-public class Tile extends Group{
+public class Tile {
 
     private final ClazzData model;
     private Controller controller;
@@ -54,11 +53,13 @@ public class Tile extends Group{
         view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
 
         this.controller = controller;
-
-        getChildren().add(view);
     }
 
     public void setSelected(boolean selected) {
         view.setSelected(selected);
+    }
+
+    public View getView() {
+        return view;
     }
 }

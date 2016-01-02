@@ -24,38 +24,30 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
-import javafx.scene.Node;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import java.util.Collection;
+import java.io.File;
 
 /**
- * @author Thomsch
+ * Builds java diagrams.
+ * @author Thomsch.
  */
-public class JavaTile {
+public class DiagramBuilder {
 
-    private final Tile tile;
-    private final ClazzData clazzData;
+    Provider<JavaDiagram> diagramProvider;
 
-    public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
-        tile = guiFactory.makeTile(clazzData);
+    @Inject
+    public DiagramBuilder(Provider<JavaDiagram> diagramProvider) {
+        this.diagramProvider = diagramProvider;
     }
 
-    public Node getView() {
-        return tile.getView();
+    public JavaDiagram createEmpty() {
+        return diagramProvider.get();
     }
 
-    public String getName() {
-        return clazzData.getName();
-    }
-
-    public Collection<String> getAttributes() {
-        return clazzData.getAttributes();
-    }
-
-    public Collection<String> getMethods() {
-        return clazzData.getMethods();
+    public JavaDiagram createFromFile(File file) {
+        JavaDiagram javaDiagram = diagramProvider.get();
+        return javaDiagram;
     }
 }

@@ -44,7 +44,6 @@ import java.util.Collection;
 class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
     private final EditableLabel name;
-    private final VBox buttonBar;
     private final DragContext dragContext;
 
     private final Controller controller;
@@ -60,7 +59,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
     public View(Controller controller) {
         this.controller = controller;
 
-        buttonBar = new VBox();
+        VBox buttonBar = new VBox();
         features = new VBox();
         attributes = new SimpleFeatureGroup();
         methods = new SimpleFeatureGroup();
@@ -161,14 +160,6 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
     private void addMethodLabel(String method) {
         methods.add(method);
-    }
-
-    public String getName() {
-        return name.getText();
-    }
-
-    public void setNameChangeAction(EventHandler<ActionEvent> event) {
-        name.setNameChangeActionEvent(event);
     }
 
     public void populateFields(String name, Collection<String> attributes, Collection<String> methods) {

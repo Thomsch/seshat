@@ -22,40 +22,18 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
-import javafx.scene.Node;
-
-import java.util.Collection;
+import java.io.File;
 
 /**
- * @author Thomsch
+ * @author Thomsch.
  */
-public class JavaTile {
+public class DiagramLoader {
+    public static void load(Editor editor) {
 
-    private final Tile tile;
-    private final ClazzData clazzData;
-
-    public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
-        tile = guiFactory.makeTile(clazzData);
-    }
-
-    public Node getView() {
-        return tile.getView();
-    }
-
-    public String getName() {
-        return clazzData.getName();
-    }
-
-    public Collection<String> getAttributes() {
-        return clazzData.getAttributes();
-    }
-
-    public Collection<String> getMethods() {
-        return clazzData.getMethods();
+        Diagram diagram = null;
+        File file = null;
+        editor.addDiagram(diagram, file);
     }
 }

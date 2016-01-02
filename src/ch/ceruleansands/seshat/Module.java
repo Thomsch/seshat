@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,40 +22,32 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat;
 
+import ch.ceruleansands.actionstream.ActionHistory;
 import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
-import javafx.scene.Node;
-
-import java.util.Collection;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * @author Thomsch
+ * @author Thomas Schweizer.
  */
-public class JavaTile {
+public class Module extends AbstractModule {
 
-    private final Tile tile;
-    private final ClazzData clazzData;
+    private ActionHistory actionHistory;
 
-    public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
-        tile = guiFactory.makeTile(clazzData);
+    @Override
+
+    protected void configure() {
+        install(new FactoryModuleBuilder().build(GuiFactory.class));
+
+        actionHistory = new ActionHistory(20);
     }
 
-    public Node getView() {
-        return tile.getView();
-    }
 
-    public String getName() {
-        return clazzData.getName();
-    }
-
-    public Collection<String> getAttributes() {
-        return clazzData.getAttributes();
-    }
-
-    public Collection<String> getMethods() {
-        return clazzData.getMethods();
+    @Provides
+    public ActionHistory provideHistory() {
+        return actionHistory;
     }
 }
