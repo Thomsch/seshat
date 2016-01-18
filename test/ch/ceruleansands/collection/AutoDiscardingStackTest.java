@@ -146,4 +146,18 @@ public class AutoDiscardingStackTest {
         assertEquals(null, stack.pop());
         assertEquals(null, stack.pop());
     }
+
+    @Test
+    public void emptyProperty_ShouldHaveTheSameValue() throws Exception {
+        AutoDiscardingStack<Integer> stack = new AutoDiscardingStack<>(2);
+
+        assertTrue(stack.emptyProperty().get());
+        assertEquals(stack.isEmpty(), stack.emptyProperty().get());
+        stack.push(1);
+        assertFalse(stack.emptyProperty().get());
+        assertEquals(stack.isEmpty(), stack.emptyProperty().get());
+        stack.pop();
+        assertTrue(stack.emptyProperty().get());
+        assertEquals(stack.isEmpty(), stack.emptyProperty().get());
+    }
 }

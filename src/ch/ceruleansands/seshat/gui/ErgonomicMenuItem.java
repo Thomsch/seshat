@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,39 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.gui.TabManager;
-
-import java.io.File;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCombination;
 
 /**
- * @author Thomsch.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
+public abstract class ErgonomicMenuItem {
 
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
+    private MenuItem menuItem;
+
+    public abstract String getTitle();
+
+    public abstract KeyCombination getAccelerator();
+
+    public abstract EventHandler<ActionEvent> getAction();
+
+    public ObservableValue<? extends Boolean> disableProperty() {
+        return new SimpleBooleanProperty(false);
+    }
+
+    public MenuItem getAsMenuItem() {
+        if(menuItem == null) {
+            menuItem = new MenuItem(getTitle());
+            menuItem.setAccelerator(getAccelerator());
+            menuItem.setOnAction(getAction());
+            menuItem.disableProperty().bind(disableProperty());
+        }
+        return menuItem;
     }
 }

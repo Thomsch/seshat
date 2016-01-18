@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,20 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.java.action;
 
-import ch.ceruleansands.seshat.gui.TabManager;
+import ch.ceruleansands.seshat.language.java.JavaTile;
+import javafx.scene.Group;
 
-import java.io.File;
+import java.util.Collection;
 
 /**
- * @author Thomsch.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
+public interface ActionFactory {
+    NewClass makeNewClass(Collection<JavaTile> tiles, Group elements);
 
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
-    }
+    RevertibleNewClass makeRevertibleNewClass(Collection<JavaTile> tiles, Group elements);
+
+    NewDiagram makeNewDiagram();
 }

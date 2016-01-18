@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,43 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language;
 
-import ch.ceruleansands.seshat.gui.TabManager;
+import ch.ceruleansands.seshat.Language;
+import ch.ceruleansands.seshat.language.java.Java;
+import ch.ceruleansands.seshat.language.violet.Violet;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-import java.io.File;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
- * @author Thomsch.
+ * Temporary class that is initializing statically the languages available for the editor
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
+@Singleton
+public class StaticOmniscientInitializer implements LanguageInitializer {
 
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
+    private final Set<Language> languages;
+    private final Java java;
+    private final Violet violet;
+
+    @Inject
+    public StaticOmniscientInitializer(Java java, Violet violet) {
+        this.java = java;
+        this.violet = violet;
+        languages = new LinkedHashSet<>();
+    }
+
+    @Override
+    public void loadLanguages() {
+        languages.add(java);
+        languages.add(violet);
+    }
+
+    @Override
+    public Set<Language> getLanguages() {
+        return languages;
     }
 }

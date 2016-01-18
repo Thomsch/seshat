@@ -24,6 +24,9 @@
 
 package ch.ceruleansands.collection;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -38,6 +41,8 @@ public class AutoDiscardingStack<T> {
     private final long size;
     private final Deque<T> items;
 
+    private final SimpleBooleanProperty emptyProperty;
+
     /**
      * Creates a new instance with the given fixed size.
      * @param size maximum size of the stack.
@@ -49,6 +54,7 @@ public class AutoDiscardingStack<T> {
             throw new IllegalArgumentException("Can't have an empty stack");
         }
         this.items = new ArrayDeque<>();
+        this.emptyProperty = new SimpleBooleanProperty(true);
     }
 
     /**
@@ -64,6 +70,7 @@ public class AutoDiscardingStack<T> {
             items.removeFirst();
         }
         items.offerLast(item);
+        updateEmptyProperty();
     }
 
     /**
@@ -71,7 +78,9 @@ public class AutoDiscardingStack<T> {
      * @return the top of the stack, null if this stack is empty
      */
     public T pop() {
-        return items.pollLast();
+        T item = items.pollLast();
+        updateEmptyProperty();
+        return item;
     }
 
     /**
@@ -87,6 +96,7 @@ public class AutoDiscardingStack<T> {
      */
     public void clear() {
         items.clear();
+        updateEmptyProperty();
     }
 
     /**
@@ -105,8 +115,20 @@ public class AutoDiscardingStack<T> {
         return size;
     }
 
+    /**
+     * Observable property to know if the stack is empty.
+     * @return the empty property
+     */
+    public BooleanProperty emptyProperty() {
+        return emptyProperty;
+    }
+
     @Override
     public String toString() {
         return items.toString();
+    }
+
+    private void updateEmptyProperty() {
+        emptyProperty.set(items.isEmpty());
     }
 }

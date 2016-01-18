@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,39 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.action;
 
-import ch.ceruleansands.seshat.gui.TabManager;
-
-import java.io.File;
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
 /**
- * @author Thomsch.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
+public class Load extends ErgonomicMenuItem {
 
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
+    @Override
+    public String getTitle() {
+        return "_Load...";
+    }
+
+    @Override
+    public KeyCombination getAccelerator() {
+        return new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
+    }
+
+    @Override
+    public EventHandler<ActionEvent> getAction() {
+        return event -> {};
+    }
+
+    @Override
+    public ObservableValue<? extends Boolean> disableProperty() {
+        return new ReadOnlyBooleanWrapper(true);
     }
 }

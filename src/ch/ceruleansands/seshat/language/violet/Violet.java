@@ -22,37 +22,42 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.violet;
 
-import ch.ceruleansands.actionstream.ActionHistory;
-import ch.ceruleansands.seshat.action.ActionFactory;
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.language.LanguageInitializer;
-import ch.ceruleansands.seshat.language.StaticOmniscientInitializer;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
+import ch.ceruleansands.seshat.Language;
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCombination;
 
 /**
- * @author Thomas Schweizer.
+ * Test language to test the the editor.
+ * @author Thomsch
  */
-public class Module extends AbstractModule {
-
-    private ActionHistory actionHistory;
-
+public class Violet implements Language {
     @Override
+    public ErgonomicMenuItem getNewDiagramAction() {
+        return new ErgonomicMenuItem() {
+            @Override
+            public String getTitle() {
+                return "_New violet diagram";
+            }
 
-    protected void configure() {
-        install(new FactoryModuleBuilder().build(GuiFactory.class));
-        install(new FactoryModuleBuilder().build(ActionFactory.class));
+            @Override
+            public KeyCombination getAccelerator() {
+                return null;
+            }
 
-        bind(LanguageInitializer.class).to(StaticOmniscientInitializer.class);
-        actionHistory = new ActionHistory(20);
-    }
-
-
-    @Provides
-    public ActionHistory provideHistory() {
-        return actionHistory;
+            @Override
+            public EventHandler<ActionEvent> getAction() {
+                return event -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText("I'm a test");
+                    alert.showAndWait();
+                };
+            }
+        };
     }
 }

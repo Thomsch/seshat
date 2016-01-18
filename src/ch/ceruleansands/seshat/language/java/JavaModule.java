@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,18 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.gui.TabManager;
-
-import java.io.File;
+import ch.ceruleansands.seshat.language.java.action.ActionFactory;
+import com.google.inject.AbstractModule;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /**
- * @author Thomsch.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
-
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
+public class JavaModule extends AbstractModule {
+    @Override
+    protected void configure() {
+        install(new FactoryModuleBuilder().build(ActionFactory.class));
     }
 }

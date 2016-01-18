@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,28 @@
 
 package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.gui.TabManager;
-
-import java.io.File;
+import ch.ceruleansands.seshat.gui.MenuProxy;
+import ch.ceruleansands.seshat.language.LanguageInitializer;
+import com.google.inject.Inject;
 
 /**
- * @author Thomsch.
+ * Handles operations related to language's modules.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
+public class LanguageHandler {
 
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
+    private final LanguageInitializer languageInitializer;
+
+    @Inject
+    public LanguageHandler(LanguageInitializer languageInitializer) {
+        this.languageInitializer = languageInitializer;
+    }
+
+    /**
+     * Adds menu items for each language installed to create a new diagram.
+     * @param menu The menu where to add the menu items.
+     */
+    public void addNewDiagramOnMenu(MenuProxy menu) {
+        languageInitializer.getLanguages().forEach(language -> menu.addFileItem(language.getNewDiagramAction()));
     }
 }

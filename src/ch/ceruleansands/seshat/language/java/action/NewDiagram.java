@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,43 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.java.action;
 
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.gui.TabManager;
-
-import java.io.File;
+import ch.ceruleansands.seshat.language.java.DiagramBuilder;
+import com.google.inject.Inject;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
 /**
- * @author Thomsch.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
+public class NewDiagram extends ErgonomicMenuItem {
+    private final TabManager tabManager;
+    private final DiagramBuilder builder;
 
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
+    @Inject
+    public NewDiagram(TabManager tabManager, DiagramBuilder builder) {
+        this.tabManager = tabManager;
+        this.builder = builder;
+    }
+
+    @Override
+    public String getTitle() {
+        return "_New java diagram";
+    }
+
+    @Override
+    public KeyCombination getAccelerator() {
+        return new KeyCodeCombination(KeyCode.J, KeyCodeCombination.CONTROL_DOWN);
+    }
+
+    @Override
+    public EventHandler<ActionEvent> getAction() {
+        return event -> tabManager.addDiagram(builder.createEmpty());
     }
 }

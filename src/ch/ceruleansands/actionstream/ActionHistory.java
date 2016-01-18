@@ -26,6 +26,8 @@ package ch.ceruleansands.actionstream;
 
 import ch.ceruleansands.collection.AutoDiscardingStack;
 import com.google.inject.Inject;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,8 @@ public class ActionHistory {
     private final AutoDiscardingStack<Action> actions;
     private final Stack<Action> rewindedActions;
 
+    private final BooleanProperty rewindAvailable;
+
     /**
      * Creates a new instance with a given maximum length.
      * @param size the length of the history we went to be able to trace.
@@ -53,6 +57,7 @@ public class ActionHistory {
     public ActionHistory(int size) {
         this.actions = new AutoDiscardingStack<>(size);
         this.rewindedActions = new Stack<>();
+        this.rewindAvailable = new SimpleBooleanProperty(false);
     }
 
     /**
@@ -64,6 +69,7 @@ public class ActionHistory {
         Objects.requireNonNull(action);
         executeAndStoreAction(action);
         rewindedActions.clear();
+        updateRewindAvailableProperty();
     }
 
     /**
@@ -73,6 +79,7 @@ public class ActionHistory {
     public void add(Action action) {
         actions.push(action);
         rewindedActions.clear();
+        updateRewindAvailableProperty();
     }
 
     /**
@@ -82,6 +89,7 @@ public class ActionHistory {
         if (!rewindedActions.empty()) {
             Action toRedo = rewindedActions.pop();
             executeAndStoreAction(toRedo);
+            updateRewindAvailableProperty();
         }
     }
 
@@ -94,10 +102,19 @@ public class ActionHistory {
             try {
                 lastAction.revert();
                 rewindedActions.push(lastAction);
+                updateRewindAvailableProperty();
             } catch (Throwable t) {
                 logger.error("The action {} threw an unhandled exception while being reverted. It won't be saved on the action's stack.", lastAction);
             }
         }
+    }
+
+    public BooleanProperty redoAvailableProperty() {
+        return rewindAvailable;
+    }
+
+    public BooleanProperty undoNotAvailableProperty() {
+        return actions.emptyProperty();
     }
 
     private void executeAndStoreAction(Action action) {
@@ -107,5 +124,9 @@ public class ActionHistory {
         } catch (Throwable t) {
             logger.error("The action {} threw an unhandled exception while being executed. It won't be saved on the action's stack.", action);
         }
+    }
+
+    private void updateRewindAvailableProperty() {
+        rewindAvailable.set(!rewindedActions.empty());
     }
 }

@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat;
 
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import javafx.scene.Node;
-import javafx.scene.control.MenuItem;
 
 import java.io.File;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface Diagram {
     Node getView();
 
-    List<MenuItem> getEditItems();
+    List<ErgonomicMenuItem> getEditItems();
 
     /**
      * Saves the diagram on the disk.

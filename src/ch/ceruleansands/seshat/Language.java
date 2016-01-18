@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,16 @@
 
 package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.gui.TabManager;
-
-import java.io.File;
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 
 /**
- * @author Thomsch.
+ * Defines what a language class should offer for each language's package.
+ * @author Thomsch
  */
-public class DiagramLoader {
-    public static void load(TabManager editor) {
-
-        Diagram diagram = null;
-        File file = null;
-        editor.addDiagram(diagram, file);
-    }
+public interface Language {
+    /**
+     * Return a menu item allowing the creation of a new diagram for this language.
+     * @return The menu item allowing to create the new diagram.
+     */
+    ErgonomicMenuItem getNewDiagramAction();
 }

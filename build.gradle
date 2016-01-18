@@ -51,9 +51,8 @@ repositories {
 }
 
 dependencies {
-    //dependencies from a remote repository
-    compile 'com.google.inject:guice:3.0'
-    compile 'com.google.inject.extensions:guice-assistedinject:3.0'
+    compile 'com.google.inject:guice:4.0'
+    compile 'com.google.inject.extensions:guice-assistedinject:4.0'
     compile 'javax.json:javax.json-api:1.0'
     compile 'org.slf4j:slf4j-api:1.7.13'
     compile 'ch.qos.logback:logback-classic:1.1.3'

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,42 +22,50 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat.language.java.action;
 
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
+import ch.ceruleansands.actionstream.Action;
+import ch.ceruleansands.seshat.language.java.JavaTile;
 import com.google.inject.Inject;
-import javafx.scene.Node;
+import com.google.inject.assistedinject.Assisted;
+import javafx.scene.Group;
 
 import java.util.Collection;
 
 /**
  * @author Thomsch
  */
-public class JavaTile {
+public class RevertibleNewClass implements Action {
+    private Collection<JavaTile> tiles;
+    private final Group elements;
+    private final JavaTile tile;
 
-    private final Tile tile;
-    private final ClazzData clazzData;
-
+    /**
+     * Creates a new instance of a newClassAction.
+     *
+     * @param tiles    The list of tiles currently on the model.
+     * @param elements The GUI element containing the tiles.
+     */
     @Inject
-    public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
-        tile = guiFactory.makeTile(clazzData);
+    public RevertibleNewClass(@Assisted Collection<JavaTile> tiles, @Assisted Group elements, JavaTile tile) {
+        this.tiles = tiles;
+        this.elements = elements;
+        this.tile = tile;
     }
 
-    public Node getView() {
-        return tile.getView();
+    @Override
+    public void execute() {
+        try {
+            tiles.add(tile);
+            elements.getChildren().add(tile.getView());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public String getName() {
-        return clazzData.getName();
-    }
-
-    public Collection<String> getAttributes() {
-        return clazzData.getAttributes();
-    }
-
-    public Collection<String> getMethods() {
-        return clazzData.getMethods();
+    @Override
+    public void revert() {
+        tiles.remove(tile);
+        elements.getChildren().remove(tile.getView());
     }
 }
