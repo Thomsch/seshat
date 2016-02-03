@@ -44,6 +44,11 @@ public abstract class ErgonomicMenuItem {
 
     public abstract EventHandler<ActionEvent> getAction();
 
+    /**
+     * The property indicating if this menu item should be disabled or not.
+     * By default, the menu item is not disabled.
+     * @return the property indicating whether it should be disabled
+     */
     public ObservableValue<? extends Boolean> disableProperty() {
         return new SimpleBooleanProperty(false);
     }

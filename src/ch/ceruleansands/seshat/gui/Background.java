@@ -24,65 +24,19 @@
 
 package ch.ceruleansands.seshat.gui;
 
-import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Thomsch.
+ * Paints
+ * @author Thomsch
  */
 public class Background extends Canvas {
 
-    private double xshift = 0;
-    private double yshift = 0;
-    private double xori = 0;
-    private double yori = 0;
+    private final int gridSize = 30;
 
-    private int gridSize = 30;
-
-    private double xdraginit;
-    private double ydraginit;
-
-    public Background(Group group) {
-        widthProperty().addListener(evt -> {
-            draw(xori, yori);
-        });
-        heightProperty().addListener(evt -> {
-            draw(xori, yori);
-        });
-
-        setOnMouseDragged(event -> {
-            xshift = xdraginit - event.getX();
-            yshift = ydraginit - event.getY();
-
-            double tx = -(xori + xshift);
-            double ty = -(yori + yshift);
-
-            draw(tx, ty);
-            group.setTranslateX(tx);
-            group.setTranslateY(ty);
-
-            event.consume();
-        });
-
-        setOnMousePressed(event -> {
-            xdraginit = event.getX();
-            ydraginit = event.getY();
-            event.consume();
-        });
-
-        setOnMouseReleased(event -> {
-            xori += xshift;
-            yori += yshift;
-            event.consume();
-        });
-
-        Origin origin = new Origin();
-        group.getChildren().addAll(origin);
-    }
-
-    private void draw(double tx, double ty) {
+    public void draw(double tx, double ty) {
         double width = getWidth();
         double height = getHeight();
 

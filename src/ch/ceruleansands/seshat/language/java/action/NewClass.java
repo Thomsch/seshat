@@ -26,37 +26,29 @@ package ch.ceruleansands.seshat.language.java.action;
 
 import ch.ceruleansands.actionstream.ActionHistory;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
-import ch.ceruleansands.seshat.language.java.JavaTile;
+import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-
-import java.util.Collection;
 
 /**
  * @author Thomsch
  */
 public class NewClass extends ErgonomicMenuItem {
-    private Collection<JavaTile> tiles;
-    private final Group elements;
+    private final JavaDiagram javaDiagram;
     private final ActionHistory history;
     private final ActionFactory actionFactory;
 
     /**
      * Creates a new instance of a newClassAction.
-     *
-     * @param tiles    The list of tiles currently on the model.
-     * @param elements The GUI element containing the tiles.
      */
     @Inject
-    public NewClass(@Assisted Collection<JavaTile> tiles, @Assisted Group elements, ActionHistory history, ActionFactory actionFactory) {
-        this.tiles = tiles;
-        this.elements = elements;
+    public NewClass(@Assisted JavaDiagram javaDiagram, ActionHistory history, ActionFactory actionFactory) {
+        this.javaDiagram = javaDiagram;
         this.history = history;
         this.actionFactory = actionFactory;
     }
@@ -74,7 +66,7 @@ public class NewClass extends ErgonomicMenuItem {
     @Override
     public EventHandler<ActionEvent> getAction() {
         return event -> {
-            RevertibleNewClass revertibleNewClass = actionFactory.makeRevertibleNewClass(tiles, elements);
+            RevertibleNewClass revertibleNewClass = actionFactory.makeRevertibleNewClass(javaDiagram);
             history.forward(revertibleNewClass);
         };
     }

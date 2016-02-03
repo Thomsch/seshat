@@ -83,8 +83,6 @@ public class EditableLabel extends StackPane {
     }
 
     private void toLabel() {
-        System.out.println("label.getText() = " + label.getText());
-        System.out.println("textField.getText() = " + textField.getText());
         label.setText(textField.getText());
         replaceNode(label);
         onNameChange.handle(new ActionEvent(label, label));

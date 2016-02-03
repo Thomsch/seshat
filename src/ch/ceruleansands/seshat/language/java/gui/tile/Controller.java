@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui.tile;
+package ch.ceruleansands.seshat.language.java.gui.tile;
 
 import ch.ceruleansands.seshat.gui.SelectionManager;
 import ch.ceruleansands.seshat.language.java.ClazzData;
@@ -54,7 +54,7 @@ class Controller {
         return event -> clazzData.addMethod("+ new method");
     }
 
-    public void onSelection(boolean isControlDown, Tile tile) {
+    public void onSelection(boolean isControlDown, OldTile tile) {
         if(isControlDown) {
             if(selectionManager.isTileSelected(tile)) {
                 selectionManager.removeFromSelection(tile);

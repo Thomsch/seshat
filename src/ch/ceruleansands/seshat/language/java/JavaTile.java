@@ -25,24 +25,38 @@
 package ch.ceruleansands.seshat.language.java;
 
 import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.gui.tile.Tile;
+import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
+import ch.ceruleansands.seshat.tilediagram.Relation;
+import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 
 import java.util.Collection;
 
 /**
  * @author Thomsch
  */
-public class JavaTile {
+public class JavaTile implements Tile{
 
-    private final Tile tile;
+    private final OldTile tile;
     private final ClazzData clazzData;
 
     @Inject
     public JavaTile(GuiFactory guiFactory) {
         clazzData = new ClazzData("Undefined class");
         tile = guiFactory.makeTile(clazzData);
+
+        Node node = tile.getView();
+        ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
+        node.setOnMouseClicked(event -> {
+            if(event.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(node, event.getScreenX(), event.getScreenY());
+                event.consume();
+            }
+        });
     }
 
     public Node getView() {
@@ -59,5 +73,15 @@ public class JavaTile {
 
     public Collection<String> getMethods() {
         return clazzData.getMethods();
+    }
+
+    @Override
+    public Node getNode() {
+        return getView();
+    }
+
+    @Override
+    public Relation getRelation() {
+        return null;
     }
 }

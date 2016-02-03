@@ -24,7 +24,7 @@
 
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.gui.tile.Tile;
+import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
 import com.google.inject.Singleton;
 
 import java.util.*;
@@ -36,24 +36,24 @@ import java.util.*;
 @Singleton
 public class SelectionManager {
 
-    Set<Tile> selected;
+    Set<OldTile> selected;
 
     public SelectionManager() {
         selected = new HashSet<>();
     }
 
-    public Collection<Tile> getSelected() {
+    public Collection<OldTile> getSelected() {
         return new HashSet<>(selected);
     }
 
-    public void changeSelection(Tile ... newSelection) {
+    public void changeSelection(OldTile... newSelection) {
         this.selected.forEach(s -> s.setSelected(false));
         this.selected.clear();
         Collections.addAll(this.selected, newSelection);
         this.selected.forEach(s -> s.setSelected(true));
     }
 
-    public void addToSelection(Tile ... newTiles) {
+    public void addToSelection(OldTile... newTiles) {
         Collections.addAll(this.selected, newTiles);
         Arrays.asList(newTiles).forEach(tile ->  tile.setSelected(true));
     }
@@ -63,7 +63,7 @@ public class SelectionManager {
      * @param tile The tile checked.
      * @return True if it's selected. False otherwise.
      */
-    public boolean isTileSelected(Tile tile) {
+    public boolean isTileSelected(OldTile tile) {
         return selected.contains(tile);
     }
 
@@ -71,8 +71,8 @@ public class SelectionManager {
      * Removes tiles from selection.
      * @param tiles The tiles to remove from the selection.
      */
-    public void removeFromSelection(Tile ... tiles) {
-        List<Tile> tileList = Arrays.asList(tiles);
+    public void removeFromSelection(OldTile... tiles) {
+        List<OldTile> tileList = Arrays.asList(tiles);
         selected.removeAll(tileList);
         tileList.forEach(tile -> tile.setSelected(false));
     }

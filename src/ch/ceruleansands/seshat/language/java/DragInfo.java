@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,34 +22,26 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.language.java;
 
 /**
- * @author Thomas Schweizer.
+ * @author Thomsch
  */
-public class Parameter {
+class DragInfo {
+    private double xdraginit;
+    private double ydraginit;
+    private boolean dragged;
 
-    private String name;
-    private Type type;
-
-    public Parameter(Type type, String name) {
-        this.type = type;
-        this.name = name;
+    public void setInit(double x, double y) {
+        xdraginit = x;
+        ydraginit = y;
     }
 
-    public Type getType() {
-        return type;
+    public void setDragged(double currentX, double currentY) {
+        dragged = !(xdraginit == currentX && ydraginit == currentY);
     }
 
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public boolean isDragged() {
+        return dragged;
     }
 }

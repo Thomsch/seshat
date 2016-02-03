@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.gui.tile;
+package ch.ceruleansands.seshat.language.java.gui.tile;
 
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,44 +22,47 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui.tile;
+package ch.ceruleansands.seshat.language.java.action;
 
-import ch.ceruleansands.seshat.language.java.ClazzData;
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
+import ch.ceruleansands.seshat.language.java.JavaDiagram;
+import ch.ceruleansands.seshat.language.java.TileBuilder;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import javafx.scene.input.MouseEvent;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
 /**
- * Created by Thomsch.
+ * @author Thomsch
  */
-public class Tile {
+public class TestTile extends ErgonomicMenuItem {
 
-    private final ClazzData model;
-    private Controller controller;
-    private final View view;
+    private final JavaDiagram javaDiagram;
+    private final TileBuilder tileBuilder;
 
     @Inject
-    public Tile(@Assisted ClazzData clazzData, Controller controller) {
-        view = new View(controller);
-        model = clazzData;
-        controller.setModel(clazzData);
-
-        model.addClazzObserver(view);
-
-        view.setNewAttributeButtonAction(controller.newAttributeAction(clazzData));
-        view.setNewMethodButtonAction(controller.newMethodAction(clazzData));
-        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
-
-        view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
-
-        this.controller = controller;
+    public TestTile(@Assisted JavaDiagram javaDiagram, TileBuilder tileBuilder) {
+        this.javaDiagram = javaDiagram;
+        this.tileBuilder = tileBuilder;
     }
 
-    public void setSelected(boolean selected) {
-        view.setSelected(selected);
+    @Override
+    public String getTitle() {
+        return "_Test tile";
     }
 
-    public View getView() {
-        return view;
+    @Override
+    public KeyCombination getAccelerator() {
+        return new KeyCodeCombination(KeyCode.T, KeyCombination.CONTROL_DOWN);
+    }
+
+    @Override
+    public EventHandler<ActionEvent> getAction() {
+        return event ->  {
+            ch.ceruleansands.seshat.language.java.TestTile tile = tileBuilder.makeEmptyTile();
+            javaDiagram.addTile(tile);};
     }
 }

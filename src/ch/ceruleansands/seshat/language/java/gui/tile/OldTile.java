@@ -22,42 +22,44 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.language.java.gui.tile;
 
-import java.util.List;
+import ch.ceruleansands.seshat.language.java.ClazzData;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import javafx.scene.input.MouseEvent;
 
 /**
- * @author Thomas Schweizer.
+ * Created by Thomsch.
  */
-public class Method {
+public class OldTile {
 
-    private String name;
+    private final ClazzData model;
+    private Controller controller;
+    private final View view;
 
-    private List<Parameter> parameters;
+    @Inject
+    public OldTile(@Assisted ClazzData clazzData, Controller controller) {
+        view = new View(controller);
+        model = clazzData;
+        controller.setModel(clazzData);
 
-    private Type returnType;
+        model.addClazzObserver(view);
 
-    public String getName() {
-        return name;
+        view.setNewAttributeButtonAction(controller.newAttributeAction(clazzData));
+        view.setNewMethodButtonAction(controller.newMethodAction(clazzData));
+        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
+
+        view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
+
+        this.controller = controller;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSelected(boolean selected) {
+        view.setSelected(selected);
     }
 
-    public List<Parameter> getParameters() {
-        return parameters;
-    }
-
-    public void setParameters(List<Parameter> parameters) {
-        this.parameters = parameters;
-    }
-
-    public Type getReturnType() {
-        return returnType;
-    }
-
-    public void setReturnType(Type returnType) {
-        this.returnType = returnType;
+    public View getView() {
+        return view;
     }
 }

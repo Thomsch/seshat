@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui.tile;
+package ch.ceruleansands.seshat.language.java.gui.tile;
 
 import ch.ceruleansands.seshat.ClazzObserver;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
@@ -74,10 +74,10 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         buttonBar.getChildren().addAll(newAttribute, newMethod);
 
         dragContext = new DragContext();
-        setId("tile");
+        setId("javatile");
 
-        setTranslateX(50);
-        setTranslateY(50);
+        setLayoutX(50);
+        setLayoutY(50);
 
         name = new EditableLabel();
         name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
@@ -90,10 +90,6 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
         setPrefSize(200, 200);
 
-        addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-            requestFocus();
-        });
-
         name.addEventFilter(MouseEvent.MOUSE_PRESSED,
                 mouseEvent -> {
                     // remember initial mouse cursor coordinates
@@ -102,6 +98,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
                     dragContext.mouseAnchorY = mouseEvent.getScreenY();
                     dragContext.initialTranslateX = getTranslateX();
                     dragContext.initialTranslateY = getTranslateY();
+                    mouseEvent.consume();
                 });
 
         name.addEventFilter(MouseEvent.MOUSE_DRAGGED,
@@ -112,6 +109,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
                             + mouseEvent.getScreenX() - dragContext.mouseAnchorX);
                     setTranslateY(dragContext.initialTranslateY
                             + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
+                    mouseEvent.consume();
                 });
         setFocusTraversable(true);
         name.requestFocus();

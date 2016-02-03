@@ -24,18 +24,17 @@
 
 package ch.ceruleansands.seshat.language.java.action;
 
-import ch.ceruleansands.seshat.language.java.JavaTile;
-import javafx.scene.Group;
-
-import java.util.Collection;
+import ch.ceruleansands.seshat.language.java.JavaDiagram;
 
 /**
  * @author Thomsch
  */
 public interface ActionFactory {
-    NewClass makeNewClass(Collection<JavaTile> tiles, Group elements);
+    NewClass makeNewClass(JavaDiagram javaDiagram);
 
-    RevertibleNewClass makeRevertibleNewClass(Collection<JavaTile> tiles, Group elements);
+    RevertibleNewClass makeRevertibleNewClass(JavaDiagram javaDiagram);
 
     NewDiagram makeNewDiagram();
+
+    TestTile makeTestTile(JavaDiagram javaDiagram);
 }

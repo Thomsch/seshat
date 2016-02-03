@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,44 +22,25 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.tilediagram;
+
+import javafx.scene.Node;
 
 /**
- * @author Thomas Schweizer.
+ * Represents a tile for the application.
+ * @author Thomsch
  */
-public class Attribute {
+public interface Tile {
 
-    private Visibility visibility;
-    private Type type;
-    private String name;
+    /**
+     * Returns the javafx node associated with the tile.
+     * @return the javafx node
+     */
+    Node getNode();
 
-    public Attribute(Visibility visibility, Type type, String name) {
-        this.visibility = visibility;
-        this.type = type;
-        this.name = name;
-    }
-
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    /**
+     * Return the relations associated with this Tile.
+     * @return the relations attached to this tile
+     */
+    Relation getRelation();
 }

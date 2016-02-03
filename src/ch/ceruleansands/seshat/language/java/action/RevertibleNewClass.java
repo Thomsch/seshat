@@ -25,39 +25,31 @@
 package ch.ceruleansands.seshat.language.java.action;
 
 import ch.ceruleansands.actionstream.Action;
+import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import javafx.scene.Group;
-
-import java.util.Collection;
 
 /**
  * @author Thomsch
  */
 public class RevertibleNewClass implements Action {
-    private Collection<JavaTile> tiles;
-    private final Group elements;
+    private final JavaDiagram diagram;
     private final JavaTile tile;
 
     /**
      * Creates a new instance of a newClassAction.
-     *
-     * @param tiles    The list of tiles currently on the model.
-     * @param elements The GUI element containing the tiles.
      */
     @Inject
-    public RevertibleNewClass(@Assisted Collection<JavaTile> tiles, @Assisted Group elements, JavaTile tile) {
-        this.tiles = tiles;
-        this.elements = elements;
+    public RevertibleNewClass(@Assisted JavaDiagram diagram, JavaTile tile) {
+        this.diagram = diagram;
         this.tile = tile;
     }
 
     @Override
     public void execute() {
         try {
-            tiles.add(tile);
-            elements.getChildren().add(tile.getView());
+            diagram.addTile(tile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +57,6 @@ public class RevertibleNewClass implements Action {
 
     @Override
     public void revert() {
-        tiles.remove(tile);
-        elements.getChildren().remove(tile.getView());
+        diagram.removeTile(tile);
     }
 }

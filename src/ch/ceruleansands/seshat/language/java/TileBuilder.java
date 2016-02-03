@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,15 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.model;
+package ch.ceruleansands.seshat.language.java;
 
 /**
- * @author Thomas Schweizer.
+ * Builds tiles.
+ * @author Thomsch
  */
-public class ClazzMethod extends Method{
+public class TileBuilder {
 
-    private Visibility visibility;
-
-    public Visibility getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
+    public TestTile makeEmptyTile() {
+        return new TestTile();
     }
 }

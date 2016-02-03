@@ -25,15 +25,15 @@
 package ch.ceruleansands.seshat.gui;
 
 import ch.ceruleansands.seshat.Editor;
-import ch.ceruleansands.seshat.gui.tile.Tile;
 import ch.ceruleansands.seshat.language.java.ClazzData;
+import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
 import javafx.stage.Stage;
 
 /**
  * @author Thomsch
  */
 public interface GuiFactory {
-    Tile makeTile(ClazzData clazzData);
+    OldTile makeTile(ClazzData clazzData);
 
     Editor makeEditor(Stage stage);
 }
