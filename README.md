@@ -1,4 +1,5 @@
 # Seshat
+Currently WIP and prototyping. Don't be scared by the design and comments ! (yet)
 ## Why ?
 Seeing the lack of good quality free and open-source diagram editor on the Internet, something had to be done. This is why we develop Seshat.
 
