@@ -40,4 +40,14 @@ public class DialogHelper {
         dialog.setTitle("Information");
         dialog.showAndWait();
     }
+
+    public void showError(String message, String description) {
+        Dialog<Void> dialog = new Dialog<>();
+        ButtonType ok = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().add(ok);
+        dialog.setHeaderText(message);
+        dialog.setContentText(description);
+        dialog.setTitle("Error");
+        dialog.showAndWait();
+    }
 }

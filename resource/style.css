@@ -31,7 +31,7 @@
 }
 
 #javatile:selected{
-    -fx-effect: dropshadow(gaussian, red, 3, 3, 0, 0)
+    -fx-effect: dropshadow(gaussian, yellow, 3, 3, 0, 0)
 }
 
 #a:selected{

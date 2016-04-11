@@ -53,6 +53,7 @@ public class JavaTile implements Tile{
         ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
         node.setOnMouseClicked(event -> {
             if(event.getButton() == MouseButton.SECONDARY) {
+                System.out.println("B");
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
                 event.consume();
             }

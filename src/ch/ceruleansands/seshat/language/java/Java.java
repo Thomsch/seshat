@@ -27,7 +27,9 @@ package ch.ceruleansands.seshat.language.java;
 import ch.ceruleansands.seshat.Language;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.language.java.action.ActionFactory;
+import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
  * Provides integration with the editor.
@@ -36,14 +38,26 @@ import com.google.inject.Inject;
 public class Java implements Language {
 
     private final ActionFactory actionFactory;
+    private Provider<DiagramBuilder> diagramBuilderProvider;
 
     @Inject
-    public Java(ActionFactory actionFactory) {
+    public Java(ActionFactory actionFactory, Provider<DiagramBuilder> diagramBuilderProvider) {
         this.actionFactory = actionFactory;
+        this.diagramBuilderProvider = diagramBuilderProvider;
+    }
+
+    @Override
+    public String getName() {
+        return "Java";
     }
 
     @Override
     public ErgonomicMenuItem getNewDiagramAction() {
         return actionFactory.makeNewDiagram();
+    }
+
+    @Override
+    public LanguageDiagramLoader getLanguageDiagramLoader() {
+        return diagramBuilderProvider.get();
     }
 }

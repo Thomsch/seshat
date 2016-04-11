@@ -84,14 +84,12 @@ public class JavaDiagram implements Diagram {
 
         view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                System.out.println("p");
                 translationTracker.init(event.getX(), event.getY());
             }
         });
 
         view.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                System.out.println("d");
                 translationTracker.update(event.getX(), event.getY());
 
                 double tx = translationTracker.getAbsoluteXTranslation();
@@ -105,7 +103,6 @@ public class JavaDiagram implements Diagram {
 
         view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
-                System.out.println("e");
                 translationTracker.end();
             }
         });
@@ -130,7 +127,9 @@ public class JavaDiagram implements Diagram {
         view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             contextMenu.hide();
             if(event.getButton() == MouseButton.SECONDARY & !dragInfo.isDragged()) {
+                System.out.println("A");
                 contextMenu.show(view ,event.getScreenX(), event.getScreenY());
+                event.consume();
             }
         });
 
