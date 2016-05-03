@@ -38,12 +38,12 @@ import com.google.inject.Provider;
 public class Java implements Language {
 
     private final ActionFactory actionFactory;
-    private Provider<DiagramBuilder> diagramBuilderProvider;
+    private Provider<DiagramLoader> diagramLoaderProvider;
 
     @Inject
-    public Java(ActionFactory actionFactory, Provider<DiagramBuilder> diagramBuilderProvider) {
+    public Java(ActionFactory actionFactory, Provider<DiagramLoader> diagramLoaderProvider) {
         this.actionFactory = actionFactory;
-        this.diagramBuilderProvider = diagramBuilderProvider;
+        this.diagramLoaderProvider = diagramLoaderProvider;
     }
 
     @Override
@@ -58,6 +58,6 @@ public class Java implements Language {
 
     @Override
     public LanguageDiagramLoader getLanguageDiagramLoader() {
-        return diagramBuilderProvider.get();
+        return diagramLoaderProvider.get();
     }
 }

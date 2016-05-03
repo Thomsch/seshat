@@ -27,6 +27,7 @@ package ch.ceruleansands.seshat.loader;
 import ch.ceruleansands.seshat.Diagram;
 import ch.ceruleansands.seshat.LanguageHandler;
 import ch.ceruleansands.seshat.language.LanguageException;
+import ch.ceruleansands.seshat.language.java.SaveFormatException;
 import ch.ceruleansands.seshat.loader.header.Header;
 import ch.ceruleansands.seshat.loader.header.HeaderException;
 import ch.ceruleansands.seshat.loader.header.HeaderReader;
@@ -81,15 +82,15 @@ public class DiagramLoader {
      * @throws IOException when the file cannot be closed after reading
      * @throws HeaderException when the header of the file is incorrect
      * @throws LanguageException when the diagram's language is not loaded into the editor
+     * @throws SaveFormatException when the diagram is saved in an incorrect or not recognized format
      */
-    public Diagram loadDiagramFromFile(File file) throws FileNotFoundException, IOException, HeaderException, LanguageException {
+    public Diagram loadDiagramFromFile(File file) throws FileNotFoundException, IOException, HeaderException, LanguageException, SaveFormatException {
         try (BufferedReader bufferedReader = Files.newReader(file, Charset.forName("utf-8"))) {
             Header header = headerReader.read(bufferedReader);
 
             if (languageHandler.isLanguageLoaded(header.getLanguageText())) {
                 LanguageDiagramLoader diagramLoader = languageHandler.getDiagramLoaderForLanguage(header.getLanguageText());
                 return diagramLoader.loadFromBuffer(bufferedReader);
-
             } else {
                 throw LanguageException.languageNotLoaded(header.getLanguageText());
             }

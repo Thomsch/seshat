@@ -24,24 +24,22 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Diagram;
-import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.io.BufferedReader;
 import java.io.File;
 
 /**
  * Builds java diagrams.
  * @author Thomsch.
  */
-public class DiagramBuilder implements LanguageDiagramLoader {
+public class DiagramBuilder {
 
-    Provider<JavaDiagram> diagramProvider;
+    private final Provider<JavaDiagram> diagramProvider;
+
 
     @Inject
-    public DiagramBuilder(Provider<JavaDiagram> diagramProvider) {
+    public DiagramBuilder(Provider<JavaDiagram> diagramProvider, ParserLoader parserLoader) {
         this.diagramProvider = diagramProvider;
     }
 
@@ -59,10 +57,5 @@ public class DiagramBuilder implements LanguageDiagramLoader {
         diagram.installContextMenu();
         diagram.makeDraggable();
         return diagram;
-    }
-
-    @Override
-    public Diagram loadFromBuffer(BufferedReader bufferedReader) {
-        return createEmpty();
     }
 }

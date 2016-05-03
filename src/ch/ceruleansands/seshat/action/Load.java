@@ -29,6 +29,7 @@ import ch.ceruleansands.seshat.gui.DialogHelper;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.gui.TabManager;
 import ch.ceruleansands.seshat.language.LanguageException;
+import ch.ceruleansands.seshat.language.java.SaveFormatException;
 import ch.ceruleansands.seshat.loader.DiagramLoader;
 import ch.ceruleansands.seshat.loader.header.HeaderException;
 import com.google.inject.Inject;
@@ -92,6 +93,8 @@ public class Load extends ErgonomicMenuItem {
                     dialogHelper.showError("The target language is not loaded", e.getMessage());
                 } catch (IOException e) {
                     dialogHelper.showError("Failed to close the file", e.getMessage());
+                } catch (SaveFormatException e) {
+                    dialogHelper.showError("The format for this language is incorrect", e.getMessage());
                 }
             });
         };
