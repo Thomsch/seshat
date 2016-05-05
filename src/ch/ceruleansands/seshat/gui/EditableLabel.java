@@ -37,7 +37,6 @@ import javafx.scene.layout.StackPane;
  * @author Thomsch.
  */
 public class EditableLabel extends StackPane {
-
     private final Label label;
     private final TextField textField;
     private EventHandler<ActionEvent> onNameChange = event -> {};

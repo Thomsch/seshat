@@ -38,10 +38,10 @@ import com.google.inject.Provider;
 public class Java implements Language {
 
     private final ActionFactory actionFactory;
-    private Provider<DiagramLoader> diagramLoaderProvider;
+    private Provider<SAXLoader> diagramLoaderProvider;
 
     @Inject
-    public Java(ActionFactory actionFactory, Provider<DiagramLoader> diagramLoaderProvider) {
+    public Java(ActionFactory actionFactory, Provider<SAXLoader> diagramLoaderProvider) {
         this.actionFactory = actionFactory;
         this.diagramLoaderProvider = diagramLoaderProvider;
     }

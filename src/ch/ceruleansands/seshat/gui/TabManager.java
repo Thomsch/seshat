@@ -59,13 +59,14 @@ public class TabManager implements ChangeListener<Tab> {
     }
 
     /**
-     * Adds an existing diagram to this editor.
+     * Adds an existing diagram to this editor and selects it.
      * @param diagram the diagram
      * @param file it's location
      */
     public void addDiagram(Diagram diagram, File file) {
         DiagramTab tab = new DiagramTab(file.getName(), diagram, menuProxy);
         tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
     }
 
     /**

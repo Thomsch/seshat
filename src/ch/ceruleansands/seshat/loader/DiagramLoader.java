@@ -72,10 +72,8 @@ public class DiagramLoader {
     /**
      * Load a diagram from a file.
      * The format is the following:
-     * - Seshat Project
-     * - Last modified
-     * - Language
-     * - Language specific
+     * - {@link Header}
+     * - Diagram content
      * @param file The file to read
      * @return The diagram ready to be used.
      * @throws FileNotFoundException when the <code>file</code> provided doesn't exist at the location

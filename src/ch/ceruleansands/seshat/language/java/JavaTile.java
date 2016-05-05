@@ -68,6 +68,10 @@ public class JavaTile implements Tile{
         return clazzData.getName();
     }
 
+    public void setName(String name) {
+        clazzData.setName(name);
+    }
+
     public Collection<String> getAttributes() {
         return clazzData.getAttributes();
     }
