@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * @author Thomsch
  */
-public class DiagramLoaderTest {
+public class SAXLoaderTest {
     @Test
     public void loadDiagramFromFile_Should() throws Exception {
 

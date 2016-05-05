@@ -74,14 +74,11 @@ public class Load extends ErgonomicMenuItem {
 
     @Override
     public EventHandler<ActionEvent> getAction() {
-
         return event -> {
 
             Optional<File> optFile = diagramLoader.loadFileFromDisk(tabManager.getTabPane().getScene().getWindow());
-
             optFile.ifPresent(file -> {
                 System.out.println("Converting \"" + file.getName() + "\" at " + file.getAbsolutePath());
-
                 try {
                     Diagram diagram = diagramLoader.loadDiagramFromFile(file);
                     tabManager.addDiagram(diagram, file);
@@ -95,6 +92,7 @@ public class Load extends ErgonomicMenuItem {
                     dialogHelper.showError("Failed to close the file", e.getMessage());
                 } catch (SaveFormatException e) {
                     dialogHelper.showError("The format for this language is incorrect", e.getMessage());
+                    e.printStackTrace();
                 }
             });
         };

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,31 +24,9 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
 /**
- * Builds java diagrams.
- * @author Thomsch.
+ * The model for a relation in a java diagram.
+ * @author Thomsch
  */
-public class DiagramBuilder {
-
-    private final Provider<JavaDiagram> diagramProvider;
-
-
-    @Inject
-    public DiagramBuilder(Provider<JavaDiagram> diagramProvider) {
-        this.diagramProvider = diagramProvider;
-    }
-
-    public JavaDiagram createEmpty() {
-        return configureDiagram(diagramProvider.get());
-    }
-
-    private JavaDiagram configureDiagram(JavaDiagram diagram) {
-//        diagram.installSelector(new SelectionBox());
-        diagram.installContextMenu();
-        diagram.makeDraggable();
-        return diagram;
-    }
+public class JavaRelationModel {
 }

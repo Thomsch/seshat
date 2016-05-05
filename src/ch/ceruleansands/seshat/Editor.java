@@ -57,7 +57,6 @@ public class Editor {
 
         stage.setScene(scene);
 //        stage.setMaximized(true);
-        tabManager.addDiagram(diagramBuilder.createEmpty());
     }
 
     /**

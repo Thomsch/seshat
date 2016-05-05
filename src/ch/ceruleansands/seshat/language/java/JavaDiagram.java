@@ -9,6 +9,7 @@ import ch.ceruleansands.seshat.language.java.action.ActionFactory;
 import ch.ceruleansands.seshat.language.java.action.NewClass;
 import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import javafx.css.PseudoClass;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -38,13 +39,15 @@ public class JavaDiagram implements Diagram {
     private final Group movingElements;
     private final Group tiles;
     private final Group relations;
+    private final Provider<JavaTile> javaTileProvider;
 
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
 
     @Inject
-    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory) {
+    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<JavaTile> javaTileProvider) {
         this.exporter = exporter;
+        this.javaTileProvider = javaTileProvider;
 
         Origin origin = new Origin();
         tiles = new Group();
@@ -189,10 +192,6 @@ public class JavaDiagram implements Diagram {
         removeElement(tiles, tile.getNode());
     }
 
-    public void addRelation(Object relation) {
-
-    }
-
     public void addElement(Group group, Node node) {
         group.getChildren().add(node);
     }
@@ -201,4 +200,23 @@ public class JavaDiagram implements Diagram {
         group.getChildren().removeAll(node);
     }
 
+    /**
+     * Adds a new tile to the diagram from a model.
+     * @param model the model from which data will be displayed
+     */
+    public void addTile(JavaTileModel model) {
+        JavaTile tile = javaTileProvider.get();
+        tile.setName(model.getName());
+        tile.getNode().setTranslateX(model.getGraphic().x);
+        tile.getNode().setTranslateY(model.getGraphic().y);
+        addTile(tile);
+    }
+
+    /**
+     * Adds a new relation to the diagram from a model
+     * @param relation the model from which data will be displayed
+     */
+    public void addRelation(JavaRelationModel relation) {
+
+    }
 }

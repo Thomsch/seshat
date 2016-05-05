@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,31 +24,36 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import ch.ceruleansands.seshat.Graphic;
 
 /**
- * Builds java diagrams.
- * @author Thomsch.
+ * The model for a tile in a java diagram.
+ * @author Thomsch
  */
-public class DiagramBuilder {
+public class JavaTileModel {
+    private final String id;
+    private String name;
+    private final Graphic graphic;
 
-    private final Provider<JavaDiagram> diagramProvider;
-
-
-    @Inject
-    public DiagramBuilder(Provider<JavaDiagram> diagramProvider) {
-        this.diagramProvider = diagramProvider;
+    public JavaTileModel(String id, String name, Graphic graphic) {
+        this.id = id;
+        this.name = name;
+        this.graphic = graphic;
     }
 
-    public JavaDiagram createEmpty() {
-        return configureDiagram(diagramProvider.get());
+    public String getName() {
+        return name;
     }
 
-    private JavaDiagram configureDiagram(JavaDiagram diagram) {
-//        diagram.installSelector(new SelectionBox());
-        diagram.installContextMenu();
-        diagram.makeDraggable();
-        return diagram;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Graphic getGraphic() {
+        return graphic;
     }
 }
