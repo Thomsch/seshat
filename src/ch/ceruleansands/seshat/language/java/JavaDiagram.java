@@ -138,17 +138,17 @@ public class JavaDiagram implements Diagram {
     public void installSelector(SelectionBox selectionBox) {
         view.getChildren().addAll(selectionBox);
 
-        view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if(event.isPrimaryButtonDown()) {
                 selectionBox.setStart(event.getX(), event.getY());
             }
         });
-        view.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if(event.isPrimaryButtonDown()) {
                 selectionBox.setEnd(event.getX(), event.getY());
             }
         });
-        view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
             if(event.getButton() == MouseButton.PRIMARY) {
                 tiles.getChildren().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false));
                 List<Node> selected = selectionBox.release(tiles.getChildren());
