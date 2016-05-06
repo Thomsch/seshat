@@ -98,16 +98,10 @@ public class SelectionBox extends Group{
      * @param children the node eligible for selection
      */
     public List<Node> release(ObservableList<Node> children) {
-        System.out.println("getLayoutBounds() = " + getLayoutBounds());
-        System.out.println("getBoundsInLocal() = " + getBoundsInLocal());
-        System.out.println("getBoundsInParent() = " + getBoundsInParent());
-//        setVisible(false);
-        return children.parallelStream().filter(node -> {
-            System.out.println("node.getLayoutBounds() = " + node.getLayoutBounds());
-            System.out.println("node.getBoundsInLocal() = " + node.getBoundsInLocal());
-            System.out.println("node.getBoundsInParent() = " + node.getBoundsInParent());
-            return getLayoutBounds().contains(node.getBoundsInParent()) || getLayoutBounds().intersects(node.getBoundsInParent());
-        }).collect(Collectors.toList());
+        setVisible(false);
+        return children.parallelStream()
+                .filter(node -> getLayoutBounds().contains(node.getBoundsInParent()) || getLayoutBounds().intersects(node.getBoundsInParent()))
+                .collect(Collectors.toList());
     }
 
     /**
