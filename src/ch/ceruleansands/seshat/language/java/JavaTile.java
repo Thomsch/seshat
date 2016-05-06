@@ -32,7 +32,8 @@ import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Collection;
 
@@ -50,13 +51,20 @@ public class JavaTile implements Tile{
         clazzData = new ClazzData("Undefined class");
         tile = guiFactory.makeTile(clazzData);
 
+        installContextMenu();
+    }
+
+    public void installContextMenu() {
         Node node = tile.getView();
         ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
-        node.setOnMouseClicked(event -> {
-            if(event.getButton() == MouseButton.SECONDARY) {
-                contextMenu.show(node, event.getScreenX(), event.getScreenY());
-                event.consume();
-            }
+        contextMenu.setAutoHide(true);
+
+        node.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, event -> {
+            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+        node.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            contextMenu.hide();
         });
     }
 

@@ -15,6 +15,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -125,23 +126,12 @@ public class JavaDiagram implements Diagram {
         ContextMenu contextMenu = new ContextMenu(menuItems.toArray(new MenuItem[menuItems.size()]));
         contextMenu.setAutoHide(true);
 
-        DragInfo dragInfo = new DragInfo();
-
-        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+        view.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, event -> {
+            contextMenu.show(view, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+        view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             contextMenu.hide();
-            if(event.getButton() == MouseButton.SECONDARY & !dragInfo.isDragged()) {
-                System.out.println("A");
-                contextMenu.show(view ,event.getScreenX(), event.getScreenY());
-                event.consume();
-            }
-        });
-
-        view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            dragInfo.setInit(event.getX(), event.getY());
-        });
-
-        view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
-            dragInfo.setDragged(event.getX(), event.getY());
         });
     }
 
