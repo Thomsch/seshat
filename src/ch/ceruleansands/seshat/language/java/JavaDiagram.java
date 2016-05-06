@@ -44,11 +44,13 @@ public class JavaDiagram implements Diagram {
 
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
+    private TranslationTracker translationTracker;
 
     @Inject
     public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<JavaTile> javaTileProvider) {
         this.exporter = exporter;
         this.javaTileProvider = javaTileProvider;
+        translationTracker = new TranslationTracker();
 
         Origin origin = new Origin();
         tiles = new Group();
@@ -84,15 +86,13 @@ public class JavaDiagram implements Diagram {
     }
 
     public void makeDraggable() {
-        TranslationTracker translationTracker = new TranslationTracker();
-
-        view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.init(event.getX(), event.getY());
             }
         });
 
-        view.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.update(event.getX(), event.getY());
 
@@ -105,7 +105,7 @@ public class JavaDiagram implements Diagram {
             }
         });
 
-        view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.end();
             }
@@ -151,11 +151,10 @@ public class JavaDiagram implements Diagram {
         view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
             if(event.getButton() == MouseButton.PRIMARY) {
                 tiles.getChildren().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false));
-                List<Node> selected = selectionBox.release(tiles.getChildren());
+                List<Node> selected = selectionBox.release(tiles.getChildren(), movingElements);
                 selected.stream().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), true));
             }
         });
-
         selectionBox.toFront();
     }
 

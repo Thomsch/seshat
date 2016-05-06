@@ -96,11 +96,12 @@ public class SelectionBox extends Group{
      * The current implementation is not optimal and you can notice a slow when a lot of node are passed (for me, around 100'000).
      * Considering the amount of nodes the user need to create in order to notice a slow, I'll leave it like that.
      * @param children the node eligible for selection
+     * @param movingElements referential for bounds transformation
      */
-    public List<Node> release(ObservableList<Node> children) {
+    public List<Node> release(ObservableList<Node> children, Group movingElements) {
         setVisible(false);
         return children.parallelStream()
-                .filter(node -> getLayoutBounds().contains(node.getBoundsInParent()) || getLayoutBounds().intersects(node.getBoundsInParent()))
+                .filter(node -> movingElements.parentToLocal(getLayoutBounds()).contains(node.getBoundsInParent()) || movingElements.parentToLocal(getLayoutBounds()).intersects(node.getBoundsInParent()))
                 .collect(Collectors.toList());
     }
 

@@ -115,6 +115,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
                             + mouseEvent.getScreenX() - dragContext.mouseAnchorX);
                     setTranslateY(dragContext.initialTranslateY
                             + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
+
                     mouseEvent.consume();
                 });
     }
