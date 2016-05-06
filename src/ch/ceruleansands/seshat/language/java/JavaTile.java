@@ -37,6 +37,7 @@ import javafx.scene.input.MouseButton;
 import java.util.Collection;
 
 /**
+ * Represents a java tile on the diagram
  * @author Thomsch
  */
 public class JavaTile implements Tile{
@@ -53,15 +54,10 @@ public class JavaTile implements Tile{
         ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
         node.setOnMouseClicked(event -> {
             if(event.getButton() == MouseButton.SECONDARY) {
-                System.out.println("B");
                 contextMenu.show(node, event.getScreenX(), event.getScreenY());
                 event.consume();
             }
         });
-    }
-
-    public Node getView() {
-        return tile.getView();
     }
 
     public String getName() {
@@ -82,7 +78,7 @@ public class JavaTile implements Tile{
 
     @Override
     public Node getNode() {
-        return getView();
+        return tile.getView();
     }
 
     @Override

@@ -50,8 +50,8 @@ public class ExporterImpl implements Exporter {
 
                 tiles.forEach(tile -> {
                     writer.println(tile.getName());
-                    writer.println(tile.getView().getTranslateX());
-                    writer.println(tile.getView().getTranslateY());
+                    writer.println(tile.getNode().getTranslateX());
+                    writer.println(tile.getNode().getTranslateY());
 
                     tile.getAttributes().forEach(attribute -> {
                         writer.println("    " + attribute);

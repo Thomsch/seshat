@@ -84,8 +84,6 @@ public class SelectionBox extends Group{
      * @param y the y coordinate
      */
     public void setEnd(double x, double y) {
-
-        System.out.println("x = " + x + "," + y);
         top.setEndX(top.getStartX() + (x - top.getStartX()));
         left.setEndY(left.getStartY() + (y - left.getStartY()));
 
@@ -100,8 +98,16 @@ public class SelectionBox extends Group{
      * @param children the node eligible for selection
      */
     public List<Node> release(ObservableList<Node> children) {
-        setVisible(false);
-        return children.parallelStream().filter(node -> getLayoutBounds().contains(node.getLayoutBounds()) || getLayoutBounds().intersects(node.getLayoutBounds())).collect(Collectors.toList());
+        System.out.println("getLayoutBounds() = " + getLayoutBounds());
+        System.out.println("getBoundsInLocal() = " + getBoundsInLocal());
+        System.out.println("getBoundsInParent() = " + getBoundsInParent());
+//        setVisible(false);
+        return children.parallelStream().filter(node -> {
+            System.out.println("node.getLayoutBounds() = " + node.getLayoutBounds());
+            System.out.println("node.getBoundsInLocal() = " + node.getBoundsInLocal());
+            System.out.println("node.getBoundsInParent() = " + node.getBoundsInParent());
+            return getLayoutBounds().contains(node.getBoundsInParent()) || getLayoutBounds().intersects(node.getBoundsInParent());
+        }).collect(Collectors.toList());
     }
 
     /**
