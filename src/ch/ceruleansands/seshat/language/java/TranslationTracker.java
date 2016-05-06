@@ -27,7 +27,7 @@ package ch.ceruleansands.seshat.language.java;
 /**
  * Represents the amount of x and y translation from the origin point (0,0).
  */
-class TranslationTracker {
+public class TranslationTracker {
 
     // The translation difference from the initial dragging point.
     private double xShift = 0;

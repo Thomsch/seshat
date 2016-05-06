@@ -30,7 +30,6 @@ import ch.ceruleansands.seshat.gui.EditableLabel;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -69,8 +68,6 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
         newMethod.setPrefWidth(28);
         newAttribute.setPrefWidth(28);
-        newAttribute.setOnMouseEntered(useDefaultCursor(newAttribute));
-        newMethod.setOnMouseEntered(useDefaultCursor(newMethod));
         buttonBar.getChildren().addAll(newAttribute, newMethod);
 
         dragContext = new DragContext();
@@ -80,17 +77,26 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         setLayoutY(50);
 
         name = new EditableLabel();
-        name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
+//        name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
 
+//        setCenter(name);
         setTop(name);
-        setCenter(features);
-        setRight(buttonBar);
+//        setCenter(features);
+//        setRight(buttonBar);
 
         features.getChildren().addAll(attributes, methods);
 
-        setPrefSize(200, 200);
+        setPrefSize(100, 100);
 
-        name.addEventFilter(MouseEvent.MOUSE_PRESSED,
+
+        setFocusTraversable(true);
+        name.requestFocus();
+        name.setNameChangeActionEvent(event -> onNameChanged());
+        makeDraggable();
+    }
+
+    private void makeDraggable() {
+        addEventHandler(MouseEvent.MOUSE_PRESSED,
                 mouseEvent -> {
                     // remember initial mouse cursor coordinates
                     // and node position
@@ -101,7 +107,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
                     mouseEvent.consume();
                 });
 
-        name.addEventFilter(MouseEvent.MOUSE_DRAGGED,
+        addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 mouseEvent -> {
                     // shift node from its initial position by delta
                     // calculated from mouse cursor movement
@@ -109,12 +115,9 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
                             + mouseEvent.getScreenX() - dragContext.mouseAnchorX);
                     setTranslateY(dragContext.initialTranslateY
                             + mouseEvent.getScreenY() - dragContext.mouseAnchorY);
+
                     mouseEvent.consume();
                 });
-        setFocusTraversable(true);
-        name.requestFocus();
-
-        name.setNameChangeActionEvent(event -> onNameChanged());
     }
 
     private void onNameChanged() {
@@ -127,10 +130,6 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
     public void setNewMethodButtonAction(EventHandler<ActionEvent> value) {
         newMethod.setOnAction(value);
-    }
-
-    private EventHandler<? super MouseEvent> useDefaultCursor(Button button) {
-        return event -> button.setCursor(Cursor.DEFAULT);
     }
 
     public void setSelected(boolean selected) {

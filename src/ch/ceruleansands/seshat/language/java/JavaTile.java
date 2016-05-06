@@ -32,11 +32,13 @@ import com.google.inject.Inject;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseButton;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Collection;
 
 /**
+ * Represents a java tile on the diagram
  * @author Thomsch
  */
 public class JavaTile implements Tile{
@@ -46,22 +48,24 @@ public class JavaTile implements Tile{
 
     @Inject
     public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
+        clazzData = new ClazzData("Unnamed class");
         tile = guiFactory.makeTile(clazzData);
 
-        Node node = tile.getView();
-        ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
-        node.setOnMouseClicked(event -> {
-            if(event.getButton() == MouseButton.SECONDARY) {
-                System.out.println("B");
-                contextMenu.show(node, event.getScreenX(), event.getScreenY());
-                event.consume();
-            }
-        });
+        installContextMenu();
     }
 
-    public Node getView() {
-        return tile.getView();
+    public void installContextMenu() {
+        Node node = tile.getView();
+        ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
+        contextMenu.setAutoHide(true);
+
+        node.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, event -> {
+            contextMenu.show(node, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+        node.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+            contextMenu.hide();
+        });
     }
 
     public String getName() {
@@ -82,7 +86,7 @@ public class JavaTile implements Tile{
 
     @Override
     public Node getNode() {
-        return getView();
+        return tile.getView();
     }
 
     @Override

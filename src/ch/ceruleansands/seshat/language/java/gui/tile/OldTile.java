@@ -48,7 +48,7 @@ public class OldTile {
 
         view.setNewAttributeButtonAction(controller.newAttributeAction(clazzData));
         view.setNewMethodButtonAction(controller.newMethodAction(clazzData));
-        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
+        view.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
 
         view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
 

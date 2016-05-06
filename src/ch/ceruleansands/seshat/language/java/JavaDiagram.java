@@ -15,6 +15,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -43,11 +44,13 @@ public class JavaDiagram implements Diagram {
 
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
+    private TranslationTracker translationTracker;
 
     @Inject
     public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<JavaTile> javaTileProvider) {
         this.exporter = exporter;
         this.javaTileProvider = javaTileProvider;
+        translationTracker = new TranslationTracker();
 
         Origin origin = new Origin();
         tiles = new Group();
@@ -83,15 +86,13 @@ public class JavaDiagram implements Diagram {
     }
 
     public void makeDraggable() {
-        TranslationTracker translationTracker = new TranslationTracker();
-
-        view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.init(event.getX(), event.getY());
             }
         });
 
-        view.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.update(event.getX(), event.getY());
 
@@ -104,7 +105,7 @@ public class JavaDiagram implements Diagram {
             }
         });
 
-        view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.end();
             }
@@ -125,47 +126,35 @@ public class JavaDiagram implements Diagram {
         ContextMenu contextMenu = new ContextMenu(menuItems.toArray(new MenuItem[menuItems.size()]));
         contextMenu.setAutoHide(true);
 
-        DragInfo dragInfo = new DragInfo();
-
-        view.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+        view.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, event -> {
+            contextMenu.show(view, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+        view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             contextMenu.hide();
-            if(event.getButton() == MouseButton.SECONDARY & !dragInfo.isDragged()) {
-                System.out.println("A");
-                contextMenu.show(view ,event.getScreenX(), event.getScreenY());
-                event.consume();
-            }
-        });
-
-        view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-            dragInfo.setInit(event.getX(), event.getY());
-        });
-
-        view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
-            dragInfo.setDragged(event.getX(), event.getY());
         });
     }
 
     public void installSelector(SelectionBox selectionBox) {
         view.getChildren().addAll(selectionBox);
 
-        view.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if(event.isPrimaryButtonDown()) {
                 selectionBox.setStart(event.getX(), event.getY());
             }
         });
-        view.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if(event.isPrimaryButtonDown()) {
                 selectionBox.setEnd(event.getX(), event.getY());
             }
         });
-        view.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
+        view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
             if(event.getButton() == MouseButton.PRIMARY) {
                 tiles.getChildren().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false));
-                List<Node> selected = selectionBox.release(tiles.getChildren());
+                List<Node> selected = selectionBox.release(tiles.getChildren(), movingElements);
                 selected.stream().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), true));
             }
         });
-
         selectionBox.toFront();
     }
 

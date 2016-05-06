@@ -24,6 +24,7 @@
 
 package ch.ceruleansands.seshat.language.java;
 
+import ch.ceruleansands.seshat.SelectionBox;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -46,7 +47,7 @@ public class DiagramBuilder {
     }
 
     private JavaDiagram configureDiagram(JavaDiagram diagram) {
-//        diagram.installSelector(new SelectionBox());
+        diagram.installSelector(new SelectionBox());
         diagram.installContextMenu();
         diagram.makeDraggable();
         return diagram;
