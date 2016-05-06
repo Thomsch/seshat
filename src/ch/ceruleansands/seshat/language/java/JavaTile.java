@@ -48,7 +48,7 @@ public class JavaTile implements Tile{
 
     @Inject
     public JavaTile(GuiFactory guiFactory) {
-        clazzData = new ClazzData("Undefined class");
+        clazzData = new ClazzData("Unnamed class");
         tile = guiFactory.makeTile(clazzData);
 
         installContextMenu();
