@@ -55,6 +55,8 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
     private final PseudoClass selectable = PseudoClass.getPseudoClass("selected");
     private final VBox features;
 
+
+
     public View(Controller controller) {
         this.controller = controller;
 
@@ -93,6 +95,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         name.requestFocus();
         name.setNameChangeActionEvent(event -> onNameChanged());
         makeDraggable();
+
     }
 
     private void makeDraggable() {

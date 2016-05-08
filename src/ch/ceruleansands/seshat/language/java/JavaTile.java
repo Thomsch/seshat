@@ -56,7 +56,7 @@ public class JavaTile implements Tile{
 
     public void installContextMenu() {
         Node node = tile.getView();
-        ContextMenu contextMenu = new ContextMenu(new MenuItem("Hallo"));
+        ContextMenu contextMenu = new ContextMenu(new MenuItem("New relation"));
         contextMenu.setAutoHide(true);
 
         node.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, event -> {

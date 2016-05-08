@@ -18,6 +18,7 @@ public class DiagramTab extends Tab{
 
     public DiagramTab(String tabTitle, Diagram diagram, MenuProxy menuProxy) {
         super(null, diagram.getView());
+
         this.diagram = diagram;
         this.menuProxy = menuProxy;
         this.file = Optional.empty();

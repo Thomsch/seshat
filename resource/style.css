@@ -22,6 +22,11 @@
     -fx-background-color: orange
 }
 
+#relation {
+    -fx-stroke: #C412FF;
+    -fx-stroke-width: 3px;
+}
+
 #anchorpoint {
     -fx-fill: beige
 }

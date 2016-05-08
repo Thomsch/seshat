@@ -10,14 +10,14 @@ import ch.ceruleansands.seshat.language.java.action.NewClass;
 import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.css.PseudoClass;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
@@ -45,11 +45,16 @@ public class JavaDiagram implements Diagram {
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
     private TranslationTracker translationTracker;
+    private final IntegerProperty mouseX;
+    private final IntegerProperty mouseY;
+
+    private RelationBuilder relationBuilder;
 
     @Inject
-    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<JavaTile> javaTileProvider) {
+    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<JavaTile> javaTileProvider, RelationBuilder relationBuilder) {
         this.exporter = exporter;
         this.javaTileProvider = javaTileProvider;
+        this.relationBuilder = relationBuilder;
         translationTracker = new TranslationTracker();
 
         Origin origin = new Origin();
@@ -72,17 +77,39 @@ public class JavaDiagram implements Diagram {
         actions = new ArrayList<>();
         actions.add(newClass);
 
-//        view.setOnScroll(event -> {
-//            if(event.isControlDown()) {
-//                double v = event.getDeltaY() / 1000;
-//                view.setScaleX(view.getScaleX() + v);
-//                view.setScaleY(view.getScaleY() + v);
-//                view.setScaleZ(view.getScaleZ() + v);
-//                System.out.println("event.getDeltaY() = " + event.getDeltaY());
-//            }
-//        });
+        mouseX = new SimpleIntegerProperty();
+        mouseY = new SimpleIntegerProperty();
 
         // TODO Refactor #makeDraggable, #installContextMenu, #installSelector to assign them to each one of them to a mouse action because now we can use m1 and m2 at the same time :(
+        relationGenerator();
+        makeFocusable();
+    }
+
+    private void makeFocusable() {
+        view.setFocusTraversable(true);
+        view.setOnMouseEntered(event -> view.requestFocus());
+        view.setOnMouseClicked(event -> view.requestFocus());
+    }
+
+    private void relationGenerator() {
+        view.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+            mouseX.setValue(event.getX());
+            mouseY.setValue(event.getY());
+        });
+
+        view.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (relationBuilder.isRelationInProgress()) {
+                relationBuilder.stop(view);
+            }
+        });
+
+        view.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if(event.getCode() == KeyCode.R) {
+                if(!relationBuilder.isRelationInProgress()) {
+                    relationBuilder.start(mouseX, mouseY, view);
+                }
+            }
+        });
     }
 
     public void makeDraggable() {
