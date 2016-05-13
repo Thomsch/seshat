@@ -63,6 +63,7 @@ public class TestTile extends ErgonomicMenuItem {
     public EventHandler<ActionEvent> getAction() {
         return event ->  {
             ch.ceruleansands.seshat.language.java.TestTile tile = tileBuilder.makeEmptyTile();
-            javaDiagram.addTile(tile);};
+//            javaDiagram.addTile(tile);
+        };
     }
 }

@@ -9,38 +9,41 @@ import ch.ceruleansands.seshat.language.java.action.ActionFactory;
 import ch.ceruleansands.seshat.language.java.action.NewClass;
 import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.css.PseudoClass;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.*;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Represents a java diagram.
+ *
  * @author Thomsch.
  */
 public class JavaDiagram implements Diagram {
 
     private final Pane view;
     private List<ErgonomicMenuItem> editActions;
+    private Set<JavaTile> tiles;
+    private Set<JavaRelationModel> relations;
+
     private ExporterImpl exporter;
 
     private final Group movingElements;
-    private final Group tiles;
-    private final Group relations;
-    private final Provider<JavaTile> javaTileProvider;
+    private final Group tilesView;
+    private final Group relationsView;
+    private final TileFactory tileFactory;
 
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
@@ -51,18 +54,18 @@ public class JavaDiagram implements Diagram {
     private RelationBuilder relationBuilder;
 
     @Inject
-    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<JavaTile> javaTileProvider, RelationBuilder relationBuilder) {
+    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, TileFactory tileFactory, RelationBuilder relationBuilder) {
         this.exporter = exporter;
-        this.javaTileProvider = javaTileProvider;
+        this.tileFactory = tileFactory;
         this.relationBuilder = relationBuilder;
         translationTracker = new TranslationTracker();
 
         Origin origin = new Origin();
-        tiles = new Group();
-        relations = null;
+        tilesView = new Group();
+        relationsView = new Group();
         background = new Background();
 
-        movingElements = new Group(tiles, origin);
+        movingElements = new Group(tilesView, relationsView, origin);
         view = new Pane(background, movingElements);
 
         background.widthProperty().bind(view.widthProperty());
@@ -80,6 +83,9 @@ public class JavaDiagram implements Diagram {
         mouseX = new SimpleIntegerProperty();
         mouseY = new SimpleIntegerProperty();
 
+        tiles = new HashSet<>();
+        relations = new HashSet<>();
+
         // TODO Refactor #makeDraggable, #installContextMenu, #installSelector to assign them to each one of them to a mouse action because now we can use m1 and m2 at the same time :(
         relationGenerator();
         makeFocusable();
@@ -92,23 +98,17 @@ public class JavaDiagram implements Diagram {
     }
 
     private void relationGenerator() {
+
+//        view.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+//            if(relationBuilder.isRelationInProgress()) {
+//                relationBuilder.cancel(relationsView);
+//                highlightReceiverAnchors(false);
+//            }
+//        });
+
         view.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
-            mouseX.setValue(event.getX());
-            mouseY.setValue(event.getY());
-        });
-
-        view.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (relationBuilder.isRelationInProgress()) {
-                relationBuilder.stop(view);
-            }
-        });
-
-        view.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if(event.getCode() == KeyCode.R) {
-                if(!relationBuilder.isRelationInProgress()) {
-                    relationBuilder.start(mouseX, mouseY, view);
-                }
-            }
+            mouseX.setValue(event.getX() + translationTracker.getXTranslate());
+            mouseY.setValue(event.getY() + translationTracker.getYTranslate());
         });
     }
 
@@ -166,19 +166,19 @@ public class JavaDiagram implements Diagram {
         view.getChildren().addAll(selectionBox);
 
         view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
-            if(event.isPrimaryButtonDown()) {
+            if (event.isPrimaryButtonDown()) {
                 selectionBox.setStart(event.getX(), event.getY());
             }
         });
         view.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
-            if(event.isPrimaryButtonDown()) {
+            if (event.isPrimaryButtonDown()) {
                 selectionBox.setEnd(event.getX(), event.getY());
             }
         });
         view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
-            if(event.getButton() == MouseButton.PRIMARY) {
-                tiles.getChildren().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false));
-                List<Node> selected = selectionBox.release(tiles.getChildren(), movingElements);
+            if (event.getButton() == MouseButton.PRIMARY) {
+                tilesView.getChildren().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false));
+                List<Node> selected = selectionBox.release(tilesView.getChildren(), movingElements);
                 selected.stream().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), true));
             }
         });
@@ -200,39 +200,61 @@ public class JavaDiagram implements Diagram {
         return editActions;
     }
 
-    public void addTile(Tile tile) {
-        addElement(tiles, tile.getNode());
-    }
-
-    public void removeTile(Tile tile) {
-        removeElement(tiles, tile.getNode());
-    }
-
-    public void addElement(Group group, Node node) {
-        group.getChildren().add(node);
-    }
-
-    public void removeElement(Group group, Node node) {
-        group.getChildren().removeAll(node);
-    }
-
     /**
      * Adds a new tile to the diagram from a model.
+     *
      * @param model the model from which data will be displayed
      */
     public void addTile(JavaTileModel model) {
-        JavaTile tile = javaTileProvider.get();
+        JavaTile tile = tileFactory.createTile(this);
         tile.setName(model.getName());
-        tile.getNode().setTranslateX(model.getGraphic().x);
-        tile.getNode().setTranslateY(model.getGraphic().y);
-        addTile(tile);
+        tile.getNode().setTranslateX(model.getGraphicData().x);
+        tile.getNode().setTranslateY(model.getGraphicData().y);
+        tiles.add(tile);
+        addElement(tilesView, tile.getNode());
+    }
+
+    public void removeTile(Tile tile) {
+        removeElement(tilesView, tile.getNode());
     }
 
     /**
      * Adds a new relation to the diagram from a model
+     *
      * @param relation the model from which data will be displayed
      */
     public void addRelation(JavaRelationModel relation) {
+        relations.add(relation);
+    }
 
+    public void startRelation(Anchor anchor) {
+        if (!relationBuilder.isRelationInProgress()) {
+            relationBuilder.start(anchor, mouseX, mouseY, relationsView);
+            highlightReceiverAnchors(true);
+        }
+    }
+
+    public void endRelation(Anchor anchor) {
+        if (relationBuilder.isRelationInProgress()) {
+            highlightReceiverAnchors(false);
+            JavaRelationModel relation = relationBuilder.stop(anchor);
+            addRelation(relation);
+        }
+    }
+
+    private void highlightReceiverAnchors(boolean highlighted) {
+        tiles.forEach(tile -> tile.highlightAnchors(highlighted));
+    }
+
+    private void addElement(Group group, Node node) {
+        group.getChildren().add(node);
+    }
+
+    private void removeElement(Group group, Node node) {
+        group.getChildren().removeAll(node);
+    }
+
+    public Point2D getMousePos() {
+        return new Point2D(mouseX.doubleValue(), mouseY.doubleValue());
     }
 }

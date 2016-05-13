@@ -24,7 +24,7 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Graphic;
+import ch.ceruleansands.seshat.GraphicData;
 
 /**
  * The model for a tile in a java diagram.
@@ -33,12 +33,12 @@ import ch.ceruleansands.seshat.Graphic;
 public class JavaTileModel {
     private final String id;
     private String name;
-    private final Graphic graphic;
+    private final GraphicData graphicData;
 
-    public JavaTileModel(String id, String name, Graphic graphic) {
+    public JavaTileModel(String id, String name, GraphicData graphicData) {
         this.id = id;
         this.name = name;
-        this.graphic = graphic;
+        this.graphicData = graphicData;
     }
 
     public String getName() {
@@ -53,7 +53,7 @@ public class JavaTileModel {
         return id;
     }
 
-    public Graphic getGraphic() {
-        return graphic;
+    public GraphicData getGraphicData() {
+        return graphicData;
     }
 }

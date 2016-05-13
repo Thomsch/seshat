@@ -29,6 +29,7 @@ import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
 import ch.ceruleansands.seshat.tilediagram.Relation;
 import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -47,9 +48,9 @@ public class JavaTile implements Tile{
     private final ClazzData clazzData;
 
     @Inject
-    public JavaTile(GuiFactory guiFactory) {
+    public JavaTile(@Assisted JavaDiagram diagram, GuiFactory guiFactory) {
         clazzData = new ClazzData("Unnamed class");
-        tile = guiFactory.makeTile(clazzData);
+        tile = guiFactory.makeTile(clazzData, diagram, this);
 
         installContextMenu();
     }
@@ -92,5 +93,9 @@ public class JavaTile implements Tile{
     @Override
     public Relation getRelation() {
         return null;
+    }
+
+    public void highlightAnchors(boolean highlighted) {
+        tile.highlightAnchors(highlighted);
     }
 }

@@ -22,29 +22,11 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
-
-import java.util.Objects;
+package ch.ceruleansands.seshat.language.java;
 
 /**
- * Contains the information to display a tile on the diagram.
  * @author Thomsch
  */
-public class Graphic {
-
-    public final Double x;
-    public final Double y;
-
-    public Graphic(Double x, Double y) {
-        this.x = Objects.requireNonNull(x);
-        this.y = Objects.requireNonNull(y);
-    }
-
-    @Override
-    public String toString() {
-        return "Graphic{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
-    }
+public interface TileFactory {
+    JavaTile createTile(JavaDiagram javaDiagram);
 }

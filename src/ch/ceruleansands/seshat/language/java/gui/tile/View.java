@@ -27,10 +27,16 @@ package ch.ceruleansands.seshat.language.java.gui.tile;
 import ch.ceruleansands.seshat.ClazzObserver;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
 import ch.ceruleansands.seshat.gui.EditableLabel;
+import ch.ceruleansands.seshat.language.java.Anchor;
+import ch.ceruleansands.seshat.language.java.JavaTile;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -40,7 +46,7 @@ import java.util.Collection;
 /**
  * @author Thomsch
  */
-class View extends BorderPane implements ClazzModelView, ClazzObserver {
+class View extends BorderPane implements ClazzModelView, ClazzObserver, Anchor {
 
     private final EditableLabel name;
     private final DragContext dragContext;
@@ -53,7 +59,11 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
     private final SimpleFeatureGroup methods;
 
     private final PseudoClass selectable = PseudoClass.getPseudoClass("selected");
+    private final PseudoClass highlight = PseudoClass.getPseudoClass("highlight");
     private final VBox features;
+
+    private final SimpleDoubleProperty anchorX;
+    private final SimpleDoubleProperty anchorY;
 
 
 
@@ -72,6 +82,10 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         newAttribute.setPrefWidth(28);
         buttonBar.getChildren().addAll(newAttribute, newMethod);
 
+        anchorX = new SimpleDoubleProperty();
+        anchorY = new SimpleDoubleProperty();
+
+
         dragContext = new DragContext();
         setId("javatile");
 
@@ -88,6 +102,9 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
 
         features.getChildren().addAll(attributes, methods);
 
+        translateXProperty().addListener((observable, oldValue, newValue) -> anchorX.setValue(getAnchorXPos(getBoundsInParent().getMinX(), getBoundsInParent().getMaxX())));
+        translateYProperty().addListener((observable, oldValue, newValue) -> anchorY.setValue(getAnchorYPos(getBoundsInParent().getMinY(), getBoundsInParent().getMaxY())));
+
         setPrefSize(100, 100);
 
 
@@ -95,7 +112,33 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         name.requestFocus();
         name.setNameChangeActionEvent(event -> onNameChanged());
         makeDraggable();
+        makeFocusable();
+        relationGenerator();
 
+        layoutBoundsProperty().addListener((observable, oldValue, newValue) -> updateAnchorPosition());
+    }
+
+    private void updateAnchorPosition() {
+        anchorX.setValue(getAnchorXPos(getBoundsInParent().getMinX(), getBoundsInParent().getMaxX()));
+        anchorY.setValue(getAnchorYPos(getBoundsInParent().getMinY(), getBoundsInParent().getMaxY()));
+    }
+
+    private void makeFocusable() {
+        setFocusTraversable(true);
+        setOnMouseEntered(event -> requestFocus());
+        setOnMouseClicked(event -> requestFocus());
+    }
+
+    private void relationGenerator() {
+        addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if(event.getCode() == KeyCode.R) {
+                controller.startRelation(this);
+            }
+        });
+
+        addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            controller.endRelation(this);
+        });
     }
 
     private void makeDraggable() {
@@ -139,6 +182,10 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         pseudoClassStateChanged(selectable, selected);
     }
 
+    private void setHighlighted(boolean highlighted) {
+        pseudoClassStateChanged(highlight, highlighted);
+    }
+
     @Override
     public void onNameChanged(String oldName, String newName) {
         name.setDisplayText(newName);
@@ -168,10 +215,49 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver {
         methods.forEach(this::addMethodLabel);
     }
 
+    @Override
+    public double getX() {
+        return getAnchorXPos(getBoundsInParent().getMinX(), getBoundsInParent().getMaxX());
+    }
+
+
+    @Override
+    public double getY() {
+        return getAnchorYPos(getBoundsInParent().getMinY(), getBoundsInParent().getMaxY());
+    }
+
+    @Override
+    public JavaTile getTile() {
+        return controller.getTile();
+    }
+
+    @Override
+    public void highlight(boolean highlighted) {
+        setHighlighted(highlighted);
+    }
+
+    @Override
+    public DoubleProperty getXProperty() {
+        return anchorX;
+    }
+
+    @Override
+    public DoubleProperty getYProperty() {
+        return anchorY;
+    }
+
     private static final class DragContext {
         public double mouseAnchorX;
         public double mouseAnchorY;
         public double initialTranslateX;
         public double initialTranslateY;
+    }
+
+    private double getAnchorXPos(double min, double max) {
+        return (max - min) / 2 + min;
+    }
+
+    private double getAnchorYPos(double min, double max) {
+        return (max - min) * 2 / 3 + min;
     }
 }

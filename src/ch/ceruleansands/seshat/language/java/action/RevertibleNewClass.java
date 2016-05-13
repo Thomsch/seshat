@@ -25,10 +25,15 @@
 package ch.ceruleansands.seshat.language.java.action;
 
 import ch.ceruleansands.actionstream.Action;
+import ch.ceruleansands.seshat.GraphicData;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
+import ch.ceruleansands.seshat.language.java.JavaTileModel;
+import com.google.common.hash.HashCode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import java.util.Random;
 
 /**
  * @author Thomsch
@@ -36,20 +41,22 @@ import com.google.inject.assistedinject.Assisted;
 public class RevertibleNewClass implements Action {
     private final JavaDiagram diagram;
     private final JavaTile tile;
+    private final Random random;
 
     /**
      * Creates a new instance of a newClassAction.
      */
     @Inject
-    public RevertibleNewClass(@Assisted JavaDiagram diagram, JavaTile tile) {
+    public RevertibleNewClass(@Assisted JavaDiagram diagram, JavaTile tile, Random random) {
         this.diagram = diagram;
         this.tile = tile;
+        this.random = random;
     }
 
     @Override
     public void execute() {
         try {
-            diagram.addTile(tile);
+            diagram.addTile(new JavaTileModel(HashCode.fromLong(random.nextLong()).toString(), "Unamed tile", new GraphicData(diagram.getMousePos().getX(), diagram.getMousePos().getY())));
         } catch (Exception e) {
             e.printStackTrace();
         }

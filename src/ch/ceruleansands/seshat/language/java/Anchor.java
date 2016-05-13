@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,23 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui;
+package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Editor;
-import ch.ceruleansands.seshat.language.java.ClazzData;
-import ch.ceruleansands.seshat.language.java.JavaDiagram;
-import ch.ceruleansands.seshat.language.java.JavaTile;
-import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
-import javafx.stage.Stage;
+import javafx.beans.property.DoubleProperty;
 
 /**
  * @author Thomsch
  */
-public interface GuiFactory {
-    OldTile makeTile(ClazzData clazzData, JavaDiagram diagram, JavaTile tile);
+public interface Anchor {
+    void highlight(boolean highlighted);
 
-    Editor makeEditor(Stage stage);
+    DoubleProperty getXProperty();
+
+    double getX();
+
+    DoubleProperty getYProperty();
+
+    double getY();
+
+    JavaTile getTile();
 }

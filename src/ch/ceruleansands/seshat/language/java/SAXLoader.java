@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.language.java;
 
 import ch.ceruleansands.seshat.Diagram;
-import ch.ceruleansands.seshat.Graphic;
+import ch.ceruleansands.seshat.GraphicData;
 import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
 import com.google.inject.Inject;
 
@@ -133,8 +133,8 @@ class SAXLoader implements LanguageDiagramLoader {
         try {
             String id = element.getAttributeByName(new QName("id")).getValue();
             String name = loadName(eventReader);
-            Graphic graphic = loadGraphic(eventReader);
-            return new JavaTileModel(id, name, graphic);
+            GraphicData graphicData = loadGraphic(eventReader);
+            return new JavaTileModel(id, name, graphicData);
         } catch (XMLStreamException e) {
             throw SaveFormatException.tileMalformed();
         }
@@ -143,14 +143,14 @@ class SAXLoader implements LanguageDiagramLoader {
     /**
      * Reads the event reader to parse the next graphic node.
      * @param eventReader contains the description of the graphic node
-     * @return a new instance of {@link Graphic}
+     * @return a new instance of {@link GraphicData}
      */
-    private Graphic loadGraphic(XMLEventReader eventReader) throws XMLStreamException, SaveFormatException {
+    private GraphicData loadGraphic(XMLEventReader eventReader) throws XMLStreamException, SaveFormatException {
         if (eventReader.peek().isStartElement() && eventReader.peek().asStartElement().getName().getLocalPart().equalsIgnoreCase("graphic")) {
             eventReader.nextTag(); // Consume the <graphic> tag
             Double x = readCoordinate("x", eventReader);
             Double y = readCoordinate("y", eventReader);
-            return new Graphic(x, y);
+            return new GraphicData(x, y);
         } else {
             throw SaveFormatException.startElement(eventReader.peek().toString());
         }
@@ -197,7 +197,7 @@ class SAXLoader implements LanguageDiagramLoader {
      * @return The relation in a parsed format
      */
     private JavaRelationModel loadRelation(StartElement element, XMLEventReader eventReader) {
-        return new JavaRelationModel();
+        return new JavaRelationModel(null, null);
     }
 
     /**

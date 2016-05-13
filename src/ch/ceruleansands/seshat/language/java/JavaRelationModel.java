@@ -29,4 +29,11 @@ package ch.ceruleansands.seshat.language.java;
  * @author Thomsch
  */
 public class JavaRelationModel {
+    private final JavaTile origin;
+    private final JavaTile target;
+
+    public JavaRelationModel(JavaTile origin, JavaTile target) {
+        this.origin = origin;
+        this.target = target;
+    }
 }
