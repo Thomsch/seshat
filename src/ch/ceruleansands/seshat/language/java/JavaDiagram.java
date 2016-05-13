@@ -94,7 +94,7 @@ public class JavaDiagram implements Diagram {
     private void makeFocusable() {
         view.setFocusTraversable(true);
         view.setOnMouseEntered(event -> view.requestFocus());
-        view.setOnMouseClicked(event -> view.requestFocus());
+//        view.setOnMouseClicked(event -> view.requestFocus());
     }
 
     private void relationGenerator() {

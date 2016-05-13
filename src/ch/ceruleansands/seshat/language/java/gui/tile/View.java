@@ -85,7 +85,6 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver, Anchor {
         anchorX = new SimpleDoubleProperty();
         anchorY = new SimpleDoubleProperty();
 
-
         dragContext = new DragContext();
         setId("javatile");
 
@@ -107,9 +106,7 @@ class View extends BorderPane implements ClazzModelView, ClazzObserver, Anchor {
 
         setPrefSize(100, 100);
 
-
         setFocusTraversable(true);
-        name.requestFocus();
         name.setNameChangeActionEvent(event -> onNameChanged());
         makeDraggable();
         makeFocusable();

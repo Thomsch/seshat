@@ -58,8 +58,9 @@ public class EditableLabel extends StackPane {
             if (event.getClickCount()==2) {
                 textField.setText(label.getText());
                 replaceNode(textField);
-                textField.selectAll();
                 textField.requestFocus();
+                textField.selectAll();
+                event.consume();
             }
         });
 
