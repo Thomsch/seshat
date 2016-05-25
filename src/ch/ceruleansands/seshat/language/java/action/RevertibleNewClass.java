@@ -25,7 +25,6 @@
 package ch.ceruleansands.seshat.language.java.action;
 
 import ch.ceruleansands.actionstream.Action;
-import ch.ceruleansands.seshat.GraphicData;
 import ch.ceruleansands.seshat.TileIdGenerator;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
@@ -54,7 +53,7 @@ public class RevertibleNewClass implements Action {
     @Override
     public void execute() {
         try {
-            diagram.addTile(new JavaTileModel(tileIdGenerator.getNext(), "Unamed tile", new GraphicData(diagram.getMousePos().getX(), diagram.getMousePos().getY())));
+            diagram.addTile(new JavaTileModel(tileIdGenerator.getNext(), "Unamed tile", diagram.getMousePos().getX(), diagram.getMousePos().getY()));
         } catch (Exception e) {
             e.printStackTrace();
         }

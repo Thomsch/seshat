@@ -24,7 +24,6 @@
 
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.GraphicData;
 import ch.ceruleansands.seshat.TileObserver;
 
 import java.util.ArrayList;
@@ -38,16 +37,18 @@ import java.util.HashSet;
 public class JavaTileModel {
     private final String id;
     private String name;
-    private final GraphicData graphicData;
+    private double x;
+    private double y;
 
     private Collection<String> attributes;
     private Collection<String> methods;
     private Collection<TileObserver> observers;
 
-    public JavaTileModel(String id, String name, GraphicData graphicData, Collection<String> attributes, Collection<String> methods) {
+    public JavaTileModel(String id, String name, double x, double y, Collection<String> attributes, Collection<String> methods) {
         this.id = id;
         this.name = name;
-        this.graphicData = graphicData;
+        this.x = x;
+        this.y = y;
         this.attributes = new ArrayList<>();
         this.methods = new ArrayList<>();
         this.name = name;
@@ -62,8 +63,8 @@ public class JavaTileModel {
         }
     }
 
-    public JavaTileModel(String id, String name, GraphicData graphicData) {
-        this(id, name, graphicData, null, null);
+    public JavaTileModel(String id, String name, double x, double y) {
+        this(id, name, x, y, null, null);
     }
 
     public String getId() {
@@ -78,10 +79,6 @@ public class JavaTileModel {
 
     public String getName() {
         return name;
-    }
-
-    public GraphicData getGraphicData() {
-        return graphicData;
     }
 
     public void addAttribute(String attribute) {
@@ -104,5 +101,13 @@ public class JavaTileModel {
 
     public void addClazzObserver(TileObserver observer) {
         this.observers.add(observer);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

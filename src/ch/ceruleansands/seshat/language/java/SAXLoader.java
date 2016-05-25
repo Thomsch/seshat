@@ -133,8 +133,9 @@ class SAXLoader implements LanguageDiagramLoader {
         try {
             String id = element.getAttributeByName(new QName("id")).getValue();
             String name = loadName(eventReader);
-            GraphicData graphicData = loadGraphic(eventReader);
-            return new JavaTileModel(id, name, graphicData);
+            Double x = readCoordinate("x", eventReader);
+            Double y = readCoordinate("y", eventReader);
+            return new JavaTileModel(id, name, x, y);
         } catch (XMLStreamException e) {
             throw SaveFormatException.tileMalformed();
         }
@@ -148,9 +149,9 @@ class SAXLoader implements LanguageDiagramLoader {
     private GraphicData loadGraphic(XMLEventReader eventReader) throws XMLStreamException, SaveFormatException {
         if (eventReader.peek().isStartElement() && eventReader.peek().asStartElement().getName().getLocalPart().equalsIgnoreCase("graphic")) {
             eventReader.nextTag(); // Consume the <graphic> tag
-            Double x = readCoordinate("x", eventReader);
-            Double y = readCoordinate("y", eventReader);
-            return new GraphicData(x, y);
+
+//            return new GraphicData(x, y);
+            return null;
         } else {
             throw SaveFormatException.startElement(eventReader.peek().toString());
         }

@@ -208,8 +208,8 @@ public class JavaDiagram implements Diagram {
     public void addTile(JavaTileModel model) {
         JavaTile tile = tileFactory.createTile(this);
         tile.setName(model.getName());
-        tile.getNode().setTranslateX(model.getGraphicData().x);
-        tile.getNode().setTranslateY(model.getGraphicData().y);
+        tile.getNode().setTranslateX(model.getX());
+        tile.getNode().setTranslateY(model.getY());
         tiles.add(tile);
         addElement(tilesView, tile.getNode());
     }
