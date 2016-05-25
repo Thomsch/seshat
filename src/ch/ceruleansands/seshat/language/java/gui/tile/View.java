@@ -24,7 +24,7 @@
 
 package ch.ceruleansands.seshat.language.java.gui.tile;
 
-import ch.ceruleansands.seshat.ClazzObserver;
+import ch.ceruleansands.seshat.TileObserver;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
 import ch.ceruleansands.seshat.gui.EditableLabel;
 import ch.ceruleansands.seshat.language.java.Anchor;
@@ -46,7 +46,7 @@ import java.util.Collection;
 /**
  * @author Thomsch
  */
-class View extends BorderPane implements ClazzModelView, ClazzObserver, Anchor {
+class View extends BorderPane implements ClazzModelView, TileObserver, Anchor {
 
     private final EditableLabel name;
     private final DragContext dragContext;

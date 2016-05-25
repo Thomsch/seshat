@@ -24,6 +24,8 @@
 
 package ch.ceruleansands.seshat.language.java;
 
+import ch.ceruleansands.seshat.GraphicData;
+import ch.ceruleansands.seshat.TileIdGenerator;
 import ch.ceruleansands.seshat.gui.GuiFactory;
 import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
 import ch.ceruleansands.seshat.tilediagram.Relation;
@@ -45,11 +47,11 @@ import java.util.Collection;
 public class JavaTile implements Tile{
 
     private final OldTile tile;
-    private final ClazzData clazzData;
+    private final JavaTileModel clazzData;
 
     @Inject
-    public JavaTile(@Assisted JavaDiagram diagram, GuiFactory guiFactory) {
-        clazzData = new ClazzData("Unnamed class");
+    public JavaTile(@Assisted JavaDiagram diagram, GuiFactory guiFactory, TileIdGenerator generator) {
+        clazzData = new JavaTileModel(generator.getNext(), "Unnamed class", new GraphicData(0d,0d));
         tile = guiFactory.makeTile(clazzData, diagram, this);
 
         installContextMenu();

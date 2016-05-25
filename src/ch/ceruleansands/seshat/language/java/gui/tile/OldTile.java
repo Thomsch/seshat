@@ -24,9 +24,9 @@
 
 package ch.ceruleansands.seshat.language.java.gui.tile;
 
-import ch.ceruleansands.seshat.language.java.ClazzData;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
+import ch.ceruleansands.seshat.language.java.JavaTileModel;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.scene.input.MouseEvent;
@@ -36,12 +36,12 @@ import javafx.scene.input.MouseEvent;
  */
 public class OldTile {
 
-    private final ClazzData model;
+    private final JavaTileModel model;
     private Controller controller;
     private final View view;
 
     @Inject
-    public OldTile(@Assisted ClazzData clazzData, @Assisted JavaDiagram diagram, @Assisted JavaTile tile, Controller controller) {
+    public OldTile(@Assisted JavaTileModel clazzData, @Assisted JavaDiagram diagram, @Assisted JavaTile tile, Controller controller) {
         view = new View(controller);
         model = clazzData;
         controller.setModel(clazzData);

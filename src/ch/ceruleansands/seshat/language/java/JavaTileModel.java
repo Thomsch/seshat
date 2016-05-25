@@ -25,6 +25,11 @@
 package ch.ceruleansands.seshat.language.java;
 
 import ch.ceruleansands.seshat.GraphicData;
+import ch.ceruleansands.seshat.TileObserver;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * The model for a tile in a java diagram.
@@ -35,25 +40,69 @@ public class JavaTileModel {
     private String name;
     private final GraphicData graphicData;
 
-    public JavaTileModel(String id, String name, GraphicData graphicData) {
+    private Collection<String> attributes;
+    private Collection<String> methods;
+    private Collection<TileObserver> observers;
+
+    public JavaTileModel(String id, String name, GraphicData graphicData, Collection<String> attributes, Collection<String> methods) {
         this.id = id;
         this.name = name;
         this.graphicData = graphicData;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+        this.attributes = new ArrayList<>();
+        this.methods = new ArrayList<>();
         this.name = name;
+        observers = new HashSet<>();
+
+        if (attributes != null) {
+            this.attributes.addAll(attributes);
+        }
+
+        if (methods != null) {
+            this.methods.addAll(methods);
+        }
+    }
+
+    public JavaTileModel(String id, String name, GraphicData graphicData) {
+        this(id, name, graphicData, null, null);
     }
 
     public String getId() {
         return id;
     }
 
+    public void setName(String name) {
+        String oldName = this.name;
+        this.name = name;
+        observers.forEach(observer -> observer.onNameChanged(oldName, name));
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public GraphicData getGraphicData() {
         return graphicData;
+    }
+
+    public void addAttribute(String attribute) {
+        attributes.add(attribute);
+        observers.forEach(observer -> observer.onNewAttribute(attribute));
+    }
+
+    public Collection<String> getAttributes() {
+        return attributes;
+    }
+
+    public void addMethod(String method) {
+        attributes.add(method);
+        observers.forEach(observer -> observer.onNewMethod(method));
+    }
+
+    public Collection<String> getMethods() {
+        return methods;
+    }
+
+    public void addClazzObserver(TileObserver observer) {
+        this.observers.add(observer);
     }
 }

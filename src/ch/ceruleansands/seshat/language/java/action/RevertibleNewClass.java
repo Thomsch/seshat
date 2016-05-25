@@ -26,14 +26,12 @@ package ch.ceruleansands.seshat.language.java.action;
 
 import ch.ceruleansands.actionstream.Action;
 import ch.ceruleansands.seshat.GraphicData;
+import ch.ceruleansands.seshat.TileIdGenerator;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import ch.ceruleansands.seshat.language.java.JavaTileModel;
-import com.google.common.hash.HashCode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import java.util.Random;
 
 /**
  * @author Thomsch
@@ -41,22 +39,22 @@ import java.util.Random;
 public class RevertibleNewClass implements Action {
     private final JavaDiagram diagram;
     private final JavaTile tile;
-    private final Random random;
+    private final TileIdGenerator tileIdGenerator;
 
     /**
      * Creates a new instance of a newClassAction.
      */
     @Inject
-    public RevertibleNewClass(@Assisted JavaDiagram diagram, JavaTile tile, Random random) {
+    public RevertibleNewClass(@Assisted JavaDiagram diagram, JavaTile tile, TileIdGenerator tileIdGenerator) {
         this.diagram = diagram;
         this.tile = tile;
-        this.random = random;
+        this.tileIdGenerator = tileIdGenerator;
     }
 
     @Override
     public void execute() {
         try {
-            diagram.addTile(new JavaTileModel(HashCode.fromLong(random.nextLong()).toString(), "Unamed tile", new GraphicData(diagram.getMousePos().getX(), diagram.getMousePos().getY())));
+            diagram.addTile(new JavaTileModel(tileIdGenerator.getNext(), "Unamed tile", new GraphicData(diagram.getMousePos().getX(), diagram.getMousePos().getY())));
         } catch (Exception e) {
             e.printStackTrace();
         }

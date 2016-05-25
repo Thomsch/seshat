@@ -26,9 +26,9 @@ package ch.ceruleansands.seshat.language.java.gui.tile;
 
 import ch.ceruleansands.seshat.gui.SelectionManager;
 import ch.ceruleansands.seshat.language.java.Anchor;
-import ch.ceruleansands.seshat.language.java.ClazzData;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
+import ch.ceruleansands.seshat.language.java.JavaTileModel;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,7 +40,7 @@ class Controller {
 
     private final SelectionManager selectionManager;
     private JavaDiagram diagram;
-    private ClazzData model;
+    private JavaTileModel model;
     private JavaTile tile;
 
     @Inject
@@ -48,14 +48,14 @@ class Controller {
         this.selectionManager = selectionManager;
     }
 
-    public EventHandler<ActionEvent> newAttributeAction(ClazzData clazzData) {
+    public EventHandler<ActionEvent> newAttributeAction(JavaTileModel clazzData) {
         return event -> {
             clazzData.addAttribute("+ new attribute");
         };
 
     }
 
-    public EventHandler<ActionEvent> newMethodAction(ClazzData clazzData) {
+    public EventHandler<ActionEvent> newMethodAction(JavaTileModel clazzData) {
         return event -> clazzData.addMethod("+ new method");
     }
 
@@ -75,7 +75,7 @@ class Controller {
         model.setName(newName);
     }
 
-    public void setModel(ClazzData model) {
+    public void setModel(JavaTileModel model) {
         this.model = model;
     }
 

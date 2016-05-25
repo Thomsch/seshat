@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,27 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat.gui;
+package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.Editor;
-import ch.ceruleansands.seshat.language.java.JavaDiagram;
-import ch.ceruleansands.seshat.language.java.JavaTile;
-import ch.ceruleansands.seshat.language.java.JavaTileModel;
-import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
-import javafx.stage.Stage;
+import com.google.common.hash.HashCode;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import java.util.Random;
 
 /**
  * @author Thomsch
  */
-public interface GuiFactory {
-    OldTile makeTile(JavaTileModel clazzData, JavaDiagram diagram, JavaTile tile);
+@Singleton
+public class TileIdGenerator {
+    private final Random random;
 
-    Editor makeEditor(Stage stage);
+    @Inject
+    public TileIdGenerator(Random random) {
+        this.random = random;
+    }
+
+    public String getNext() {
+        return HashCode.fromLong(random.nextLong()).toString();
+    }
 }
