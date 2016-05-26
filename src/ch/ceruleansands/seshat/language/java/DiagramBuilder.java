@@ -22,16 +22,34 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.java;
 
-import javafx.application.Application;
+import ch.ceruleansands.seshat.SelectionBox;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * Builds java diagrams.
+ * @author Thomsch.
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
+public class DiagramBuilder {
+
+    private final Provider<JavaDiagram> diagramProvider;
+
+
+    @Inject
+    public DiagramBuilder(Provider<JavaDiagram> diagramProvider) {
+        this.diagramProvider = diagramProvider;
+    }
+
+    public JavaDiagram createEmpty() {
+        return configureDiagram(diagramProvider.get());
+    }
+
+    private JavaDiagram configureDiagram(JavaDiagram diagram) {
+        diagram.installSelector(new SelectionBox());
+        diagram.installContextMenu();
+        diagram.makeDraggable();
+        return diagram;
     }
 }

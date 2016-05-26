@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,23 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.java;
 
-import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface Anchor {
+    void highlight(boolean highlighted);
+
+    DoubleProperty getXProperty();
+
+    double getX();
+
+    DoubleProperty getYProperty();
+
+    double getY();
+
+    JavaTile getTile();
 }

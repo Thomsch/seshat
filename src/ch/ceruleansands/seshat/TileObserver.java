@@ -24,14 +24,13 @@
 
 package ch.ceruleansands.seshat;
 
-import javafx.application.Application;
-
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * @author Thomsch.
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface TileObserver {
+    void onNameChanged(String oldName, String newName);
+
+    void onNewAttribute(String attribute);
+
+    void onNewMethod(String method);
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,26 @@
 
 package ch.ceruleansands.seshat;
 
-import javafx.application.Application;
+import java.util.Objects;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * Contains the information to display a tile on the diagram.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
+public class GraphicData {
+    public final Double x;
+    public final Double y;
+
+    public GraphicData(Double x, Double y) {
+        this.x = Objects.requireNonNull(x);
+        this.y = Objects.requireNonNull(y);
+    }
+
+    @Override
+    public String toString() {
+        return "Graphic{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

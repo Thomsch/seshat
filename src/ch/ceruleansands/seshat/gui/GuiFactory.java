@@ -22,16 +22,20 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.gui;
 
-import javafx.application.Application;
+import ch.ceruleansands.seshat.Editor;
+import ch.ceruleansands.seshat.language.java.JavaDiagram;
+import ch.ceruleansands.seshat.language.java.JavaTile;
+import ch.ceruleansands.seshat.language.java.JavaTileModel;
+import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
+import javafx.stage.Stage;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface GuiFactory {
+    OldTile makeTile(JavaTileModel clazzData, JavaDiagram diagram, JavaTile tile);
+
+    Editor makeEditor(Stage stage);
 }

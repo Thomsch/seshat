@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,42 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language.java;
 
-import javafx.application.Application;
+import ch.ceruleansands.seshat.Language;
+import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
+import ch.ceruleansands.seshat.language.java.action.ActionFactory;
+import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * Provides integration with the editor.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
+public class Java implements Language {
+
+    private final ActionFactory actionFactory;
+    private Provider<SAXLoader> diagramLoaderProvider;
+
+    @Inject
+    public Java(ActionFactory actionFactory, Provider<SAXLoader> diagramLoaderProvider) {
+        this.actionFactory = actionFactory;
+        this.diagramLoaderProvider = diagramLoaderProvider;
+    }
+
+    @Override
+    public String getName() {
+        return "Java";
+    }
+
+    @Override
+    public ErgonomicMenuItem getNewDiagramAction() {
+        return actionFactory.makeNewDiagram();
+    }
+
+    @Override
+    public LanguageDiagramLoader getLanguageDiagramLoader() {
+        return diagramLoaderProvider.get();
     }
 }

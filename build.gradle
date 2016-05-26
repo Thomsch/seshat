@@ -1,17 +1,49 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2015 CeruleanSands
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 apply plugin: 'java'
 apply plugin: 'application'
 
+mainClassName = "ch.ceruleansands.seshat.Seshat"
 
 sourceSets {
     main {
         java {
             srcDir 'src'
         }
+        resources {
+            srcDir 'resource'
+        }
+    }
+
+    test {
+        java {
+            srcDir 'test'
+        }
     }
 }
-mainClassName = "ch.ceruleansands.seshat.Bootstrap"
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+
 
 repositories {
     //central maven repo
@@ -19,7 +51,13 @@ repositories {
 }
 
 dependencies {
-    //dependencies from a remote repository
-    compile 'com.google.inject:guice:3.0'
-    compile 'com.google.inject.extensions:guice-assistedinject:3.0'
+    compile 'com.google.inject:guice:4.0'
+    compile 'com.google.inject.extensions:guice-assistedinject:4.0'
+    compile 'javax.json:javax.json-api:1.0'
+    compile 'org.slf4j:slf4j-api:1.7.13'
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
+    testCompile 'junit:junit:4.12'
 }

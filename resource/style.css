@@ -1,0 +1,48 @@
+#tile {
+    -fx-background-color: #85A4FF
+}
+
+#tile:proximity {
+    -fx-background-color: #8946FF
+}
+
+#proximitypane:hover {
+    /*-fx-background-color: red*/
+}
+
+#proximitypane {
+    -fx-background-color: transparent
+}
+
+#tileseparator {
+    -fx-background : black;
+}
+
+#javatile {
+    -fx-background-color: orange
+}
+
+#relation {
+    -fx-stroke: #C412FF;
+    -fx-stroke-width: 3px;
+}
+
+#anchorpoint {
+    -fx-fill: beige
+}
+
+#anchorpoint:hover {
+    -fx-fill: pink
+}
+
+#javatile:selected{
+     -fx-effect: dropshadow(gaussian, yellow, 3, 3, 0, 0)
+}
+
+#javatile:highlight{
+    -fx-effect: dropshadow(gaussian, cyan, 3, 3, 0, 0)
+}
+
+#a:selected{
+    -fx-fill : red
+}

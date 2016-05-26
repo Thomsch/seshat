@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,25 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language;
 
-import javafx.application.Application;
+import ch.ceruleansands.seshat.Language;
+
+import java.util.Set;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface LanguageInitializer {
+
+    /**
+     * Loads the languages that will be available for the editor.
+     */
+    void loadLanguages();
+
+    /**
+     * Returns all languages loaded.
+     * @return All languages loaded.
+     */
+    Set<Language> getLanguages();
 }

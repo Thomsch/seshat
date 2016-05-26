@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,9 @@
 
 package ch.ceruleansands.seshat;
 
-import javafx.application.Application;
-
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface SaveAction {
+    void execute();
 }

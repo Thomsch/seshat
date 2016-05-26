@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,18 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
-
-import javafx.application.Application;
+package ch.ceruleansands.seshat.language.java;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * The model for a relation in a java diagram.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
+public class JavaRelationModel {
+    private final JavaTile origin;
+    private final JavaTile target;
+
+    public JavaRelationModel(JavaTile origin, JavaTile target) {
+        this.origin = origin;
+        this.target = target;
     }
 }

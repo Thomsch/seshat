@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,25 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.tilediagram;
 
-import javafx.application.Application;
+import javafx.scene.Node;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * Represents a tile for the application.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface Tile {
+
+    /**
+     * Returns the javafx node associated with the tile.
+     * @return the javafx node
+     */
+    Node getNode();
+
+    /**
+     * Return the relations associated with this Tile.
+     * @return the relations attached to this tile
+     */
+    Relation getRelation();
 }

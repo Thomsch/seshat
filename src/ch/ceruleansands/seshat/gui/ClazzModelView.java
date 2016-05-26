@@ -22,16 +22,10 @@
  * SOFTWARE.
  */
 
-package ch.ceruleansands.seshat;
-
-import javafx.application.Application;
+package ch.ceruleansands.seshat.gui;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * Created by Thomsch.
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
-    }
+public interface ClazzModelView {
 }

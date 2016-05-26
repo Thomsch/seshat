@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2015 CeruleanSands
+ * Copyright (c) 2016 CeruleanSands
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +24,25 @@
 
 package ch.ceruleansands.seshat;
 
-import javafx.application.Application;
+import com.google.common.hash.HashCode;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import java.util.Random;
 
 /**
- * Loads the application.
- * @author Thomas Schweizer.
+ * @author Thomsch
  */
-public class Seshat {
-    public static void main(String[] args) {
-        Application.launch(GuiLoader.class, args);
+@Singleton
+public class TileIdGenerator {
+    private final Random random;
+
+    @Inject
+    public TileIdGenerator(Random random) {
+        this.random = random;
+    }
+
+    public String getNext() {
+        return HashCode.fromLong(random.nextLong()).toString();
     }
 }
