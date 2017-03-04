@@ -20,11 +20,12 @@ public class Editor {
     private final Stage stage;
     private final BorderPane root;
 
-    private final DiagramBuilder diagramBuilder;
     private final MenuProxy menu;
     private final TabManager tabManager;
 
     private final ActionFactory actionFactory;
+    private final DiagramBuilder diagramBuilder;
+
     private final LanguageHandler languageHandler;
     private final LanguageInitializer languageInitializer;
 
