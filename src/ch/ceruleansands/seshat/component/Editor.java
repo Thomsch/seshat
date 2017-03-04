@@ -54,7 +54,7 @@ public class Editor {
         menu.addEditItem(actionFactory.makeUndoAction());
         menu.addEditItem(actionFactory.makeRedoAction());
         menu.addEditSeparator();
-        stage.setTitle("Seshat - v.0.0");
+        stage.setTitle("Seshat - v.0.1");
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add("style.css");
 
