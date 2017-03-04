@@ -8,3 +8,5 @@ Seshat is a modern, intuitive & abstract code designer.
 
 ## What is this name ?
 This name is the egyptian Goddess of architecture. It sounds good, I like mythology and it's quite fitting since class diagram editors are made for doing software architecture.
+
+Copyright © 2017 Thomas Schweizer
