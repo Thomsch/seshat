@@ -22,7 +22,6 @@ sourceSets {
 
 
 repositories {
-    //central maven repo
     mavenCentral()
 }
 
