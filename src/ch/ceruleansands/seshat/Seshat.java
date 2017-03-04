@@ -3,7 +3,6 @@ package ch.ceruleansands.seshat;
 import ch.ceruleansands.seshat.component.Editor;
 import ch.ceruleansands.seshat.gui.GuiFactory;
 import ch.ceruleansands.seshat.guice.Module;
-import ch.ceruleansands.seshat.language.LanguageInitializer;
 import ch.ceruleansands.seshat.language.java.JavaModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -22,10 +21,6 @@ public class Seshat extends Application {
     public void init() throws Exception {
         Injector injector = Guice.createInjector(new Module(), new JavaModule());
         guiFactory = injector.getInstance(GuiFactory.class);
-
-        // TODO Will be changed and put in a happy world where Guice and JavaFX live together in harmony.
-        LanguageInitializer languageInitializer = injector.getInstance(LanguageInitializer.class);
-        languageInitializer.loadLanguages();
     }
 
     @Override

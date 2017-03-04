@@ -4,6 +4,7 @@ import ch.ceruleansands.seshat.action.ActionFactory;
 import ch.ceruleansands.seshat.gui.MenuProxy;
 import ch.ceruleansands.seshat.gui.TabManager;
 import ch.ceruleansands.seshat.language.LanguageHandler;
+import ch.ceruleansands.seshat.language.LanguageInitializer;
 import ch.ceruleansands.seshat.language.java.DiagramBuilder;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -21,20 +22,27 @@ public class Editor {
 
     private final DiagramBuilder diagramBuilder;
     private final MenuProxy menu;
-
     private final TabManager tabManager;
+
+    private final ActionFactory actionFactory;
     private final LanguageHandler languageHandler;
+    private final LanguageInitializer languageInitializer;
 
     @Inject
     // TODO Evaluate the need for a builder.
-    public Editor(@Assisted Stage stage, DiagramBuilder javaDiagramBuilder, MenuProxy menu, TabManager tabManager, ActionFactory actionFactory, LanguageHandler languageHandler) {
+    public Editor(@Assisted Stage stage, LanguageInitializer languageInitializer, DiagramBuilder javaDiagramBuilder, MenuProxy menu, TabManager tabManager, ActionFactory actionFactory, LanguageHandler languageHandler) {
         this.stage = stage;
+        this.languageInitializer = languageInitializer;
         this.diagramBuilder = javaDiagramBuilder;
         this.menu = menu;
+        this.actionFactory = actionFactory;
         this.languageHandler = languageHandler;
-        root = new BorderPane();
-
         this.tabManager = tabManager;
+        root = new BorderPane();
+    }
+
+    public void configure() {
+        languageInitializer.loadLanguages();
 
         // File
         menu.addFileItem(actionFactory.makeLoadAction());
@@ -46,9 +54,6 @@ public class Editor {
         menu.addEditItem(actionFactory.makeUndoAction());
         menu.addEditItem(actionFactory.makeRedoAction());
         menu.addEditSeparator();
-    }
-
-    public void configure() {
         stage.setTitle("Seshat - v.0.0");
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add("style.css");
