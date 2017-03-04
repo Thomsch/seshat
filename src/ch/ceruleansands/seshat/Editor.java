@@ -48,7 +48,7 @@ public class Editor {
     }
 
     public void configure() {
-        stage.setTitle("Seshat - V.0.0");
+        stage.setTitle("Seshat - v.0.0");
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add("style.css");
 
