@@ -1,13 +1,13 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Diagram;
-import ch.ceruleansands.seshat.SelectionBox;
+import ch.ceruleansands.seshat.component.Diagram;
+import ch.ceruleansands.seshat.component.Tile;
 import ch.ceruleansands.seshat.gui.Background;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.gui.Origin;
+import ch.ceruleansands.seshat.gui.SelectionBox;
 import ch.ceruleansands.seshat.language.java.action.ActionFactory;
 import ch.ceruleansands.seshat.language.java.action.NewClass;
-import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

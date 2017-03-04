@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Exporter;
 import ch.ceruleansands.seshat.gui.DialogHelper;
+import ch.ceruleansands.seshat.io.Exporter;
 import com.google.inject.Inject;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;

@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.guice;
 
 import ch.ceruleansands.actionstream.ActionHistory;
 import ch.ceruleansands.seshat.action.ActionFactory;

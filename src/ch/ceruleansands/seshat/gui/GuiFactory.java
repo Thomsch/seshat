@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.Editor;
+import ch.ceruleansands.seshat.component.Editor;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import ch.ceruleansands.seshat.language.java.JavaTileModel;

@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.action;
 
-import ch.ceruleansands.seshat.Editor;
+import ch.ceruleansands.seshat.component.Editor;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.gui.TabManager;
 import com.google.inject.Inject;

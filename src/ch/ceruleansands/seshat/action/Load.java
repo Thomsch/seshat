@@ -1,13 +1,13 @@
 package ch.ceruleansands.seshat.action;
 
-import ch.ceruleansands.seshat.Diagram;
+import ch.ceruleansands.seshat.component.Diagram;
 import ch.ceruleansands.seshat.gui.DialogHelper;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.gui.TabManager;
+import ch.ceruleansands.seshat.io.loader.DiagramLoader;
+import ch.ceruleansands.seshat.io.loader.header.HeaderException;
 import ch.ceruleansands.seshat.language.LanguageException;
 import ch.ceruleansands.seshat.language.java.SaveFormatException;
-import ch.ceruleansands.seshat.loader.DiagramLoader;
-import ch.ceruleansands.seshat.loader.header.HeaderException;
 import com.google.inject.Inject;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.value.ObservableValue;

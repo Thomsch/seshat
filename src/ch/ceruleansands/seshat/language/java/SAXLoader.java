@@ -1,8 +1,8 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Diagram;
-import ch.ceruleansands.seshat.GraphicData;
-import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.component.Diagram;
+import ch.ceruleansands.seshat.io.GraphicData;
+import ch.ceruleansands.seshat.io.loader.LanguageDiagramLoader;
 import com.google.inject.Inject;
 
 import javax.xml.namespace.QName;

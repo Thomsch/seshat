@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.TileObserver;
+import ch.ceruleansands.seshat.component.TileObserver;
 
 import java.util.ArrayList;
 import java.util.Collection;

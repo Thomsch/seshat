@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.io;
 
 /**
  * @author Thomsch

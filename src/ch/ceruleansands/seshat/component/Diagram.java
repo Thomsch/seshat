@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.component;
 
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import javafx.scene.Node;

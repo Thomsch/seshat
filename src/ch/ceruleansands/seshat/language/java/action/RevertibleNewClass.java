@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.language.java.action;
 
 import ch.ceruleansands.actionstream.Action;
-import ch.ceruleansands.seshat.TileIdGenerator;
+import ch.ceruleansands.seshat.component.TileIdGenerator;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import ch.ceruleansands.seshat.language.java.JavaTileModel;

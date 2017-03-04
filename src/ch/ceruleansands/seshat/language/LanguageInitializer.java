@@ -1,7 +1,5 @@
 package ch.ceruleansands.seshat.language;
 
-import ch.ceruleansands.seshat.Language;
-
 import java.util.Set;
 
 /**

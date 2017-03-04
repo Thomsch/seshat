@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.gui;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Group;

@@ -1,8 +1,8 @@
 package ch.ceruleansands.seshat.language.java;
 
+import ch.ceruleansands.seshat.component.Relation;
+import ch.ceruleansands.seshat.component.Tile;
 import ch.ceruleansands.seshat.gui.EditableLabel;
-import ch.ceruleansands.seshat.tilediagram.Relation;
-import ch.ceruleansands.seshat.tilediagram.Tile;
 import javafx.css.PseudoClass;
 import javafx.scene.Cursor;
 import javafx.scene.Node;

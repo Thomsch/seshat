@@ -1,6 +1,5 @@
 package ch.ceruleansands.seshat.language;
 
-import ch.ceruleansands.seshat.Language;
 import ch.ceruleansands.seshat.language.java.Java;
 import ch.ceruleansands.seshat.language.violet.Violet;
 import com.google.inject.Inject;

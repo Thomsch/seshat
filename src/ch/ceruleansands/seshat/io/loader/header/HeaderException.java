@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.loader.header;
+package ch.ceruleansands.seshat.io.loader.header;
 
 /**
  * Exception thrown when the file header is incorrect.

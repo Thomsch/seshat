@@ -1,9 +1,9 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.Language;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
+import ch.ceruleansands.seshat.io.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.language.Language;
 import ch.ceruleansands.seshat.language.java.action.ActionFactory;
-import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

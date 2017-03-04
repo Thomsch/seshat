@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.loader.header;
+package ch.ceruleansands.seshat.io.loader.header;
 
 /**
  * Contains the information contained in the header of a file.

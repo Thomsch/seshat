@@ -1,10 +1,10 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.TileIdGenerator;
+import ch.ceruleansands.seshat.component.Relation;
+import ch.ceruleansands.seshat.component.Tile;
+import ch.ceruleansands.seshat.component.TileIdGenerator;
 import ch.ceruleansands.seshat.gui.GuiFactory;
 import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
-import ch.ceruleansands.seshat.tilediagram.Relation;
-import ch.ceruleansands.seshat.tilediagram.Tile;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.scene.Node;

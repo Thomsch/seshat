@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.tilediagram;
+package ch.ceruleansands.seshat.component;
 
 import javafx.scene.Node;
 

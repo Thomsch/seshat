@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.component;
 
 import com.google.common.hash.HashCode;
 import com.google.inject.Inject;

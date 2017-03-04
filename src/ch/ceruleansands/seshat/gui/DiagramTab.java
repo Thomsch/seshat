@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.Diagram;
+import ch.ceruleansands.seshat.component.Diagram;
 import javafx.scene.control.Tab;
 
 import java.io.File;

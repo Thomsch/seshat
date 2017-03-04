@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.Diagram;
+import ch.ceruleansands.seshat.component.Diagram;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import javafx.beans.property.ReadOnlyObjectProperty;

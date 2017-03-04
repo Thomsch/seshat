@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.io;
 
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import javafx.stage.Window;

@@ -1,7 +1,7 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language;
 
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
-import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.io.loader.LanguageDiagramLoader;
 
 /**
  * Defines what a language class should offer for each language's package.

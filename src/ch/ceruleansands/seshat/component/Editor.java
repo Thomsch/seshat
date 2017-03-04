@@ -1,8 +1,9 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.component;
 
 import ch.ceruleansands.seshat.action.ActionFactory;
 import ch.ceruleansands.seshat.gui.MenuProxy;
 import ch.ceruleansands.seshat.gui.TabManager;
+import ch.ceruleansands.seshat.language.LanguageHandler;
 import ch.ceruleansands.seshat.language.java.DiagramBuilder;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

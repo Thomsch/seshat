@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.language.java.gui.tile;
 
-import ch.ceruleansands.seshat.TileObserver;
+import ch.ceruleansands.seshat.component.TileObserver;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
 import ch.ceruleansands.seshat.gui.EditableLabel;
 import ch.ceruleansands.seshat.language.java.Anchor;

@@ -1,9 +1,9 @@
 package ch.ceruleansands.seshat.language.violet;
 
-import ch.ceruleansands.seshat.Diagram;
-import ch.ceruleansands.seshat.Language;
+import ch.ceruleansands.seshat.component.Diagram;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
-import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.io.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.language.Language;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;

@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.language.java;
 
-import ch.ceruleansands.seshat.SelectionBox;
+import ch.ceruleansands.seshat.gui.SelectionBox;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

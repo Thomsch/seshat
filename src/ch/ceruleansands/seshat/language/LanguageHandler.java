@@ -1,8 +1,7 @@
-package ch.ceruleansands.seshat;
+package ch.ceruleansands.seshat.language;
 
 import ch.ceruleansands.seshat.gui.MenuProxy;
-import ch.ceruleansands.seshat.language.LanguageInitializer;
-import ch.ceruleansands.seshat.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.io.loader.LanguageDiagramLoader;
 import com.google.inject.Inject;
 
 import java.util.Objects;

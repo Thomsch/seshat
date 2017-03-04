@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.loader.header;
+package ch.ceruleansands.seshat.io.loader.header;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

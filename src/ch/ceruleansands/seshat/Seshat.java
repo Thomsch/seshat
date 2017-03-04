@@ -1,6 +1,8 @@
 package ch.ceruleansands.seshat;
 
+import ch.ceruleansands.seshat.component.Editor;
 import ch.ceruleansands.seshat.gui.GuiFactory;
+import ch.ceruleansands.seshat.guice.Module;
 import ch.ceruleansands.seshat.language.LanguageInitializer;
 import ch.ceruleansands.seshat.language.java.JavaModule;
 import com.google.inject.Guice;
