@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.language.java.gui.tile;
 
+import ch.ceruleansands.seshat.component.Anchor;
 import ch.ceruleansands.seshat.gui.SelectionManager;
-import ch.ceruleansands.seshat.language.java.Anchor;
 import ch.ceruleansands.seshat.language.java.JavaDiagram;
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import ch.ceruleansands.seshat.language.java.JavaTileModel;

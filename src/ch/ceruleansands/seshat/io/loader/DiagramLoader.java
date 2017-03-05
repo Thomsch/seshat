@@ -6,7 +6,7 @@ import ch.ceruleansands.seshat.io.loader.header.HeaderException;
 import ch.ceruleansands.seshat.io.loader.header.HeaderReader;
 import ch.ceruleansands.seshat.language.LanguageException;
 import ch.ceruleansands.seshat.language.LanguageHandler;
-import ch.ceruleansands.seshat.language.java.SaveFormatException;
+import ch.ceruleansands.seshat.language.java.io.SaveFormatException;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import javafx.stage.FileChooser;

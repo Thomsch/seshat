@@ -1,8 +1,12 @@
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat.language.java.io;
 
 import ch.ceruleansands.seshat.component.Diagram;
 import ch.ceruleansands.seshat.io.GraphicData;
 import ch.ceruleansands.seshat.io.loader.LanguageDiagramLoader;
+import ch.ceruleansands.seshat.language.java.DiagramBuilder;
+import ch.ceruleansands.seshat.language.java.JavaDiagram;
+import ch.ceruleansands.seshat.language.java.JavaRelationModel;
+import ch.ceruleansands.seshat.language.java.JavaTileModel;
 import com.google.inject.Inject;
 
 import javax.xml.namespace.QName;
@@ -21,7 +25,7 @@ import java.util.Set;
  * Load diagrams in the SAX format for the Java language.
  * @author Thomsch
  */
-class SAXLoader implements LanguageDiagramLoader {
+public class SAXLoader implements LanguageDiagramLoader {
 
     private final DiagramBuilder diagramBuilder;
 

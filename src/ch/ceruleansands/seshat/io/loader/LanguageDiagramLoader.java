@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.io.loader;
 
 import ch.ceruleansands.seshat.component.Diagram;
-import ch.ceruleansands.seshat.language.java.SaveFormatException;
+import ch.ceruleansands.seshat.language.java.io.SaveFormatException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

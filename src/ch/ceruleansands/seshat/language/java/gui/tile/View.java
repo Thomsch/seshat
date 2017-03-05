@@ -1,9 +1,9 @@
 package ch.ceruleansands.seshat.language.java.gui.tile;
 
+import ch.ceruleansands.seshat.component.Anchor;
 import ch.ceruleansands.seshat.component.TileObserver;
 import ch.ceruleansands.seshat.gui.ClazzModelView;
 import ch.ceruleansands.seshat.gui.EditableLabel;
-import ch.ceruleansands.seshat.language.java.Anchor;
 import ch.ceruleansands.seshat.language.java.JavaTile;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

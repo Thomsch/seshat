@@ -1,5 +1,6 @@
 package ch.ceruleansands.seshat.language.java;
 
+import ch.ceruleansands.seshat.component.Anchor;
 import javafx.beans.property.IntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;

@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat.component;
 
 /**
  * Represents the amount of x and y translation from the origin point (0,0).

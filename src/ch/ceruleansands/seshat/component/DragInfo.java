@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat.component;
 
 /**
  * @author Thomsch

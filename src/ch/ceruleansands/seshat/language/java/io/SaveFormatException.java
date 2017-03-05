@@ -1,4 +1,4 @@
-package ch.ceruleansands.seshat.language.java;
+package ch.ceruleansands.seshat.language.java.io;
 
 /**
  * Indicates a problem with the format of a saved file.
