@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Test language to test the the editor.
+ * Violet is a diagram language to test the editor. It can have tiles with relations between them. Each tile can have multiple items (methods, attributes, whatever).
+ *
  * @author Thomsch
  */
 public class Violet implements Language {
