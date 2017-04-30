@@ -1,12 +1,20 @@
 # Seshat
-Currently WIP and prototyping. Don't be scared by the design and comments ! (yet ;))
-## Why ?
+Seshat is modern and intuitive class diagram editor focused around abstraction.
+
 Seeing the lack of good quality free and open-source diagram editor on the Internet, something had to be done. This is why we develop Seshat.
 
-## What is it ?
-Seshat is a modern, intuitive & abstract code designer.
+## Future development
+Right now, I'm going to focus on getting out of the prototype stage and reduce the complexity of many non-essential features that have been added to the prototype as a test.
 
-## What is this name ?
-This name is the egyptian Goddess of architecture. It sounds good, I like mythology and it's quite fitting since class diagram editors are made for doing software architecture.
+* Language driven diagram
+* Automatic code <-> diagram translation
+* UML mode
+* Print & Image export
+
+## What about the name ?
+Seshat is the name of the egyptian Goddess of architecture.
+
+## Legal
+This project is licensed under GPLv3. See the file [LICENSE](https://github.com/Thomsch/seshat/blob/develop/LICENSE) for more details.
 
 Copyright © 2017 Thomas Schweizer
