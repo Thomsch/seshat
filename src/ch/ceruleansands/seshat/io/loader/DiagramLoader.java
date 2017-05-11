@@ -4,9 +4,6 @@ import ch.ceruleansands.seshat.component.Diagram;
 import ch.ceruleansands.seshat.io.loader.header.Header;
 import ch.ceruleansands.seshat.io.loader.header.HeaderException;
 import ch.ceruleansands.seshat.io.loader.header.HeaderReader;
-import ch.ceruleansands.seshat.language.LanguageException;
-import ch.ceruleansands.seshat.language.LanguageHandler;
-import ch.ceruleansands.seshat.language.java.io.SaveFormatException;
 import com.google.common.io.Files;
 import com.google.inject.Inject;
 import javafx.stage.FileChooser;
@@ -26,12 +23,12 @@ import java.util.Optional;
 public class DiagramLoader {
 
     private HeaderReader headerReader;
-    private LanguageHandler languageHandler;
+    private final SAXLoader languageLoader;
 
     @Inject
-    public DiagramLoader(HeaderReader headerReader, LanguageHandler languageHandler) {
+    public DiagramLoader(HeaderReader headerReader, SAXLoader languageLoader) {
         this.headerReader = headerReader;
-        this.languageHandler = languageHandler;
+        this.languageLoader = languageLoader;
     }
 
     /**
@@ -55,19 +52,13 @@ public class DiagramLoader {
      * @throws FileNotFoundException when the <code>file</code> provided doesn't exist at the location
      * @throws IOException when the file cannot be closed after reading
      * @throws HeaderException when the header of the file is incorrect
-     * @throws LanguageException when the diagram's language is not loaded into the editor
      * @throws SaveFormatException when the diagram is saved in an incorrect or not recognized format
      */
-    public Diagram loadDiagramFromFile(File file) throws FileNotFoundException, IOException, HeaderException, LanguageException, SaveFormatException {
+    public Diagram loadDiagramFromFile(File file) throws FileNotFoundException, IOException, HeaderException, SaveFormatException {
         try (BufferedReader bufferedReader = Files.newReader(file, Charset.forName("utf-8"))) {
             Header header = headerReader.read(bufferedReader);
 
-            if (languageHandler.isLanguageLoaded(header.getLanguageText())) {
-                LanguageDiagramLoader diagramLoader = languageHandler.getDiagramLoaderForLanguage(header.getLanguageText());
-                return diagramLoader.loadFromBuffer(bufferedReader);
-            } else {
-                throw LanguageException.languageNotLoaded(header.getLanguageText());
-            }
+            return languageLoader.loadFromBuffer(bufferedReader);
         }
     }
 }

@@ -40,9 +40,7 @@ public class EditableLabel extends StackPane {
             }
         });
 
-        textField.setOnAction(event -> {
-            toLabel();
-        });
+        textField.setOnAction(event -> toLabel());
 
         textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {

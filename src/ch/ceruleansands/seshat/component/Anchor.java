@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.component;
 
-import ch.ceruleansands.seshat.language.java.JavaTile;
+import ch.ceruleansands.seshat.diagram.JavaTile;
 import javafx.beans.property.DoubleProperty;
 
 /**

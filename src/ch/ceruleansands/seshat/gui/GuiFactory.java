@@ -1,10 +1,10 @@
 package ch.ceruleansands.seshat.gui;
 
 import ch.ceruleansands.seshat.component.Editor;
-import ch.ceruleansands.seshat.language.java.JavaDiagram;
-import ch.ceruleansands.seshat.language.java.JavaTile;
-import ch.ceruleansands.seshat.language.java.JavaTileModel;
-import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
+import ch.ceruleansands.seshat.diagram.JavaDiagram;
+import ch.ceruleansands.seshat.diagram.JavaTile;
+import ch.ceruleansands.seshat.diagram.JavaTileModel;
+import ch.ceruleansands.seshat.diagram.OldTile;
 import javafx.stage.Stage;
 
 /**

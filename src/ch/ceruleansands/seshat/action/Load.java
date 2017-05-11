@@ -5,9 +5,8 @@ import ch.ceruleansands.seshat.gui.DialogHelper;
 import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.gui.TabManager;
 import ch.ceruleansands.seshat.io.loader.DiagramLoader;
+import ch.ceruleansands.seshat.io.loader.SaveFormatException;
 import ch.ceruleansands.seshat.io.loader.header.HeaderException;
-import ch.ceruleansands.seshat.language.LanguageException;
-import ch.ceruleansands.seshat.language.java.io.SaveFormatException;
 import com.google.inject.Inject;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.value.ObservableValue;
@@ -62,8 +61,6 @@ public class Load extends ErgonomicMenuItem {
                     dialogHelper.showError("File not found", e.getMessage());
                 } catch (HeaderException e) {
                     dialogHelper.showError("The file header is incorrect", e.getMessage());
-                } catch (LanguageException e) {
-                    dialogHelper.showError("The target language is not loaded", e.getMessage());
                 } catch (IOException e) {
                     dialogHelper.showError("Failed to close the file", e.getMessage());
                 } catch (SaveFormatException e) {
@@ -72,7 +69,7 @@ public class Load extends ErgonomicMenuItem {
                 }
             });
         };
-    };
+    }
 
     @Override
     public ObservableValue<? extends Boolean> disableProperty() {

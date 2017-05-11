@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
  */
 public class Background extends Canvas {
 
-    private final int gridSize = 30;
+    private static final int gridSize = 30;
 
     public void draw(double tx, double ty) {
         double width = getWidth();
@@ -21,7 +21,6 @@ public class Background extends Canvas {
 
         gc.setFill(Color.DARKCYAN);
         gc.fillRect(0, 0, width, height);
-//        gc.clearRect(0, 0, width, height);
 
 
         gc.setStroke(Color.WHITE);
@@ -32,7 +31,6 @@ public class Background extends Canvas {
             x += gridSize;
         }
 
-//        gc.setStroke(Color.BLUEVIOLET);
 
         double y = ty % gridSize;
         while(y < height) {

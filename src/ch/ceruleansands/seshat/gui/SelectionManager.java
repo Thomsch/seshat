@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.gui;
 
-import ch.ceruleansands.seshat.language.java.gui.tile.OldTile;
+import ch.ceruleansands.seshat.diagram.OldTile;
 import com.google.inject.Singleton;
 
 import java.util.*;
