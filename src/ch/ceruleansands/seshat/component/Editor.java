@@ -7,6 +7,7 @@ import ch.ceruleansands.seshat.gui.TabManager;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -47,6 +48,13 @@ public class Editor {
         menu.addEditItem(actionFactory.makeRedoAction());
         menu.addEditSeparator();
         stage.setTitle("Seshat - v.0.1");
+        stage.getIcons().addAll(
+                new Image("icon/16.png"),
+                new Image("icon/24.png"),
+                new Image("icon/32.png"),
+                new Image("icon/48.png"),
+                new Image("icon/128.png"));
+
         Scene scene = new Scene(root, 800, 600);
         scene.getStylesheets().add("style.css");
 
