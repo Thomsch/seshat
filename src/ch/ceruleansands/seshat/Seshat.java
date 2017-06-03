@@ -1,9 +1,8 @@
 package ch.ceruleansands.seshat;
 
-import ch.ceruleansands.seshat.component.Editor;
-import ch.ceruleansands.seshat.gui.GuiFactory;
-import ch.ceruleansands.seshat.guice.JavaModule;
+import ch.ceruleansands.seshat.component.editor.Editor;
 import ch.ceruleansands.seshat.guice.Module;
+import ch.ceruleansands.seshat.ui.GuiFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
@@ -19,7 +18,7 @@ public class Seshat extends Application {
 
     @Override
     public void init() throws Exception {
-        Injector injector = Guice.createInjector(new Module(), new JavaModule());
+        Injector injector = Guice.createInjector(new Module());
         guiFactory = injector.getInstance(GuiFactory.class);
     }
 

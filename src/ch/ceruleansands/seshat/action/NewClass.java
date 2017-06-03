@@ -1,8 +1,8 @@
 package ch.ceruleansands.seshat.action;
 
-import ch.ceruleansands.actionstream.ActionHistory;
-import ch.ceruleansands.seshat.diagram.JavaDiagram;
-import ch.ceruleansands.seshat.gui.ErgonomicMenuItem;
+import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
+import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
+import ch.ceruleansands.seshat.component.tile.TileModel;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.event.ActionEvent;
@@ -16,16 +16,14 @@ import javafx.scene.input.KeyCombination;
  */
 public class NewClass extends ErgonomicMenuItem {
     private final JavaDiagram javaDiagram;
-    private final ActionHistory history;
     private final ActionFactory actionFactory;
 
     /**
      * Creates a new instance of a newClassAction.
      */
     @Inject
-    public NewClass(@Assisted JavaDiagram javaDiagram, ActionHistory history, ActionFactory actionFactory) {
+    public NewClass(@Assisted JavaDiagram javaDiagram, ActionFactory actionFactory) {
         this.javaDiagram = javaDiagram;
-        this.history = history;
         this.actionFactory = actionFactory;
     }
 
@@ -42,8 +40,7 @@ public class NewClass extends ErgonomicMenuItem {
     @Override
     public EventHandler<ActionEvent> getAction() {
         return event -> {
-            RevertibleNewClass revertibleNewClass = actionFactory.makeRevertibleNewClass(javaDiagram);
-            history.forward(revertibleNewClass);
+            javaDiagram.addTile(new TileModel("Unamed tile", javaDiagram.getMousePos().getX(), javaDiagram.getMousePos().getY()));
         };
     }
 }
