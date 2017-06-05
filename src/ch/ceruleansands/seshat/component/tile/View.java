@@ -13,11 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 import java.util.Collection;
 
@@ -43,6 +39,8 @@ class View extends BorderPane implements TileObserver, Anchor {
     private final SimpleDoubleProperty anchorY;
 
     View(Controller controller) {
+        setId("tile");
+
         this.controller = controller;
 
         VBox buttonBar = new VBox();
@@ -61,22 +59,13 @@ class View extends BorderPane implements TileObserver, Anchor {
         anchorY = new SimpleDoubleProperty();
 
         dragContext = new DragContext();
-        setId("javatile");
-
-        setLayoutX(50);
-        setLayoutY(50);
 
         name = new EditableLabel();
         name.setOnMouseEntered(event -> name.setCursor(Cursor.OPEN_HAND));
-        name.setId("tile");
 
-//        setCenter(name);
         setTop(name);
-//        setCenter(features);
-        setLeft(new ProximityPane());
-//        setRight(buttonBar);
-
-
+        setCenter(features);
+        setRight(buttonBar);
 
         features.getChildren().addAll(attributes, methods);
 
@@ -234,27 +223,5 @@ class View extends BorderPane implements TileObserver, Anchor {
 
     private double getAnchorYPos(double min, double max) {
         return (max - min) * 2 / 3 + min;
-    }
-
-    private class ProximityPane extends Pane {
-        public ProximityPane() {
-            setId("proximitypane");
-            setMinSize(20,20);
-            setOnMouseEntered(event -> name.pseudoClassStateChanged(PseudoClass.getPseudoClass("proximity"), true));
-            setOnMouseExited(event -> name.pseudoClassStateChanged(PseudoClass.getPseudoClass("proximity"), false));
-            AnchorPoint anchorPoint = new AnchorPoint();
-            getChildren().add(anchorPoint);
-        }
-    }
-
-    private class AnchorPoint extends StackPane {
-
-        public AnchorPoint() {
-            Circle circle = new Circle(5);
-            circle.setId("anchorpoint");
-
-            Circle circle1 = new Circle(8, Color.AQUA);
-            getChildren().addAll(circle1, circle);
-        }
     }
 }

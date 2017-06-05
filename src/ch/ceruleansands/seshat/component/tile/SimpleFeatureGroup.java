@@ -20,9 +20,9 @@ import java.util.Map;
  */
 public class SimpleFeatureGroup extends VBox{
 
-    Map<String, Label> dirtyMap;
+    private Map<String, Label> dirtyMap;
 
-    public SimpleFeatureGroup() {
+    SimpleFeatureGroup() {
         dirtyMap = new HashMap<>();
     }
 

@@ -3,6 +3,7 @@ package ch.ceruleansands.seshat.component.diagram;
 import ch.ceruleansands.seshat.action.ActionFactory;
 import ch.ceruleansands.seshat.action.NewClass;
 import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
+import ch.ceruleansands.seshat.component.tile.ProximityPane;
 import ch.ceruleansands.seshat.component.tile.Tile;
 import ch.ceruleansands.seshat.component.tile.TileFactory;
 import ch.ceruleansands.seshat.component.tile.TileModel;
@@ -42,12 +43,13 @@ public class JavaDiagram {
     private List<ErgonomicMenuItem> editActions;
     private Set<Tile> tiles;
     private Set<JavaRelationModel> relations;
-
     private ExporterImpl exporter;
 
     private final Group movingElements;
+
     private final Group tilesView;
     private final Group relationsView;
+    private final Group proximityView;
     private final TileFactory tileFactory;
 
     private final Collection<ErgonomicMenuItem> actions;
@@ -68,9 +70,10 @@ public class JavaDiagram {
         Origin origin = new Origin();
         tilesView = new Group();
         relationsView = new Group();
+        proximityView = new Group();
         background = new Background();
 
-        movingElements = new Group(tilesView, relationsView, origin);
+        movingElements = new Group(proximityView, tilesView, relationsView, origin);
         view = new Pane(background, movingElements);
 
         background.widthProperty().bind(view.widthProperty());
@@ -207,6 +210,9 @@ public class JavaDiagram {
         tile.getNode().setTranslateY(model.getY());
         tiles.add(tile);
         addElement(tilesView, tile.getNode());
+
+        final ProximityPane prox = new ProximityPane(tile);
+        proximityView.getChildren().add(prox);
     }
 
     public void removeTile(Tile tile) {

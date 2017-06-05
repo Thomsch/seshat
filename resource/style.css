@@ -1,25 +1,19 @@
 #tile {
-    -fx-background-color: #85A4FF
+    -fx-background-color: orange;
 }
 
-#tile:proximity {
-    -fx-background-color: #8946FF
+#tile:selected{
+     -fx-border-color:yellow;
+     -fx-border-width:2px;
 }
 
-#proximitypane:hover {
-    -fx-background-color: red
+#tile:highlight{
+     -fx-border-color:cyan;
+     -fx-border-width:2px;
 }
 
-#proximitypane {
-    -fx-background-color: transparent
-}
-
-#tileseparator {
-    -fx-background : black;
-}
-
-#javatile {
-    -fx-background-color: orange
+#proximity {
+    -fx-border-color: red;
 }
 
 #relation {
@@ -33,16 +27,4 @@
 
 #anchorpoint:hover {
     -fx-fill: pink
-}
-
-#javatile:selected{
-     -fx-effect: dropshadow(gaussian, yellow, 3, 3, 0, 0)
-}
-
-#javatile:highlight{
-    -fx-effect: dropshadow(gaussian, cyan, 3, 3, 0, 0)
-}
-
-#a:selected{
-    -fx-fill : red
 }

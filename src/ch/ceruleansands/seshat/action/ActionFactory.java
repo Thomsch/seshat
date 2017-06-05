@@ -2,7 +2,6 @@ package ch.ceruleansands.seshat.action;
 
 import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
 import ch.ceruleansands.seshat.disabled.action.Redo;
-import ch.ceruleansands.seshat.disabled.action.RevertibleNewClass;
 import ch.ceruleansands.seshat.disabled.action.Undo;
 import ch.ceruleansands.seshat.disabled.io.Load;
 import ch.ceruleansands.seshat.disabled.io.Save;
@@ -21,8 +20,6 @@ public interface ActionFactory {
     Undo makeUndoAction();
 
     NewClass makeNewClass(JavaDiagram javaDiagram);
-
-    RevertibleNewClass makeRevertibleNewClass(JavaDiagram javaDiagram);
 
     NewDiagram makeNewDiagram();
 }

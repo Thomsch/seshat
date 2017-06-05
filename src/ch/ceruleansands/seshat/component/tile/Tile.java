@@ -17,7 +17,6 @@ import java.util.Collection;
  * @author Thomsch
  */
 public class Tile {
-
     private final TileModel model;
     private final View view;
 

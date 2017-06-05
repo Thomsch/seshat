@@ -23,8 +23,6 @@ public class EditableLabel extends StackPane {
      */
     public EditableLabel(String tabTitle) {
         label = new Label(tabTitle);
-        label.setMinHeight(20);
-        label.setMinWidth(100);
         label.alignmentProperty().setValue(Pos.CENTER);
 
         textField = new TextField();
