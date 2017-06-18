@@ -16,11 +16,6 @@
     -fx-border-color: red;
 }
 
-#relation {
-    -fx-stroke: #C412FF;
-    -fx-stroke-width: 3px;
-}
-
 #anchorpoint {
     -fx-fill: beige
 }

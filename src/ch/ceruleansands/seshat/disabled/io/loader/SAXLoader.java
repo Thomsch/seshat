@@ -4,7 +4,6 @@ import ch.ceruleansands.seshat.component.diagram.DiagramBuilder;
 import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
 import ch.ceruleansands.seshat.component.tile.TileModel;
 import ch.ceruleansands.seshat.disabled.io.GraphicData;
-import ch.ceruleansands.seshat.disabled.relation.JavaRelationModel;
 import com.google.inject.Inject;
 
 import javax.xml.namespace.QName;
@@ -63,15 +62,12 @@ public class SAXLoader {
             System.out.println("Version loaded is " + version);
 
             Set<TileModel> tiles = new HashSet<>();
-            Set<JavaRelationModel> relations = new HashSet<>();
 
-            loadDiagramElements(eventReader, tiles, relations);
+            loadDiagramElements(eventReader, tiles);
             closeTags(eventReader);
 
             System.out.println("Loaded " + tiles.size() + " tile" + (tiles.size() > 1 ? "s" : ""));
-            System.out.println("Loaded " + relations.size() + " relation" + (relations.size() > 1 ? "s" : ""));
             tiles.forEach(diagram::addTile);
-            relations.forEach(diagram::addRelation);
 
             eventReader.close();
         } catch (XMLStreamException e) {
@@ -91,13 +87,11 @@ public class SAXLoader {
      * Loads the tiles and relations from the <code>eventReader</code> and adds them respectively to <code>tiles</code> and <code>relations</code>.
      * @param eventReader The XML description of the tiles and relations
      * @param tiles The list of tiles to add tiles to
-     * @param relations The list of relation to add relations to
      * @throws XMLStreamException when the format is incorrect
      * @throws NullPointerException when any of the parameters is null
      */
-    private void loadDiagramElements(XMLEventReader eventReader, Set<TileModel> tiles, Set<JavaRelationModel> relations) throws XMLStreamException, SaveFormatException {
+    private void loadDiagramElements(XMLEventReader eventReader, Set<TileModel> tiles) throws XMLStreamException, SaveFormatException {
         Objects.requireNonNull(tiles);
-        Objects.requireNonNull(relations);
         Objects.requireNonNull(eventReader);
 
         closeTags(eventReader);
@@ -111,11 +105,6 @@ public class SAXLoader {
                     case "tile":
                         TileModel tile = loadTile(element, eventReader);
                         tiles.add(tile);
-                        break;
-
-                    case "relation":
-                        JavaRelationModel relation = loadRelation(element, eventReader);
-                        relations.add(relation);
                         break;
                 }
 
@@ -190,16 +179,6 @@ public class SAXLoader {
         String elementText = eventReader.getElementText();
         closeTags(eventReader);
         return elementText;
-    }
-
-    /**
-     * Loads a relation tag.
-     * @param element the start of the tag
-     * @param eventReader the reader containing the remaining of the document
-     * @return The relation in a parsed format
-     */
-    private JavaRelationModel loadRelation(StartElement element, XMLEventReader eventReader) {
-        return new JavaRelationModel(null, null);
     }
 
     /**

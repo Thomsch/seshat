@@ -1,7 +1,5 @@
 package ch.ceruleansands.seshat.component.tile;
 
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
-import ch.ceruleansands.seshat.disabled.component.anchor.Anchor;
 import ch.ceruleansands.seshat.ui.SelectionManager;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
@@ -13,7 +11,6 @@ import javafx.event.EventHandler;
 class Controller {
 
     private final SelectionManager selectionManager;
-    private JavaDiagram diagram;
     private TileModel model;
     private Tile tile;
 
@@ -49,18 +46,6 @@ class Controller {
 
     public void setModel(TileModel model) {
         this.model = model;
-    }
-
-    public void startRelation(Anchor anchor) {
-        diagram.startRelation(anchor);
-    }
-
-    public void endRelation(Anchor anchor) {
-        diagram.endRelation(anchor);
-    }
-
-    public void setDiagram(JavaDiagram diagram) {
-        this.diagram = diagram;
     }
 
     public Tile getTile() {

@@ -11,20 +11,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
+
 /**
  * @author Thomsch
  */
 public class NewClass extends ErgonomicMenuItem {
     private final JavaDiagram javaDiagram;
-    private final ActionFactory actionFactory;
 
     /**
      * Creates a new instance of a newClassAction.
      */
     @Inject
-    public NewClass(@Assisted JavaDiagram javaDiagram, ActionFactory actionFactory) {
+    public NewClass(@Assisted JavaDiagram javaDiagram) {
         this.javaDiagram = javaDiagram;
-        this.actionFactory = actionFactory;
     }
 
     @Override
@@ -40,6 +39,7 @@ public class NewClass extends ErgonomicMenuItem {
     @Override
     public EventHandler<ActionEvent> getAction() {
         return event -> {
+            System.out.println(event.getSource());
             javaDiagram.addTile(new TileModel("Unamed tile", javaDiagram.getMousePos().getX(), javaDiagram.getMousePos().getY()));
         };
     }

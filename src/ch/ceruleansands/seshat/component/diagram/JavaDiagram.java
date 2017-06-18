@@ -5,16 +5,13 @@ import ch.ceruleansands.seshat.action.NewClass;
 import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.component.tile.ProximityPane;
 import ch.ceruleansands.seshat.component.tile.Tile;
-import ch.ceruleansands.seshat.component.tile.TileFactory;
 import ch.ceruleansands.seshat.component.tile.TileModel;
-import ch.ceruleansands.seshat.disabled.component.anchor.Anchor;
 import ch.ceruleansands.seshat.disabled.io.exporter.ExporterImpl;
-import ch.ceruleansands.seshat.disabled.relation.JavaRelationModel;
-import ch.ceruleansands.seshat.disabled.relation.RelationBuilder;
 import ch.ceruleansands.seshat.ui.Background;
 import ch.ceruleansands.seshat.ui.Origin;
 import ch.ceruleansands.seshat.ui.SelectionBox;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.css.PseudoClass;
@@ -42,7 +39,6 @@ public class JavaDiagram {
     private final Pane view;
     private List<ErgonomicMenuItem> editActions;
     private Set<Tile> tiles;
-    private Set<JavaRelationModel> relations;
     private ExporterImpl exporter;
 
     private final Group movingElements;
@@ -50,7 +46,7 @@ public class JavaDiagram {
     private final Group tilesView;
     private final Group relationsView;
     private final Group proximityView;
-    private final TileFactory tileFactory;
+    private final Provider<Tile> tileProvider;
 
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
@@ -58,13 +54,10 @@ public class JavaDiagram {
     private final IntegerProperty mouseX;
     private final IntegerProperty mouseY;
 
-    private RelationBuilder relationBuilder;
-
     @Inject
-    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, TileFactory tileFactory, RelationBuilder relationBuilder) {
+    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider) {
         this.exporter = exporter;
-        this.tileFactory = tileFactory;
-        this.relationBuilder = relationBuilder;
+        this.tileProvider = tileProvider;
         translationTracker = new TranslationTracker();
 
         Origin origin = new Origin();
@@ -91,32 +84,14 @@ public class JavaDiagram {
         mouseY = new SimpleIntegerProperty();
 
         tiles = new HashSet<>();
-        relations = new HashSet<>();
 
-        // TODO Refactor #makeDraggable, #installContextMenu, #installSelector to assign them to each one of them to a mouse action because now we can use m1 and m2 at the same time :(
-        relationGenerator();
         makeFocusable();
+        trackMousePostion();
     }
 
     private void makeFocusable() {
         view.setFocusTraversable(true);
         view.setOnMouseEntered(event -> view.requestFocus());
-//        view.setOnMouseClicked(event -> view.requestFocus());
-    }
-
-    private void relationGenerator() {
-
-//        view.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-//            if(relationBuilder.isRelationInProgress()) {
-//                relationBuilder.cancel(relationsView);
-//                highlightReceiverAnchors(false);
-//            }
-//        });
-
-        view.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
-            mouseX.setValue(event.getX() + translationTracker.getXTranslate());
-            mouseY.setValue(event.getY() + translationTracker.getYTranslate());
-        });
     }
 
     public void makeDraggable() {
@@ -147,6 +122,14 @@ public class JavaDiagram {
 
         background.widthProperty().addListener(evt -> background.draw(translationTracker.getXTranslate(), translationTracker.getYTranslate()));
         background.heightProperty().addListener(evt -> background.draw(translationTracker.getXTranslate(), translationTracker.getYTranslate()));
+    }
+
+    private void trackMousePostion() {
+
+        view.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+            mouseX.setValue(event.getX() + translationTracker.getXTranslate());
+            mouseY.setValue(event.getY() + translationTracker.getYTranslate());
+        });
     }
 
     public void installContextMenu() {
@@ -204,7 +187,7 @@ public class JavaDiagram {
      * @param model the model from which data will be displayed
      */
     public void addTile(TileModel model) {
-        Tile tile = tileFactory.createTile(this);
+        final Tile tile = tileProvider.get();
         tile.setName(model.getName());
         tile.getNode().setTranslateX(model.getX());
         tile.getNode().setTranslateY(model.getY());
@@ -217,30 +200,6 @@ public class JavaDiagram {
 
     public void removeTile(Tile tile) {
         removeElement(tilesView, tile.getNode());
-    }
-
-    /**
-     * Adds a new relation to the diagram from a model
-     *
-     * @param relation the model from which data will be displayed
-     */
-    public void addRelation(JavaRelationModel relation) {
-        relations.add(relation);
-    }
-
-    public void startRelation(Anchor anchor) {
-        if (!relationBuilder.isRelationInProgress()) {
-            relationBuilder.start(anchor, mouseX, mouseY, relationsView);
-            highlightReceiverAnchors(true);
-        }
-    }
-
-    public void endRelation(Anchor anchor) {
-        if (relationBuilder.isRelationInProgress()) {
-            highlightReceiverAnchors(false);
-            JavaRelationModel relation = relationBuilder.stop(anchor);
-            addRelation(relation);
-        }
     }
 
     private void highlightReceiverAnchors(boolean highlighted) {

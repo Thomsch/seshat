@@ -9,8 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -78,7 +76,6 @@ class View extends BorderPane implements TileObserver, Anchor {
         name.setNameChangeActionEvent(event -> onNameChanged());
         makeDraggable();
         makeFocusable();
-        relationGenerator();
 
         layoutBoundsProperty().addListener((observable, oldValue, newValue) -> updateAnchorPosition());
     }
@@ -92,16 +89,6 @@ class View extends BorderPane implements TileObserver, Anchor {
         setFocusTraversable(true);
         setOnMouseEntered(event -> requestFocus());
         setOnMouseClicked(event -> requestFocus());
-    }
-
-    private void relationGenerator() {
-        addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if(event.getCode() == KeyCode.R) {
-                controller.startRelation(this);
-            }
-        });
-
-        addEventHandler(MouseEvent.MOUSE_CLICKED, event -> controller.endRelation(this));
     }
 
     private void makeDraggable() {
