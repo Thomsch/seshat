@@ -2,7 +2,6 @@ package ch.ceruleansands.seshat.action;
 
 import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
-import ch.ceruleansands.seshat.component.tile.TileModel;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import javafx.event.ActionEvent;
@@ -39,8 +38,7 @@ public class NewClass extends ErgonomicMenuItem {
     @Override
     public EventHandler<ActionEvent> getAction() {
         return event -> {
-            System.out.println(event.getSource());
-            diagram.addTile(new TileModel("Unamed tile", diagram.getMousePos().getX(), diagram.getMousePos().getY()));
+            diagram.addTile();
         };
     }
 }

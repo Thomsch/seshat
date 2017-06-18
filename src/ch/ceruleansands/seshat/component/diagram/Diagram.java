@@ -12,10 +12,7 @@ import ch.ceruleansands.seshat.ui.Origin;
 import ch.ceruleansands.seshat.ui.SelectionBox;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.css.PseudoClass;
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -27,7 +24,6 @@ import javafx.scene.layout.Pane;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Represents a java diagram.
@@ -51,16 +47,17 @@ public class Diagram {
     private final Collection<ErgonomicMenuItem> actions;
     private final Background background;
     private TranslationTracker translationTracker;
-    private final IntegerProperty mouseX;
-    private final IntegerProperty mouseY;
+
+    private final TilePlacer tilePlacer;
 
     @Inject
-    public Diagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider) {
+    public Diagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider, TilePlacer tilePlacer) {
         this.exporter = exporter;
         this.tileProvider = tileProvider;
+        this.tilePlacer = tilePlacer;
         translationTracker = new TranslationTracker();
 
-        Origin origin = new Origin();
+        final Origin origin = new Origin();
         tilesView = new Group();
         relationsView = new Group();
         proximityView = new Group();
@@ -72,7 +69,7 @@ public class Diagram {
         background.widthProperty().bind(view.widthProperty());
         background.heightProperty().bind(view.heightProperty());
 
-        NewClass newClass = actionFactory.makeNewClass(this);
+        final NewClass newClass = actionFactory.makeNewClass(this);
 
         editActions = new ArrayList<>();
         editActions.add(newClass);
@@ -80,13 +77,13 @@ public class Diagram {
         actions = new ArrayList<>();
         actions.add(newClass);
 
-        mouseX = new SimpleIntegerProperty();
-        mouseY = new SimpleIntegerProperty();
+
 
         tiles = new HashSet<>();
 
+        view.addEventFilter(MouseEvent.MOUSE_MOVED, tilePlacer);
+
         makeFocusable();
-        trackMousePostion();
     }
 
     private void makeFocusable() {
@@ -94,7 +91,7 @@ public class Diagram {
         view.setOnMouseEntered(event -> view.requestFocus());
     }
 
-    public void makeDraggable() {
+    void makeDraggable() {
         view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.init(event.getX(), event.getY());
@@ -105,8 +102,8 @@ public class Diagram {
             if (event.getButton() == MouseButton.SECONDARY) {
                 translationTracker.update(event.getX(), event.getY());
 
-                double tx = translationTracker.getAbsoluteXTranslation();
-                double ty = translationTracker.getAbsoluteYTranslation();
+                final double tx = translationTracker.getAbsoluteXTranslation();
+                final double ty = translationTracker.getAbsoluteYTranslation();
 
                 background.draw(tx, ty);
                 movingElements.setTranslateX(tx);
@@ -124,19 +121,12 @@ public class Diagram {
         background.heightProperty().addListener(evt -> background.draw(translationTracker.getXTranslate(), translationTracker.getYTranslate()));
     }
 
-    private void trackMousePostion() {
-
-        view.addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
-            mouseX.setValue(event.getX() + translationTracker.getXTranslate());
-            mouseY.setValue(event.getY() + translationTracker.getYTranslate());
-        });
-    }
-
-    public void installContextMenu() {
-        List<MenuItem> menuItems = actions.stream()
+    void installContextMenu() {
+        final MenuItem[] menuItems = actions.stream()
                 .map(ErgonomicMenuItem::getAsMenuItem)
-                .collect(Collectors.toList());
-        ContextMenu contextMenu = new ContextMenu(menuItems.toArray(new MenuItem[menuItems.size()]));
+                .toArray(MenuItem[]::new);
+
+        final ContextMenu contextMenu = new ContextMenu(menuItems);
         contextMenu.setAutoHide(true);
 
         view.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, event -> {
@@ -146,7 +136,7 @@ public class Diagram {
         view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> contextMenu.hide());
     }
 
-    public void installSelector(SelectionBox selectionBox) {
+    void installSelector(SelectionBox selectionBox) {
         view.getChildren().addAll(selectionBox);
 
         view.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
@@ -162,40 +152,34 @@ public class Diagram {
         view.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 tilesView.getChildren().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), false));
-                List<Node> selected = selectionBox.release(tilesView.getChildren(), movingElements);
+                final List<Node> selected = selectionBox.release(tilesView.getChildren(), movingElements);
                 selected.stream().forEach(node -> node.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), true));
             }
         });
         selectionBox.toFront();
     }
 
-    public Node getView() {
+    Node getView() {
         return view;
     }
 
-    public Optional<File> save(Optional<File> file) {
+    Optional<File> save(Optional<File> file) {
         return exporter.export(file, view.getScene().getWindow(), null);
     }
 
-    public List<ErgonomicMenuItem> getEditItems() {
+    List<ErgonomicMenuItem> getEditItems() {
         return editActions;
     }
 
     /**
      * Adds a new tile to the diagram from a model.
      *
-     * @param model the model from which data will be displayed
      */
-    public void addTile(TileModel model) {
-        final Tile tile = tileProvider.get();
-        tile.setName(model.getName());
-        tile.getNode().setTranslateX(model.getX());
-        tile.getNode().setTranslateY(model.getY());
-        tiles.add(tile);
-        addElement(tilesView, tile.getNode());
-
-        final ProximityPane prox = new ProximityPane(tile);
-        proximityView.getChildren().add(prox);
+    public void addTile() {
+        final TileModel model = new TileModel("Unamed tile",
+                tilePlacer.positionForX(translationTracker.getXTranslate()),
+                tilePlacer.positionForY(translationTracker.getYTranslate()));
+        addTile(model);
     }
 
     public void removeTile(Tile tile) {
@@ -214,7 +198,15 @@ public class Diagram {
         group.getChildren().removeAll(node);
     }
 
-    public Point2D getMousePos() {
-        return new Point2D(mouseX.doubleValue(), mouseY.doubleValue());
+    public void addTile(TileModel model) {
+        final Tile tile = tileProvider.get();
+        tile.setName(model.getName());
+        tile.getNode().setTranslateX(model.getX());
+        tile.getNode().setTranslateY(model.getY());
+        tiles.add(tile);
+        addElement(tilesView, tile.getNode());
+
+        final ProximityPane prox = new ProximityPane(tile);
+        proximityView.getChildren().add(prox);
     }
 }
