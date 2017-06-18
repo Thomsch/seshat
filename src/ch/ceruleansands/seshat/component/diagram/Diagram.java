@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  *
  * @author Thomsch.
  */
-public class JavaDiagram {
+public class Diagram {
 
     private final Pane view;
     private List<ErgonomicMenuItem> editActions;
@@ -55,7 +55,7 @@ public class JavaDiagram {
     private final IntegerProperty mouseY;
 
     @Inject
-    public JavaDiagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider) {
+    public Diagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider) {
         this.exporter = exporter;
         this.tileProvider = tileProvider;
         translationTracker = new TranslationTracker();

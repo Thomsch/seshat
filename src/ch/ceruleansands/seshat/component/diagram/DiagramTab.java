@@ -12,12 +12,12 @@ import java.util.Optional;
  */
 public class DiagramTab extends Tab{
 
-    private final JavaDiagram diagram;
+    private final Diagram diagram;
     private final MainMenu menuProxy;
     private final EditableLabel label;
     private Optional<File> file;
 
-    public DiagramTab(String tabTitle, JavaDiagram diagram, MainMenu menuProxy) {
+    public DiagramTab(String tabTitle, Diagram diagram, MainMenu menuProxy) {
         super(null, diagram.getView());
 
         this.diagram = diagram;

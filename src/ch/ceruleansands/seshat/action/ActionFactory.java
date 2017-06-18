@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.action;
 
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.disabled.action.Redo;
 import ch.ceruleansands.seshat.disabled.action.Undo;
 import ch.ceruleansands.seshat.disabled.io.Load;
@@ -19,7 +19,7 @@ public interface ActionFactory {
 
     Undo makeUndoAction();
 
-    NewClass makeNewClass(JavaDiagram javaDiagram);
+    NewClass makeNewClass(Diagram diagram);
 
     NewDiagram makeNewDiagram();
 }

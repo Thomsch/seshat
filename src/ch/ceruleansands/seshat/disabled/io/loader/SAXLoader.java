@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.disabled.io.loader;
 
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.diagram.DiagramBuilder;
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
 import ch.ceruleansands.seshat.component.tile.TileModel;
 import ch.ceruleansands.seshat.disabled.io.GraphicData;
 import com.google.inject.Inject;
@@ -31,8 +31,8 @@ public class SAXLoader {
         this.diagramBuilder = diagramBuilder;
     }
 
-    public JavaDiagram loadFromBuffer(BufferedReader bufferedReader) throws IOException, SaveFormatException {
-        JavaDiagram diagram = diagramBuilder.createEmpty();
+    public Diagram loadFromBuffer(BufferedReader bufferedReader) throws IOException, SaveFormatException {
+        Diagram diagram = diagramBuilder.createEmpty();
         load(diagram, bufferedReader);
         bufferedReader.close();
         return diagram;
@@ -46,7 +46,7 @@ public class SAXLoader {
      * @param bufferedReader The diagram description in text format
      * @throws SaveFormatException when the content of <code>bufferedReader</code> is not in the correct format
      */
-    public void load(JavaDiagram diagram, BufferedReader bufferedReader) throws SaveFormatException {
+    public void load(Diagram diagram, BufferedReader bufferedReader) throws SaveFormatException {
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 
         XMLEventReader eventReader = null;

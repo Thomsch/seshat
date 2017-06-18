@@ -10,19 +10,19 @@ import com.google.inject.Provider;
  */
 public class DiagramBuilder {
 
-    private final Provider<JavaDiagram> diagramProvider;
+    private final Provider<Diagram> diagramProvider;
 
 
     @Inject
-    public DiagramBuilder(Provider<JavaDiagram> diagramProvider) {
+    public DiagramBuilder(Provider<Diagram> diagramProvider) {
         this.diagramProvider = diagramProvider;
     }
 
-    public JavaDiagram createEmpty() {
+    public Diagram createEmpty() {
         return configureDiagram(diagramProvider.get());
     }
 
-    private JavaDiagram configureDiagram(JavaDiagram diagram) {
+    private Diagram configureDiagram(Diagram diagram) {
         diagram.installSelector(new SelectionBox());
         diagram.installContextMenu();
         diagram.makeDraggable();

@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.action;
 
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.component.tile.TileModel;
 import com.google.inject.Inject;
@@ -16,14 +16,14 @@ import javafx.scene.input.KeyCombination;
  * @author Thomsch
  */
 public class NewClass extends ErgonomicMenuItem {
-    private final JavaDiagram javaDiagram;
+    private final Diagram diagram;
 
     /**
      * Creates a new instance of a newClassAction.
      */
     @Inject
-    public NewClass(@Assisted JavaDiagram javaDiagram) {
-        this.javaDiagram = javaDiagram;
+    public NewClass(@Assisted Diagram diagram) {
+        this.diagram = diagram;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class NewClass extends ErgonomicMenuItem {
     public EventHandler<ActionEvent> getAction() {
         return event -> {
             System.out.println(event.getSource());
-            javaDiagram.addTile(new TileModel("Unamed tile", javaDiagram.getMousePos().getX(), javaDiagram.getMousePos().getY()));
+            diagram.addTile(new TileModel("Unamed tile", diagram.getMousePos().getX(), diagram.getMousePos().getY()));
         };
     }
 }

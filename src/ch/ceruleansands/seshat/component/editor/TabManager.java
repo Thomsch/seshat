@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.component.editor;
 
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.diagram.DiagramTab;
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
 import ch.ceruleansands.seshat.component.menu.MainMenu;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,7 +41,7 @@ public class TabManager implements ChangeListener<Tab> {
      * @param diagram the diagram
      * @param file it's location
      */
-    public void addDiagram(JavaDiagram diagram, File file) {
+    public void addDiagram(Diagram diagram, File file) {
         DiagramTab tab = new DiagramTab(file.getName(), diagram, menuProxy);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
@@ -51,7 +51,7 @@ public class TabManager implements ChangeListener<Tab> {
      * Adds an empty diagram to this editor.
      * @param empty the empty diagram
      */
-    public void addDiagram(JavaDiagram empty) {
+    public void addDiagram(Diagram empty) {
         addDiagram(empty, new File("Unsaved diagram"));
     }
 

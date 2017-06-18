@@ -1,7 +1,7 @@
 package ch.ceruleansands.seshat.disabled.io;
 
 import ch.ceruleansands.seshat.DialogHelper;
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.editor.TabManager;
 import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.disabled.io.loader.DiagramLoader;
@@ -55,7 +55,7 @@ public class Load extends ErgonomicMenuItem {
             optFile.ifPresent(file -> {
                 System.out.println("Converting \"" + file.getName() + "\" at " + file.getAbsolutePath());
                 try {
-                    JavaDiagram diagram = diagramLoader.loadDiagramFromFile(file);
+                    Diagram diagram = diagramLoader.loadDiagramFromFile(file);
                     tabManager.addDiagram(diagram, file);
                 } catch (FileNotFoundException e) {
                     dialogHelper.showError("File not found", e.getMessage());

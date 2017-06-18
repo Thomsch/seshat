@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.disabled.io.loader;
 
-import ch.ceruleansands.seshat.component.diagram.JavaDiagram;
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.disabled.io.loader.header.Header;
 import ch.ceruleansands.seshat.disabled.io.loader.header.HeaderException;
 import ch.ceruleansands.seshat.disabled.io.loader.header.HeaderReader;
@@ -54,7 +54,7 @@ public class DiagramLoader {
      * @throws HeaderException when the header of the file is incorrect
      * @throws SaveFormatException when the diagram is saved in an incorrect or not recognized format
      */
-    public JavaDiagram loadDiagramFromFile(File file) throws FileNotFoundException, IOException, HeaderException, SaveFormatException {
+    public Diagram loadDiagramFromFile(File file) throws FileNotFoundException, IOException, HeaderException, SaveFormatException {
         try (BufferedReader bufferedReader = Files.newReader(file, Charset.forName("utf-8"))) {
             Header header = headerReader.read(bufferedReader);
 
