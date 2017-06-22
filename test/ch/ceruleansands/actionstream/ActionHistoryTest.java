@@ -51,7 +51,7 @@ public class ActionHistoryTest {
 
         actionHistory.forward(action);
 
-        assertEquals(0, action.getNbrExecuted());
+        assertEquals(1, action.getNbrExecuted());
         actionHistory.undo();
         assertEquals(1, action.getNbrReverted());
     }
