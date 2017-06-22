@@ -1,11 +1,11 @@
-package ch.ceruleansands.seshat.ui;
+package ch.ceruleansands.seshat;
 
 import ch.ceruleansands.seshat.component.editor.Editor;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
 
 /**
  * @author Thomsch
  */
 public interface GuiFactory {
-    Editor makeEditor(Stage stage);
+    Editor createEditor(BorderPane view);
 }
