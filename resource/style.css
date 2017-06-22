@@ -15,11 +15,3 @@
 #proximity {
     -fx-border-color: red;
 }
-
-#anchorpoint {
-    -fx-fill: beige
-}
-
-#anchorpoint:hover {
-    -fx-fill: pink
-}

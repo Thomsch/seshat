@@ -33,22 +33,17 @@ import java.util.*;
 public class Diagram {
 
     private final Pane view;
+    private final Group movingElements;
+    private final Group tilesView;
+    private final Group proximityView;
+    private final Provider<Tile> tileProvider;
+    private final Collection<ErgonomicMenuItem> actions;
+    private final Background background;
+    private final TilePlacer tilePlacer;
     private List<ErgonomicMenuItem> editActions;
     private Set<Tile> tiles;
     private ExporterImpl exporter;
-
-    private final Group movingElements;
-
-    private final Group tilesView;
-    private final Group relationsView;
-    private final Group proximityView;
-    private final Provider<Tile> tileProvider;
-
-    private final Collection<ErgonomicMenuItem> actions;
-    private final Background background;
     private TranslationTracker translationTracker;
-
-    private final TilePlacer tilePlacer;
 
     @Inject
     public Diagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider, TilePlacer tilePlacer) {
@@ -59,11 +54,10 @@ public class Diagram {
 
         final Origin origin = new Origin();
         tilesView = new Group();
-        relationsView = new Group();
         proximityView = new Group();
         background = new Background();
 
-        movingElements = new Group(proximityView, tilesView, relationsView, origin);
+        movingElements = new Group(proximityView, tilesView, origin);
         view = new Pane(background, movingElements);
 
         background.widthProperty().bind(view.widthProperty());
@@ -184,10 +178,6 @@ public class Diagram {
 
     public void removeTile(Tile tile) {
         removeElement(tilesView, tile.getNode());
-    }
-
-    private void highlightReceiverAnchors(boolean highlighted) {
-        tiles.forEach(tile -> tile.highlightAnchors(highlighted));
     }
 
     private void addElement(Group group, Node node) {

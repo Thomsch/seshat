@@ -54,8 +54,4 @@ public class Tile {
     public void setSelected(boolean selected) {
         view.setSelected(selected);
     }
-
-    public void highlightAnchors(boolean highlighted) {
-        view.highlight(highlighted);
-    }
 }

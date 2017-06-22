@@ -1,9 +1,6 @@
 package ch.ceruleansands.seshat.component.tile;
 
-import ch.ceruleansands.seshat.disabled.component.anchor.Anchor;
 import ch.ceruleansands.seshat.ui.EditableLabel;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +15,7 @@ import java.util.Collection;
 /**
  * @author Thomsch
  */
-class View extends BorderPane implements TileObserver, Anchor {
+class View extends BorderPane implements TileObserver {
 
     private final EditableLabel name;
     private final DragContext dragContext;
@@ -32,9 +29,6 @@ class View extends BorderPane implements TileObserver, Anchor {
 
     private final PseudoClass selectable = PseudoClass.getPseudoClass("selected");
     private final PseudoClass highlight = PseudoClass.getPseudoClass("highlight");
-
-    private final SimpleDoubleProperty anchorX;
-    private final SimpleDoubleProperty anchorY;
 
     View(Controller controller) {
         setId("tile");
@@ -53,9 +47,6 @@ class View extends BorderPane implements TileObserver, Anchor {
         newAttribute.setPrefWidth(28);
         buttonBar.getChildren().addAll(newAttribute, newMethod);
 
-        anchorX = new SimpleDoubleProperty();
-        anchorY = new SimpleDoubleProperty();
-
         dragContext = new DragContext();
 
         name = new EditableLabel();
@@ -67,22 +58,12 @@ class View extends BorderPane implements TileObserver, Anchor {
 
         features.getChildren().addAll(attributes, methods);
 
-        translateXProperty().addListener((observable, oldValue, newValue) -> anchorX.setValue(getAnchorXPos(getBoundsInParent().getMinX(), getBoundsInParent().getMaxX())));
-        translateYProperty().addListener((observable, oldValue, newValue) -> anchorY.setValue(getAnchorYPos(getBoundsInParent().getMinY(), getBoundsInParent().getMaxY())));
-
         setPrefSize(100, 100);
 
         setFocusTraversable(true);
         name.setNameChangeActionEvent(event -> onNameChanged());
         makeDraggable();
         makeFocusable();
-
-        layoutBoundsProperty().addListener((observable, oldValue, newValue) -> updateAnchorPosition());
-    }
-
-    private void updateAnchorPosition() {
-        anchorX.setValue(getAnchorXPos(getBoundsInParent().getMinX(), getBoundsInParent().getMaxX()));
-        anchorY.setValue(getAnchorYPos(getBoundsInParent().getMinY(), getBoundsInParent().getMaxY()));
     }
 
     private void makeFocusable() {
@@ -166,49 +147,10 @@ class View extends BorderPane implements TileObserver, Anchor {
         methods.forEach(this::addMethodLabel);
     }
 
-    @Override
-    public double getX() {
-        return getAnchorXPos(getBoundsInParent().getMinX(), getBoundsInParent().getMaxX());
-    }
-
-
-    @Override
-    public double getY() {
-        return getAnchorYPos(getBoundsInParent().getMinY(), getBoundsInParent().getMaxY());
-    }
-
-    @Override
-    public Tile getTile() {
-        return controller.getTile();
-    }
-
-    @Override
-    public void highlight(boolean highlighted) {
-        setHighlighted(highlighted);
-    }
-
-    @Override
-    public DoubleProperty getXProperty() {
-        return anchorX;
-    }
-
-    @Override
-    public DoubleProperty getYProperty() {
-        return anchorY;
-    }
-
     private static final class DragContext {
         double mouseAnchorX;
         double mouseAnchorY;
         double initialTranslateX;
         double initialTranslateY;
-    }
-
-    private double getAnchorXPos(double min, double max) {
-        return (max - min) / 2 + min;
-    }
-
-    private double getAnchorYPos(double min, double max) {
-        return (max - min) * 2 / 3 + min;
     }
 }
