@@ -5,32 +5,43 @@ import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.diagram.DiagramBuilder;
 import ch.ceruleansands.seshat.component.menu.MainMenu;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+
+import java.util.Objects;
 
 /**
  * @author Thomsch.
  */
 public class Editor {
 
-    private final BorderPane view;
     private final DiagramBuilder diagramBuilder;
     private final ActionFactory actionFactory;
 
+    private BorderPane view;
+
     @Inject
-    // TODO Evaluate the need for a builder.
-    public Editor(@Assisted BorderPane view, DiagramBuilder javaDiagramBuilder, ActionFactory actionFactory) {
-        this.view = view;
+    public Editor(DiagramBuilder javaDiagramBuilder, ActionFactory actionFactory) {
         this.diagramBuilder = javaDiagramBuilder;
         this.actionFactory = actionFactory;
     }
 
+    public Parent createView() {
+        final BorderPane borderPane = new BorderPane();
+        this.view = borderPane;
+        return borderPane;
+    }
+
     public void setEmptyDiagram() {
+        Objects.requireNonNull(view);
+
         final Diagram diagram = diagramBuilder.createEmpty();
         view.setCenter(diagram.view);
     }
 
     public void setMenu() {
+        Objects.requireNonNull(view);
+
         final MainMenu menu = new MainMenu();
 
         menu.addEditItem(actionFactory.makeUndoAction());

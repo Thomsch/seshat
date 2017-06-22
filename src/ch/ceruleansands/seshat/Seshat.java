@@ -5,9 +5,9 @@ import ch.ceruleansands.seshat.guice.Module;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -20,12 +20,12 @@ public class Seshat extends Application {
     private static final double GOLDEN_RATIO = 1.6180339887;
     private static final double HEIGHT = WIDTH / GOLDEN_RATIO;
 
-    private GuiFactory guiFactory;
+    private Editor editor;
 
     @Override
     public void init() throws Exception {
         final Injector injector = Guice.createInjector(new Module());
-        guiFactory = injector.getInstance(GuiFactory.class);
+        editor = injector.getInstance(Editor.class);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Seshat extends Application {
         stage.setTitle("Seshat");
         configureIcons(stage);
 
-        final BorderPane root = buildEditor();
+        final Parent root = configureEditor();
         final Scene scene = buildScene(root);
 
         stage.setScene(scene);
@@ -42,19 +42,16 @@ public class Seshat extends Application {
     }
 
     /**
-     * Create and configure the editor.
-     *
      * @return the the UI pane on which the editor operates.
      */
-    private BorderPane buildEditor() {
-        final BorderPane root = new BorderPane();
-        final Editor editor = guiFactory.createEditor(root);
+    private Parent configureEditor() {
+        final Parent root = editor.createView();
         editor.setMenu();
         editor.setEmptyDiagram();
         return root;
     }
 
-    private Scene buildScene(BorderPane root) {
+    private Scene buildScene(Parent root) {
         final Scene scene = new Scene(root, WIDTH, HEIGHT);
         scene.getStylesheets().add("style.css");
         return scene;

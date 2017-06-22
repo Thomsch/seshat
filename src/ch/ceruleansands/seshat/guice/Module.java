@@ -1,7 +1,6 @@
 package ch.ceruleansands.seshat.guice;
 
 import ch.ceruleansands.actionstream.ActionHistory;
-import ch.ceruleansands.seshat.GuiFactory;
 import ch.ceruleansands.seshat.action.ActionFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -17,7 +16,6 @@ public class Module extends AbstractModule {
     @Override
 
     protected void configure() {
-        install(new FactoryModuleBuilder().build(GuiFactory.class));
         install(new FactoryModuleBuilder().build(ActionFactory.class));
 
         actionHistory = new ActionHistory(20);
