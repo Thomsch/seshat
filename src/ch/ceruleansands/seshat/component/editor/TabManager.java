@@ -77,11 +77,4 @@ public class TabManager implements ChangeListener<Tab> {
     public Node getTabPane() {
         return tabPane;
     }
-
-    public void saveCurrentDiagram() {
-        Tab selectedTab = tabPane.getSelectionModel().getSelectedItem();
-        DiagramTab selectedDiagram = (DiagramTab) selectedTab;
-
-        selectedDiagram.save();
-    }
 }

@@ -6,7 +6,6 @@ import ch.ceruleansands.seshat.component.menu.ErgonomicMenuItem;
 import ch.ceruleansands.seshat.component.tile.ProximityPane;
 import ch.ceruleansands.seshat.component.tile.Tile;
 import ch.ceruleansands.seshat.component.tile.TileModel;
-import ch.ceruleansands.seshat.disabled.io.exporter.ExporterImpl;
 import ch.ceruleansands.seshat.ui.Background;
 import ch.ceruleansands.seshat.ui.Origin;
 import ch.ceruleansands.seshat.ui.SelectionBox;
@@ -22,7 +21,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
-import java.io.File;
 import java.util.*;
 
 /**
@@ -42,12 +40,10 @@ public class Diagram {
     private final TilePlacer tilePlacer;
     private List<ErgonomicMenuItem> editActions;
     private Set<Tile> tiles;
-    private ExporterImpl exporter;
     private TranslationTracker translationTracker;
 
     @Inject
-    public Diagram(ExporterImpl exporter, ActionFactory actionFactory, Provider<Tile> tileProvider, TilePlacer tilePlacer) {
-        this.exporter = exporter;
+    public Diagram(ActionFactory actionFactory, Provider<Tile> tileProvider, TilePlacer tilePlacer) {
         this.tileProvider = tileProvider;
         this.tilePlacer = tilePlacer;
         translationTracker = new TranslationTracker();
@@ -155,10 +151,6 @@ public class Diagram {
 
     Node getView() {
         return view;
-    }
-
-    Optional<File> save(Optional<File> file) {
-        return exporter.export(file, view.getScene().getWindow(), null);
     }
 
     List<ErgonomicMenuItem> getEditItems() {

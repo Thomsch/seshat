@@ -38,9 +38,6 @@ public class Editor {
     public void configure() {
 
         // File
-        menu.addFileItem(actionFactory.makeLoadAction());
-        menu.addFileItem(actionFactory.makeSaveAction());
-        menu.addFileSeparator();
         menu.addFileItem(actionFactory.makeNewDiagram());
 
         // Edit

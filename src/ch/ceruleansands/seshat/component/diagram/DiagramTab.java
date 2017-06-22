@@ -28,11 +28,6 @@ public class DiagramTab extends Tab{
         setGraphic(label);
     }
 
-    public void save() {
-        file = diagram.save(file);
-        file.ifPresent(c -> label.setDisplayText(c.getName()));
-    }
-
     public void onUnfocused() {
         diagram.getEditItems().forEach(menuProxy::removeEditItem);
     }
