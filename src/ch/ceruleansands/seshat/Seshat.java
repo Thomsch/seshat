@@ -26,6 +26,7 @@ public class Seshat extends Application {
     public void start(Stage stage) throws Exception {
         Editor editor = guiFactory.makeEditor(stage);
         editor.configure();
+        editor.emptyDiagram();
         editor.show();
     }
 }

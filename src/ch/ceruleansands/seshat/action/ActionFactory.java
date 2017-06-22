@@ -14,6 +14,4 @@ public interface ActionFactory {
     Undo makeUndoAction();
 
     NewClass makeNewClass(Diagram diagram);
-
-    NewDiagram makeNewDiagram();
 }

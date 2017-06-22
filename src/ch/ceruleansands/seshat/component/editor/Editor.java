@@ -1,6 +1,7 @@
 package ch.ceruleansands.seshat.component.editor;
 
 import ch.ceruleansands.seshat.action.ActionFactory;
+import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.diagram.DiagramBuilder;
 import ch.ceruleansands.seshat.component.menu.MainMenu;
 import com.google.inject.Inject;
@@ -19,27 +20,21 @@ public class Editor {
     private final BorderPane root;
 
     private final MainMenu menu;
-    private final TabManager tabManager;
 
     private final ActionFactory actionFactory;
     private final DiagramBuilder diagramBuilder;
 
     @Inject
     // TODO Evaluate the need for a builder.
-    public Editor(@Assisted Stage stage, DiagramBuilder javaDiagramBuilder, MainMenu menu, TabManager tabManager, ActionFactory actionFactory) {
+    public Editor(@Assisted Stage stage, DiagramBuilder javaDiagramBuilder, MainMenu menu, ActionFactory actionFactory) {
         this.stage = stage;
         this.diagramBuilder = javaDiagramBuilder;
         this.menu = menu;
         this.actionFactory = actionFactory;
-        this.tabManager = tabManager;
         root = new BorderPane();
     }
 
     public void configure() {
-
-        // File
-        menu.addFileItem(actionFactory.makeNewDiagram());
-
         // Edit
         menu.addEditItem(actionFactory.makeUndoAction());
         menu.addEditItem(actionFactory.makeRedoAction());
@@ -56,11 +51,9 @@ public class Editor {
         scene.getStylesheets().add("style.css");
 
         root.setTop(menu.getMenuBar());
-        root.setCenter(tabManager.getTabPane());
 
         stage.setScene(scene);
 //        stage.setMaximized(true);
-        tabManager.addDiagram(diagramBuilder.createEmpty());
     }
 
     /**
@@ -68,5 +61,10 @@ public class Editor {
      */
     public void show() {
         stage.show();
+    }
+
+    public void emptyDiagram() {
+        final Diagram diagram = diagramBuilder.createEmpty();
+        root.setCenter(diagram.view);
     }
 }

@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class Diagram {
 
-    private final Pane view;
+    public final Pane view;
     private final Group movingElements;
     private final Group tilesView;
     private final Group proximityView;
