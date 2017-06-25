@@ -3,7 +3,6 @@ package ch.ceruleansands.seshat.component.editor;
 import ch.ceruleansands.seshat.action.ActionFactory;
 import ch.ceruleansands.seshat.component.diagram.Diagram;
 import ch.ceruleansands.seshat.component.diagram.DiagramBuilder;
-import ch.ceruleansands.seshat.component.menu.MainMenu;
 import com.google.inject.Inject;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
@@ -42,14 +41,5 @@ public class Editor {
 
         final Diagram diagram = diagramBuilder.createEmpty();
         view.setCenter(diagram.getView());
-    }
-
-    public void setMenu() {
-        Objects.requireNonNull(view);
-
-        final MainMenu menu = new MainMenu();
-
-        menu.addEditItem(actionFactory.makeUndoAction());
-        menu.addEditItem(actionFactory.makeRedoAction());
     }
 }

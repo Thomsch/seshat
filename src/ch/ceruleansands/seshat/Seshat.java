@@ -46,7 +46,6 @@ public class Seshat extends Application {
      */
     private Parent configureEditor() {
         final Parent root = editor.createView();
-        editor.setMenu();
         editor.setEmptyDiagram();
         return root;
     }

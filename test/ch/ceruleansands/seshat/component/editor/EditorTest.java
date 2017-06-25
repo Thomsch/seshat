@@ -19,7 +19,6 @@ public class EditorTest {
 
     private Editor editor;
     private DiagramBuilder diagramBuilder;
-    private Diagram emptyDiagram;
     private Pane diagramView;
 
     @Before
@@ -27,7 +26,7 @@ public class EditorTest {
         diagramBuilder = mock(DiagramBuilder.class);
         editor = new Editor(diagramBuilder, mock(ActionFactory.class));
 
-        emptyDiagram = mock(Diagram.class);
+        final Diagram emptyDiagram = mock(Diagram.class);
         diagramView = new Pane();
         when(emptyDiagram.getView()).thenReturn(diagramView);
         when(diagramBuilder.createEmpty()).thenReturn(emptyDiagram);
@@ -42,11 +41,6 @@ public class EditorTest {
     @Test(expected = NullPointerException.class)
     public void setEmptyDiagramBeforeSettingTheView() throws Exception {
         editor.setEmptyDiagram();
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void setMenuBeforeSettingTheView() throws Exception {
-        editor.setMenu();
     }
 
     @Test
