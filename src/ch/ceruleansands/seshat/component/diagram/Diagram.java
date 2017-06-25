@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class Diagram {
 
-    public final Pane view;
+    private final Pane view;
     private final Group movingElements;
     private final Group tilesView;
     private final Group proximityView;
@@ -149,7 +149,7 @@ public class Diagram {
         selectionBox.toFront();
     }
 
-    Node getView() {
+    public Node getView() {
         return view;
     }
 

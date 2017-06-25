@@ -26,6 +26,11 @@ public class Editor {
         this.actionFactory = actionFactory;
     }
 
+    /**
+     * The editor creates it's view. Set it for himself and returns it
+     *
+     * @return The view created and used for the editor
+     */
     public Parent createView() {
         final BorderPane borderPane = new BorderPane();
         this.view = borderPane;
@@ -36,7 +41,7 @@ public class Editor {
         Objects.requireNonNull(view);
 
         final Diagram diagram = diagramBuilder.createEmpty();
-        view.setCenter(diagram.view);
+        view.setCenter(diagram.getView());
     }
 
     public void setMenu() {
