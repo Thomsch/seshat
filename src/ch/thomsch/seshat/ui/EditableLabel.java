@@ -1,7 +1,6 @@
 package ch.thomsch.seshat.ui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -15,7 +14,6 @@ import javafx.scene.layout.StackPane;
 public class EditableLabel extends StackPane {
     private final Label label;
     private final TextField textField;
-    private EventHandler<ActionEvent> onNameChange = event -> {};
 
     /**
      * Creates a new instance.
@@ -57,7 +55,6 @@ public class EditableLabel extends StackPane {
     private void toLabel() {
         label.setText(textField.getText());
         replaceNode(label);
-        onNameChange.handle(new ActionEvent(label, label));
     }
 
     private void replaceNode(Node node) {
@@ -65,12 +62,8 @@ public class EditableLabel extends StackPane {
         getChildren().add(node);
     }
 
-    public String getText() {
-        return label.getText();
-    }
-
-    public void setNameChangeActionEvent(EventHandler<ActionEvent> event) {
-        onNameChange = event;
+    public void setLabelListener(ChangeListener<String> listener) {
+        label.textProperty().addListener(listener);
     }
 
     public void setDisplayText(String displayText) {

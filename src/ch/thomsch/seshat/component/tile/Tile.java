@@ -15,18 +15,17 @@ public class Tile {
     private final View view;
 
     @Inject
-    public Tile(Controller controller) {
+    Tile(Controller controller) {
         model = new TileModel("Unnamed class", 0d,0d);
 
-        view = new View(controller);
+        view = new View();
         controller.setModel(model);
         controller.setTile(this);
 
         model.addTileObserver(view);
 
-        view.setNewAttributeButtonAction(controller.newAttributeAction(model));
-        view.setNewMethodButtonAction(controller.newMethodAction(model));
         view.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> controller.onSelection(event.isControlDown(), this));
+        view.setTileNameListener((observable, oldValue, newValue) -> controller.onNameChange(newValue));
 
         view.populateFields(model.getName(), model.getAttributes(), model.getMethods());
     }

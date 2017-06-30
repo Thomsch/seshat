@@ -1,11 +1,9 @@
 package ch.thomsch.seshat.component.tile;
 
 import ch.thomsch.seshat.ui.EditableLabel;
+import javafx.beans.value.ChangeListener;
 import javafx.css.PseudoClass;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -20,32 +18,18 @@ class View extends BorderPane implements TileObserver {
     private final EditableLabel name;
     private final DragContext dragContext;
 
-    private final Controller controller;
-    private final Button newAttribute;
-    private final Button newMethod;
-
     private final SimpleFeatureGroup attributes;
     private final SimpleFeatureGroup methods;
 
     private final PseudoClass selectable = PseudoClass.getPseudoClass("selected");
     private final PseudoClass highlight = PseudoClass.getPseudoClass("highlight");
 
-    View(Controller controller) {
+    View() {
         setId("tile");
 
-        this.controller = controller;
-
-        VBox buttonBar = new VBox();
         VBox features = new VBox();
         attributes = new SimpleFeatureGroup();
         methods = new SimpleFeatureGroup();
-
-        newAttribute = new Button("A");
-        newMethod = new Button("M");
-
-        newMethod.setPrefWidth(28);
-        newAttribute.setPrefWidth(28);
-        buttonBar.getChildren().addAll(newAttribute, newMethod);
 
         dragContext = new DragContext();
 
@@ -54,16 +38,18 @@ class View extends BorderPane implements TileObserver {
 
         setTop(name);
         setCenter(features);
-        setRight(buttonBar);
 
         features.getChildren().addAll(attributes, methods);
 
-        setPrefSize(100, 100);
+        setPrefSize(150, 150);
 
         setFocusTraversable(true);
-        name.setNameChangeActionEvent(event -> onNameChanged());
         makeDraggable();
         makeFocusable();
+    }
+
+    public void setTileNameListener(ChangeListener<String> listener) {
+        name.setLabelListener(listener);
     }
 
     private void makeFocusable() {
@@ -96,18 +82,6 @@ class View extends BorderPane implements TileObserver {
 
                     mouseEvent.consume();
                 });
-    }
-
-    private void onNameChanged() {
-        controller.onNameChange(name.getText());
-    }
-
-    void setNewAttributeButtonAction(EventHandler<ActionEvent> value) {
-        newAttribute.setOnAction(value);
-    }
-
-    void setNewMethodButtonAction(EventHandler<ActionEvent> value) {
-        newMethod.setOnAction(value);
     }
 
     void setSelected(boolean selected) {
