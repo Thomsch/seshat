@@ -1,4 +1,4 @@
-package ch.ceruleansands.collection;
+package ch.ceruleansands.actionhistory;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

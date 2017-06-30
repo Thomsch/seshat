@@ -1,4 +1,4 @@
-package ch.ceruleansands.collection;
+package ch.ceruleansands.actionhistory;
 
 import org.junit.Test;
 

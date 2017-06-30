@@ -1,4 +1,4 @@
-package ch.ceruleansands.actionstream;
+package ch.ceruleansands.actionhistory;
 
 /**
  * @author Thomsch.

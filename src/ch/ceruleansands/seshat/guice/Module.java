@@ -1,6 +1,6 @@
 package ch.ceruleansands.seshat.guice;
 
-import ch.ceruleansands.actionstream.ActionHistory;
+import ch.ceruleansands.actionhistory.ActionHistory;
 import ch.ceruleansands.seshat.action.ActionFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
