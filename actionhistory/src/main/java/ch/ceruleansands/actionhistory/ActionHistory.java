@@ -1,6 +1,5 @@
 package ch.ceruleansands.actionhistory;
 
-import com.google.inject.Inject;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ public class ActionHistory {
      * @param size the length of the history we went to be able to trace.
      * @throws IllegalArgumentException if {@code size} below or equals to zero
      */
-    @Inject
     public ActionHistory(int size) {
         this.actions = new AutoDiscardingStack<>(size);
         this.rewindedActions = new Stack<>();
