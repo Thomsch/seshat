@@ -66,6 +66,7 @@ fabric.properties
 ### Gradle ###
 .gradle
 /build/
+actionhistory/build/
 
 # Ignore Gradle GUI config
 gradle-app.setting
