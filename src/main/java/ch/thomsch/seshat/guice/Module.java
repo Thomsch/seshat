@@ -20,7 +20,6 @@ public class Module extends AbstractModule {
         actionHistory = new ActionHistory(20);
     }
 
-
     @Provides
     public ActionHistory provideHistory() {
         return actionHistory;

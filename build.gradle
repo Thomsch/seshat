@@ -3,24 +3,6 @@ apply plugin: 'application'
 
 mainClassName = "ch.ceruleansands.seshat.Seshat"
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-        resources {
-            srcDir 'resource'
-        }
-    }
-
-    test {
-        java {
-            srcDir 'test'
-        }
-    }
-}
-
-
 repositories {
     mavenCentral()
     jcenter()
