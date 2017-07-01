@@ -14,7 +14,6 @@ public class Module extends AbstractModule {
     private ActionHistory actionHistory;
 
     @Override
-
     protected void configure() {
         install(new FactoryModuleBuilder().build(ActionFactory.class));
 
